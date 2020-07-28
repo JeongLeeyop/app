@@ -74,10 +74,10 @@ public class MainViewController {
     }
 
     //4. 성적표 화면
-    @RequestMapping("/reportCard")
+    @RequestMapping("/reportcard")
     public ModelAndView reportCard() {
-//        log.debug("reportCard");
-        ModelAndView view = new ModelAndView("reportCard");
+//        log.debug("reportcard");
+        ModelAndView view = new ModelAndView("reportcard");
         return view;
     }
 }
