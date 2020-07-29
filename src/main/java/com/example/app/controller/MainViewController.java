@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @Slf4j
 public class MainViewController {
@@ -19,7 +21,8 @@ public class MainViewController {
 
     //2. 회원 가입 화면
     @RequestMapping("/register")
-    public ModelAndView register() {
+    public ModelAndView register(HttpServletRequest req) {
+        String email = req.getParameter("username");
 //        log.debug("register");
         ModelAndView view = new ModelAndView("register");
         return view;
@@ -80,4 +83,6 @@ public class MainViewController {
         ModelAndView view = new ModelAndView("reportcard");
         return view;
     }
+
+
 }

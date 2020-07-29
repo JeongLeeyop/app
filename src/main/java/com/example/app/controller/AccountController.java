@@ -1,5 +1,6 @@
 package com.example.app.controller;
 
+import com.example.app.model.dto.request.accountRequest;
 import com.example.app.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,11 @@ public class AccountController {
     AccountService accountService;
 
     //1.로그인
-    @RequestMapping("/signIn")
+    @PostMapping("/signIn")
     public ModelAndView signIn(HttpServletRequest req) {
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+
 //      cartService.insert(cart,idx);
 //      cartService.insert(cart,idx);
 //      return new ModelAndView("/user/cart", "cartList", list);
@@ -27,8 +31,8 @@ public class AccountController {
 
     //2.회원가입 버튼
     @RequestMapping("/signUp")
-    public String signUp(int cart, HttpServletRequest req) {
-        return null;
+    public String signUp(accountRequest account, HttpServletRequest req) {
+        return "redirect:login";
     }
 
     //3.회원정보 수정 (예정)

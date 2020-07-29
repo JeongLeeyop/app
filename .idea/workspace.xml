@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand />
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="23ed6056-f989-49e3-9592-7b67c6603fc5" name="Default Changelist" comment="07-29 Default Front frame">
+    <list default="true" id="278c73b5-e069-4269-8eee-af4b5b90ffd7" name="Default Changelist" comment="2020-07-28 WED DB 및 환경셋팅">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/controller/AccountController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/controller/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/controller/MainViewController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/class.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/class.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportcard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/reportcard.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/setting.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/setting.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/setting_class.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/setting_class.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/student.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/student.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/student_detail.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/student_detail.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/tiles/header.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/tiles/header.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/tiles/link.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/tiles/link.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/register.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/register.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/app/controller/AccountController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/app/controller/AccountController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/app/controller/MainViewController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/app/controller/MainViewController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -32,18 +42,10 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
   <component name="ProjectId" id="1fBndcm822tGYSfSZqqaNXfF6gu" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -51,25 +53,31 @@
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/example/app/controller" />
+    <property name="js.buildTools.grunt.grunt-cli.package" value="" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Facets" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor.code.editing" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\USER\IdeaProjects\app\src\main\java\com\example\app\controller" />
-      <recent name="C:\Users\USER\IdeaProjects\app\src\main\resources\static\i" />
-      <recent name="C:\Users\USER\IdeaProjects\app\src\main\resources\static" />
-      <recent name="C:\Users\USER\IdeaProjects\app\src\main\resources" />
-      <recent name="C:\Users\USER\IdeaProjects\app\src\main\java\com\example\app" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\USER\IdeaProjects\app\src\main\webapp\WEB-INF\views" />
+      <recent name="C:\Users\USER\IdeaProjects\app\src\main\resources\static" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.app.setting" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\anfdm\Desktop\Edu\SpringWorkSpace\Student-Management-App\src\main\webapp\WEB-INF\views" />
+      <recent name="C:\Users\anfdm\Desktop\Edu\SpringWorkSpace\Student-Management-App\src\main\java\com\example\app\model\dto\request" />
+      <recent name="C:\Users\USER\IdeaProjects\app\src\main\java\com\example\app\controller" />
+      <recent name="C:\Users\USER\IdeaProjects\app\src\main\resources\static\i" />
       <recent name="C:\Users\USER\IdeaProjects\app\src\main\resources\static" />
     </key>
   </component>
@@ -81,25 +89,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
+    <configuration default="true" type="js.build_tools.grunt">
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="23ed6056-f989-49e3-9592-7b67c6603fc5" name="Default Changelist" comment="" />
+      <changelist id="278c73b5-e069-4269-8eee-af4b5b90ffd7" name="Default Changelist" comment="2020-07-28 WED DB 및 환경셋팅" />
       <created>1595700441657</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -107,6 +108,7 @@
       <workItem from="1595700444485" duration="10827000" />
       <workItem from="1595950190465" duration="2669000" />
       <workItem from="1595952900375" duration="8159000" />
+      <workItem from="1596015841936" duration="9872000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1595707672693</created>
@@ -126,7 +128,19 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test" />
@@ -134,6 +148,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="07-29 Default Front frame" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="137" y="39" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1596015597387">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="137" y="39" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.768@0.0.1366.768" timestamp="1596015597387" />
     <state x="735" y="342" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1595707649154">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -142,6 +160,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="568" y="465" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1595709041987" />
+    <state x="413" y="130" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1596028781100">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="413" y="130" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.768@0.0.1366.768" timestamp="1596028781100" />
     <state x="579" y="133" width="1047" height="813" key="CommitChangelistDialog2" timestamp="1595961090505">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -154,41 +176,50 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="780" y="245" key="Github.UntrackedFilesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1595707593080" />
-    <state width="1877" height="308" key="GridCell.Tab.0.bottom" timestamp="1595960478278">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1323" height="235" key="GridCell.Tab.0.bottom" timestamp="1596028781553">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
+    <state width="1323" height="235" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1596028781553" />
     <state width="1877" height="308" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1595960478278" />
-    <state width="1877" height="308" key="GridCell.Tab.0.center" timestamp="1595960478278">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1323" height="235" key="GridCell.Tab.0.center" timestamp="1596028781553">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
+    <state width="1323" height="235" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1596028781553" />
     <state width="1877" height="308" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1595960478278" />
-    <state width="1877" height="308" key="GridCell.Tab.0.left" timestamp="1595960478278">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1323" height="235" key="GridCell.Tab.0.left" timestamp="1596028781553">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
+    <state width="1323" height="235" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1596028781553" />
     <state width="1877" height="308" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1595960478278" />
-    <state width="1877" height="308" key="GridCell.Tab.0.right" timestamp="1595960478278">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1323" height="235" key="GridCell.Tab.0.right" timestamp="1596028781553">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
+    <state width="1323" height="235" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1596028781553" />
     <state width="1877" height="308" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1595960478278" />
-    <state width="1877" height="308" key="GridCell.Tab.1.bottom" timestamp="1595960478278">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1323" height="235" key="GridCell.Tab.1.bottom" timestamp="1596028781553">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
+    <state width="1323" height="235" key="GridCell.Tab.1.bottom/0.0.1366.768@0.0.1366.768" timestamp="1596028781553" />
     <state width="1877" height="308" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1595960478278" />
-    <state width="1877" height="308" key="GridCell.Tab.1.center" timestamp="1595960478278">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1323" height="235" key="GridCell.Tab.1.center" timestamp="1596028781553">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
+    <state width="1323" height="235" key="GridCell.Tab.1.center/0.0.1366.768@0.0.1366.768" timestamp="1596028781553" />
     <state width="1877" height="308" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1595960478278" />
-    <state width="1877" height="308" key="GridCell.Tab.1.left" timestamp="1595960478278">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1323" height="235" key="GridCell.Tab.1.left" timestamp="1596028781553">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
+    <state width="1323" height="235" key="GridCell.Tab.1.left/0.0.1366.768@0.0.1366.768" timestamp="1596028781553" />
     <state width="1877" height="308" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1595960478278" />
-    <state width="1877" height="308" key="GridCell.Tab.1.right" timestamp="1595960478278">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1323" height="235" key="GridCell.Tab.1.right" timestamp="1596028781553">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
+    <state width="1323" height="235" key="GridCell.Tab.1.right/0.0.1366.768@0.0.1366.768" timestamp="1596028781553" />
     <state width="1877" height="308" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1595960478278" />
-    <state x="461" y="182" key="SettingsEditor" timestamp="1595707537514">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="326" y="0" key="SettingsEditor" timestamp="1596015489017">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
+    <state x="326" y="0" key="SettingsEditor/0.0.1366.768@0.0.1366.768" timestamp="1596015489017" />
     <state x="461" y="182" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1595707537514" />
     <state x="552" y="273" key="Vcs.Push.Dialog.v2" timestamp="1595960507312">
       <screen x="0" y="0" width="1920" height="1080" />
@@ -214,5 +245,16 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="616" y="250" key="run.anything.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1595954340027" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/app/controller/AccountController.java</url>
+          <line>22</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
