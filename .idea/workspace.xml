@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="23ed6056-f989-49e3-9592-7b67c6603fc5" name="Default Changelist" comment="추가">
+    <list default="true" id="446b4a08-91ba-4200-a06f-ffd3d21391b0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -134,7 +134,8 @@
     <MESSAGE value="test" />
     <MESSAGE value="07-29 Default Front frame" />
     <MESSAGE value="추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="추가" />
+    <MESSAGE value="Merge branch '07-28Setting' of https://github.com/JeongLeeyop/app into 07-28Setting&#10;&#10; Conflicts:&#10;&#9;.idea/workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch '07-28Setting' of https://github.com/JeongLeeyop/app into 07-28Setting&#10;&#10; Conflicts:&#10;&#9;.idea/workspace.xml" />
   </component>
   <component name="WindowStateProjectService">
     <state x="735" y="342" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1595707649154">
@@ -145,10 +146,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="568" y="465" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1595709041987" />
-    <state x="579" y="719" width="1047" height="227" key="CommitChangelistDialog2" timestamp="1596135419400">
+    <state x="325" y="158" width="1173" height="813" key="CommitChangelistDialog2" timestamp="1596136568660">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="579" y="719" width="1047" height="227" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1596135419400" />
+    <state x="325" y="158" width="1173" height="813" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1596136568660" />
     <state x="536" y="363" width="261" height="219" key="Github.ShareDialog" timestamp="1595707570321">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -201,14 +202,18 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="552" y="273" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1595961143439" />
+    <state x="736" y="252" key="git4idea.branch.GitSmartOperationDialog" timestamp="1596137408891">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="736" y="252" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1596137408891" />
     <state x="758" y="331" key="git4idea.merge.GitMergeDialog" timestamp="1595950402114">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="758" y="331" key="git4idea.merge.GitMergeDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1595950402114" />
-    <state x="686" y="331" key="git4idea.merge.GitPullDialog" timestamp="1596135385660">
+    <state x="686" y="331" key="git4idea.merge.GitPullDialog" timestamp="1596137053047">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="686" y="331" key="git4idea.merge.GitPullDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1596135385660" />
+    <state x="686" y="331" key="git4idea.merge.GitPullDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1596137053047" />
     <state x="774" y="381" key="git4idea.ui.GitTagDialog" timestamp="1595950427274">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
