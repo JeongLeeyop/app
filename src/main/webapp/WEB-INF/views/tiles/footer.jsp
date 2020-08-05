@@ -29,6 +29,15 @@
 
 <script type="text/javascript">
     $(function() {
+
+        //테스트
+            alert("시작");
+            alert(${userEmail});
+            console.log(${userEmail});
+            alert(${userName});
+            alert(${userName});
+            alert("끝");
+
         // for now, there is something adding a click handler to 'a'
         var tues = moment().day(2).hour(19);
 
@@ -70,5 +79,8 @@
             events: events.concat(trivia_nights)
         });
     });
+
+
+
 </script>
 

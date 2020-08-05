@@ -36,6 +36,9 @@
 
     <!--register -->
     <script>
+
+
+
         function checkValid(){
 
             if($("#username").val()==""){
@@ -87,7 +90,7 @@
                             </div>
                             <div class="login-checkbox">
                                 <label>
-                                    <input type="checkbox" name="aggree">Agree the terms and policy
+                                    <input type="checkbox" name="agree">Agree the terms and policy
                                 </label>
                             </div>
                             <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
