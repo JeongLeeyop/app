@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -108,7 +110,9 @@
     </script>
 
     <!-- Main JS-->
-    <script src="/js/main.js"></script>
+    <script src="/js/main.js" ></script>
+
+
 
 </body>
 

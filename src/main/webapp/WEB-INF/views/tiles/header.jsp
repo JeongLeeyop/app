@@ -76,25 +76,16 @@
                         <a href="attendance">
                             <i class="fas fa-table"></i>Attendance</a>
                     </li>
+                 <%--   <li>
+                        <a href="class">
+                            <i class="fas fa-tags"></i>Class</a>
+                    </li>--%>
                     <li>
                         <a class="js-arrow" href="#">
                             <i class="fas fa-tachometer-alt"></i>Class</a>
-                        <ul class="list-unstyled navbar__sub-list js-sub-list">
-                            <li>
-                                <a href="class">Class 1</a>
-                            </li>
-                            <li>
-                                <a href="class">Class 2</a>
-                            </li>
-                            <li>
-                                <a href="class">Class 3</a>
-                            </li>
-                            <li>
-                                <a href="class">Class 4</a>
-                            </li>
+                        <ul id="classList" class="list-unstyled navbar__sub-list js-sub-list">
                         </ul>
                     </li>
-
 
                     <li>
                         <a href="setting">
@@ -125,28 +116,27 @@
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="image">
-                                        <img src="images/icon/avatar-01.jpg" alt="John Doe" />
+                                        <img src="images/icon/avatar-01.jpg" alt="${Account.userName}" />
                                     </div>
                                     <div class="content">
-                                        <a class="js-acc-btn" href="#">john doe</a>
+                                        <a class="js-acc-btn" href="#">${Account.userName}</a>
                                     </div>
                                     <div class="account-dropdown js-dropdown">
                                         <div class="info clearfix">
                                             <div class="image">
                                                 <a href="#">
-                                                    <img src="images/icon/avatar-01.jpg" alt="John Doe" />
+                                                    <img src="images/icon/avatar-01.jpg" alt="${Account.userName}" />
                                                 </a>
                                             </div>
                                             <div class="content">
                                                 <h5 class="name">
-                                                    <a href="#">john doe</a>
+                                                    <a href="#">${Account.userName}</a>
                                                 </h5>
-                                                <span class="email">johndoe@example.com</span>
+                                                <span class="email">${Account.userEmail}</span>
                                             </div>
                                         </div>
                                         <div class="account-dropdown__footer">
-                                            <a href="login">
-                                                <i class="zmdi zmdi-power"></i>Logout</a>
+                                            <a id="logout"><i class="zmdi zmdi-power"></i>Logout</a>
                                         </div>
                                     </div>
                                 </div>

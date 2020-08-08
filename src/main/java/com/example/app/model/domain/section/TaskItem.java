@@ -27,6 +27,6 @@ public class TaskItem {
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "taskItemNameIdx")
-    private TaskItemName taskItemName;
+    @JoinColumn(name = "taskItemInfoIdx")
+    private TaskItemInfo taskItemInfo;
 }

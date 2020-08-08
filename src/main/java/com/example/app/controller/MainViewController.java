@@ -2,10 +2,12 @@ package com.example.app.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @Slf4j
@@ -13,7 +15,15 @@ public class MainViewController {
 
     //1. 로그인 화면
     @RequestMapping("/login")
-    public ModelAndView login() {
+    public ModelAndView login( Model model) {
+//        log.debug("login");
+        ModelAndView view = new ModelAndView("login");
+        return view;
+    }
+
+    //1. 로그인 화면
+    @RequestMapping("/")
+    public ModelAndView login2( Model model) {
 //        log.debug("login");
         ModelAndView view = new ModelAndView("login");
         return view;
@@ -25,6 +35,14 @@ public class MainViewController {
         String email = req.getParameter("username");
 //        log.debug("register");
         ModelAndView view = new ModelAndView("register");
+        return view;
+    }
+
+    //4. 출석 화면
+    @RequestMapping("/attendance")
+    public ModelAndView attendance() {
+//        log.debug("attendance");
+        ModelAndView view = new ModelAndView("attendance");
         return view;
     }
 
@@ -44,17 +62,9 @@ public class MainViewController {
         return view;
     }
 
-    //4. 출석 화면
-    @RequestMapping("/attendance")
-    public ModelAndView attendance() {
-//        log.debug("attendance");
-        ModelAndView view = new ModelAndView("attendance");
-        return view;
-    }
-
     //5. 수업 화면
     @RequestMapping("/class")
-    public ModelAndView _class() {
+    public ModelAndView _class(Long classIdx) {
 //        log.debug("class");
         ModelAndView view = new ModelAndView("class");
         return view;
@@ -73,6 +83,14 @@ public class MainViewController {
     public ModelAndView setting_class() {
 //        log.debug("setting_class");
         ModelAndView view = new ModelAndView("setting_class");
+        return view;
+    }
+
+    //4. 설정 화면
+    @RequestMapping("/setting_student")
+    public ModelAndView setting_student() {
+//        log.debug("setting_student");
+        ModelAndView view = new ModelAndView("setting_student");
         return view;
     }
 

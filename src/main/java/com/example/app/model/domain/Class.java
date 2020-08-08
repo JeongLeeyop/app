@@ -9,6 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Setter
 @Getter
+@ToString
 public class Class {
 
     @Id
@@ -19,9 +20,6 @@ public class Class {
     private String className;
     @Column(nullable = false)
     private String classSectionName;
-    @Column
-    private String classGradeRatio;
-    //스트링?
     @Column
     private String classMemo;
 

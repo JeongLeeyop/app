@@ -38,7 +38,7 @@ public class ClassController {
     }
 
     //4. 섹션의 과제 항목과 점수를 조회하는 기능
-    @RequestMapping("findTask")
+    @RequestMapping("class_findTask")
     public ModelAndView findTask(HttpServletRequest req) {
         return null;
     }
@@ -50,7 +50,7 @@ public class ClassController {
     }
 
     //6. 섹션의 과제 항목을 삭제하는 기능
-    @RequestMapping("delTask")
+    @RequestMapping("class_delTask")
     public ModelAndView delTask(HttpServletRequest req) {
         return null;
     }

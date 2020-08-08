@@ -36,6 +36,9 @@
 
     <!--register -->
     <script>
+
+
+
         function checkValid(){
 
             if($("#username").val()==""){

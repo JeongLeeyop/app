@@ -20,12 +20,12 @@ public class Student {
     @Column(nullable = false)
     private String studentName;
     @Column(nullable = false)
-    private int studentSex;
+    private int studentGender;
     @Column
     private String studentMemo;
 
     @ManyToOne
-    @JoinColumn(name = "userIdx")
+    @JoinColumn(name = "userIdx", nullable = false)
     private Account account;
 
 

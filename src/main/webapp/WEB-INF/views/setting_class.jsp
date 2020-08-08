@@ -1,284 +1,108 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8"%>
 <!-- animsition overrides all click events on clickable things like a,
       since calendar doesn't add href's be default,
       it leads to odd behaviors like loading 'undefined'
       moving the class to menus lead to only the menu having the effect -->
             <!-- MAIN CONTENT-->
+
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" style="flex: 0 0 70%;max-width: 30%;">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Class</strong> List
+                                    </div>
+                                    <div class="card-body card-block" style="height: 431px;" >
+                                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" style="height: 100%;">
+                                            <div class="row form-group" style="height: 87%;">
+                                                <div class="col-12 col-md-9">
+                                                    <select name="multiple-select" id="multiple-select2" multiple="" class="form-control" style="height: 110%;width: 130%;">
+
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" style="flex: 0 0 70%;max-width: 70%;">
                                 <div class="card">
                                     <div class="card-header">
                                         <strong>Class</strong> Setting
                                     </div>
                                     <div class="card-body card-block">
                                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                                            <div class="row form-group">
+                                                <div class="col col-md-3">
+                                                    <label for="text-input1" class=" form-control-label">클래스 명</label>
+                                                    <div id="classIdx" hidden>addClass</div>
+                                                </div>
+                                                <div class="col-12 col-md-9">
+                                                    <input type="text" id="text-input1" name="text-input" placeholder="Text" class="form-control">
+                                                </div>
+                                            </div>
+
                                             <div class="row form-group">
 
                                                 <div class="col col-md-3">
-                                                    <label class=" form-control-label">Static</label>
+                                                    <label for="select" class=" form-control-label">섹션 명</label>
                                                 </div>
-                                                <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#mediumModal">
-                                                    Medium
-                                                </button>
 
-                                                <div class="col-12 col-md-9">
-                                                    <p class="form-control-static">Username</p>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="text-input" class=" form-control-label">Text Input</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input type="text" id="text-input" name="text-input" placeholder="Text" class="form-control">
-                                                    <small class="form-text text-muted">This is a help text</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="email-input" class=" form-control-label">Email Input</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input type="email" id="email-input" name="email-input" placeholder="Enter Email" class="form-control">
-                                                    <small class="help-block form-text">Please enter your email</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="password-input" class=" form-control-label">Password</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input type="password" id="password-input" name="password-input" placeholder="Password" class="form-control">
-                                                    <small class="help-block form-text">Please enter a complex password</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="disabled-input" class=" form-control-label">Disabled Input</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input type="text" id="disabled-input" name="disabled-input" placeholder="Disabled" disabled="" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="textarea-input" class=" form-control-label">Textarea</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Content..." class="form-control"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="select" class=" form-control-label">Select</label>
-                                                </div>
                                                 <div class="col-12 col-md-9">
                                                     <select name="select" id="select" class="form-control">
                                                         <option value="0">Please select</option>
-                                                        <option value="1">Option #1</option>
-                                                        <option value="2">Option #2</option>
-                                                        <option value="3">Option #3</option>
+                                                        <option value="1">Chapter</option>
+                                                        <option value="2">Week</option>
+                                                        <option value="3">Page</option>
                                                     </select>
                                                 </div>
+
                                             </div>
+
                                             <div class="row form-group">
                                                 <div class="col col-md-3">
-                                                    <label for="selectLg" class=" form-control-label">Select Large</label>
+                                                    <label for="multiple-select" class=" form-control-label">과제 등록</label>
                                                 </div>
                                                 <div class="col-12 col-md-9">
-                                                    <select name="selectLg" id="selectLg" class="form-control-lg form-control">
-                                                        <option value="0">Please select</option>
-                                                        <option value="1">Option #1</option>
-                                                        <option value="2">Option #2</option>
-                                                        <option value="3">Option #3</option>
+                                                    <input type="text" id="text-input2" name="text-input" placeholder="Text" class="form-control" disabled>
+                                                    <a id="taskIdx" hidden></a>
+                                                    <select name="multiple-select" id="multiple-select" multiple="" class="form-control" style="height: 164px;">
                                                     </select>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="selectSm" class=" form-control-label">Select Small</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <select name="selectSm" id="SelectLm" class="form-control-sm form-control">
-                                                        <option value="0">Please select</option>
-                                                        <option value="1">Option #1</option>
-                                                        <option value="2">Option #2</option>
-                                                        <option value="3">Option #3</option>
-                                                        <option value="4">Option #4</option>
-                                                        <option value="5">Option #5</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="disabledSelect" class=" form-control-label">Disabled Select</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <select name="disabledSelect" id="disabledSelect" disabled="" class="form-control">
-                                                        <option value="0">Please select</option>
-                                                        <option value="1">Option #1</option>
-                                                        <option value="2">Option #2</option>
-                                                        <option value="3">Option #3</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="multiple-select" class=" form-control-label">Multiple select</label>
-                                                </div>
-                                                <div class="col col-md-9">
-                                                    <select name="multiple-select" id="multiple-select" multiple="" class="form-control">
-                                                        <option value="1">Option #1</option>
-                                                        <option value="2">Option #2</option>
-                                                        <option value="3">Option #3</option>
-                                                        <option value="4">Option #4</option>
-                                                        <option value="5">Option #5</option>
-                                                        <option value="6">Option #6</option>
-                                                        <option value="7">Option #7</option>
-                                                        <option value="8">Option #8</option>
-                                                        <option value="9">Option #9</option>
-                                                        <option value="10">Option #10</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label class=" form-control-label">Radios</label>
-                                                </div>
-                                                <div class="col col-md-9">
-                                                    <div class="form-check">
-                                                        <div class="radio">
-                                                            <label for="radio1" class="form-check-label ">
-                                                                <input type="radio" id="radio1" name="radios" value="option1" class="form-check-input">Option 1
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <label for="radio2" class="form-check-label ">
-                                                                <input type="radio" id="radio2" name="radios" value="option2" class="form-check-input">Option 2
-                                                            </label>
-                                                        </div>
-                                                        <div class="radio">
-                                                            <label for="radio3" class="form-check-label ">
-                                                                <input type="radio" id="radio3" name="radios" value="option3" class="form-check-input">Option 3
-                                                            </label>
-                                                        </div>
+                                                    <div id="alert" class="col-12 col-md-9" style="margin-top: 5px;">
+                                                        <small class="help-block form-text">클래스 생성 후 과제를 등록 할 수 있습니다.</small>
+                                                    <button id ="addTask" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mediumModal">
+                                                        <i class="fa fa-dot-circle-o">Add</i>
+                                                    </button>
+                                                    <button id ="editTask" type="submit" class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-dot-circle-o">Edit</i>
+                                                    </button>
+                                                        <button id ="delTask" type="button" class="btn btn-danger btn-sm">
+                                                            <i class="fa fa-ban">Delete</i>
+                                                        </button>
                                                     </div>
                                                 </div>
+
                                             </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label class=" form-control-label">Inline Radios</label>
-                                                </div>
-                                                <div class="col col-md-9">
-                                                    <div class="form-check-inline form-check">
-                                                        <label for="inline-radio1" class="form-check-label ">
-                                                            <input type="radio" id="inline-radio1" name="inline-radios" value="option1" class="form-check-input">One
-                                                        </label>
-                                                        <label for="inline-radio2" class="form-check-label ">
-                                                            <input type="radio" id="inline-radio2" name="inline-radios" value="option2" class="form-check-input">Two
-                                                        </label>
-                                                        <label for="inline-radio3" class="form-check-label ">
-                                                            <input type="radio" id="inline-radio3" name="inline-radios" value="option3" class="form-check-input">Three
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label class=" form-control-label">Checkboxes</label>
-                                                </div>
-                                                <div class="col col-md-9">
-                                                    <div class="form-check">
-                                                        <div class="checkbox">
-                                                            <label for="checkbox1" class="form-check-label ">
-                                                                <input type="checkbox" id="checkbox1" name="checkbox1" value="option1" class="form-check-input">Option 1
-                                                            </label>
-                                                        </div>
-                                                        <div class="checkbox">
-                                                            <label for="checkbox2" class="form-check-label ">
-                                                                <input type="checkbox" id="checkbox2" name="checkbox2" value="option2" class="form-check-input"> Option 2
-                                                            </label>
-                                                        </div>
-                                                        <div class="checkbox">
-                                                            <label for="checkbox3" class="form-check-label ">
-                                                                <input type="checkbox" id="checkbox3" name="checkbox3" value="option3" class="form-check-input"> Option 3
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label class=" form-control-label">Inline Checkboxes</label>
-                                                </div>
-                                                <div class="col col-md-9">
-                                                    <div class="form-check-inline form-check">
-                                                        <label for="inline-checkbox1" class="form-check-label ">
-                                                            <input type="checkbox" id="inline-checkbox1" name="inline-checkbox1" value="option1" class="form-check-input">One
-                                                        </label>
-                                                        <label for="inline-checkbox2" class="form-check-label ">
-                                                            <input type="checkbox" id="inline-checkbox2" name="inline-checkbox2" value="option2" class="form-check-input">Two
-                                                        </label>
-                                                        <label for="inline-checkbox3" class="form-check-label ">
-                                                            <input type="checkbox" id="inline-checkbox3" name="inline-checkbox3" value="option3" class="form-check-input">Three
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="file-input" class=" form-control-label">File input</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input type="file" id="file-input" name="file-input" class="form-control-file">
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="file-multiple-input" class=" form-control-label">Multiple File input</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input type="file" id="file-multiple-input" name="file-multiple-input" multiple="" class="form-control-file">
-                                                </div>
-                                            </div>
+
+                                            <button type="button" class="btn btn-secondary" style="float: right;" onclick="location.href='setting'">Cancel</button>
+                                            <button type="button" id="delClass" class="btn btn-danger" style="float: right;margin-right: 5px;">Delete</button>
+                                            <button type="button" id="addClass" class="btn btn-success" style="float: right;margin-right: 5px;">Save</button>
+
                                         </form>
-                                    </div>
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary btn-sm">
-                                            <i class="fa fa-dot-circle-o"></i> Submit
-                                        </button>
-                                        <button type="reset" class="btn btn-danger btn-sm">
-                                            <i class="fa fa-ban"></i> Reset
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        <strong>Inline</strong> Form
-                                    </div>
-                                    <div class="card-body card-block">
-                                        <form action="" method="post" class="form-inline">
-                                            <div class="form-group">
-                                                <label for="exampleInputName2" class="pr-1  form-control-label">Name</label>
-                                                <input type="text" id="exampleInputName2" placeholder="Jane Doe" required="" class="form-control">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail2" class="px-1  form-control-label">Email</label>
-                                                <input type="email" id="exampleInputEmail2" placeholder="jane.doe@example.com" required="" class="form-control">
-                                            </div>
+                                        <form name="frm" method="POST">
+                                            <input type="hidden" name="className" />
+                                            <input type="hidden" name="sectionName" />
                                         </form>
+
                                     </div>
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary btn-sm">
-                                            <i class="fa fa-dot-circle-o"></i> Submit
-                                        </button>
-                                        <button type="reset" class="btn btn-danger btn-sm">
-                                            <i class="fa fa-ban"></i> Reset
-                                        </button>
-                                    </div>
+
                                 </div>
+                            </div>
                             </div>
                         </div>
                         <div class="row">
@@ -293,7 +117,7 @@
             </div>
 <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 50%;">
             <div class="modal-header">
                 <h5 class="modal-title" id="mediumModalLabel">Medium Modal</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -301,20 +125,42 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>
-                    There are three species of zebras: the plains zebra, the mountain zebra and the Grévy's zebra. The plains zebra and the mountain
-                    zebra belong to the subgenus Hippotigris, but Grévy's zebra is the sole species of subgenus Dolichohippus. The latter
-                    resembles an ass, to which it is closely related, while the former two are more horse-like. All three belong to the
-                    genus Equus, along with other living equids.
-                </p>
-            </div>
-            <div class="col-4">
-                <input type="text" placeholder=".col-4" class="form-control">
+                <div class="col-lg-6" style="max-width: 100%;">
+                    <div class="card" style="margin-bottom: 0px;">
+                        <div class="card-header">
+                            <strong>Task</strong>
+                            <small> Form</small>
+                        </div>
+                        <div class="card-body card-block">
+                            <div class="form-group">
+                                <label for="taskName" class=" form-control-label">과제명</label>
+                                <input type="text" id="taskName" placeholder="Enter your Task name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="gradeRatio" class=" form-control-label">과제 등급 비율</label>
+                                <input type="text" id="gradeRatio" placeholder="0" class="form-control">
+                                <small class="help-block form-text">숫자만 입력 가능하며, 모든 비율의 합이 100%이어야 합니다.</small>
+                            </div>
+                            <div class="row form-group">
+
+                                    <div class="form-check">
+                                        <div class="checkbox">
+                                            <label for="ckDefault" class="form-check-label ">
+                                                Default 과제 여부
+                                            </label>
+                                            <input type="checkbox" id="ckDefault" name="checkbox1" value="option1" class="form-check-input" style="
+                                            margin-left: 5px;">
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <br>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Confirm</button>
+                <button id="cancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="confirm" data-toggle="modal" data-target="#mediumModal" type="button" class="btn btn-primary">Confirm</button>
             </div>
         </div>
     </div>

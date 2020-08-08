@@ -9,6 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Setter
 @Getter
+@ToString
 public class ClassDefaultTask {
 
     @Id
@@ -17,8 +18,8 @@ public class ClassDefaultTask {
     private long classDefaultTaskIdx;
 
     @ManyToOne
-    @JoinColumn(name = "taskItemNameIdx")
-    private TaskItemName taskItemName;
+    @JoinColumn(name = "taskItemInfoIdx")
+    private TaskItemInfo TaskItemInfo;
 
     @ManyToOne
     @JoinColumn(name = "classIdx")
