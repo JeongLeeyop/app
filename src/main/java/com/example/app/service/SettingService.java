@@ -43,11 +43,6 @@ public class SettingService {
     SectionRepository sectionRepo;
 
 
-    //0.클래스 목록을 조회하는 기능
-    public List<Class> findClassList(HttpSession session) {
-        return classRepo.findClassByAccount((Account)session.getAttribute("Account"));
-    }
-
     @Transactional
     @Modifying
     @ResponseBody
@@ -56,8 +51,6 @@ public class SettingService {
         Long ClassIdx = classReq.getClassIdx();
 
         System.out.println("서비스 delClass 진입");
-
-
 
         //Default 과제 항목 삭제
         classDfRepo.ClassDefaultTaskByClassIdx(ClassIdx);
@@ -80,13 +73,6 @@ public class SettingService {
         System.out.println("클래스 삭제");
 
         System.out.println("서비스 delClass 끝");
-    }
-
-
-    //0.클래스를 조회하는 기능
-    public Optional<Class> findClass(Long classIdx) {
-
-        return classRepo.findById(classIdx);
     }
 
     @ResponseBody
@@ -170,15 +156,6 @@ public class SettingService {
             _class.setClassIdx(classReq.getClassIdx());
         }
         return classRepo.save(_class);
-    }
-
-    //5. 학생을 조회하는 기능
-    public List<Student> findStudent(HttpSession session) {
-        System.out.println("서비스 findStudent() 진입");
-        List<Student> student = studentRepo.findStudentByAccount((Account) session.getAttribute("Account"));
-        System.out.println(student);
-        System.out.println("서비스 findStudent() 끝");
-        return student;
     }
 
     //5. 새 학생을 생성하는 기능

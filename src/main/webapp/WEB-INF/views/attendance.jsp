@@ -13,47 +13,22 @@
                               </div>
                             </div><!-- .col -->
                             <div class="col-lg-3" >
-                                <div class="au-card au-card--bg-blue au-card-top-countries m-b-30" style="height: 100%;width: 125%">
+                                <div class="au-card au-card--bg-blue au-card-top-countries m-b-30" style="height: 100%;">
                                     <div class="au-card-inner">
                                         <div class="table-responsive">
                                             <table class="table table-top-countries">
-                                                <tbody>
-                                                <tr>
-                                                    <td>United States</td>
-                                                    <td class="text-right">$119,366.96</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Australia</td>
-                                                    <td class="text-right">$70,261.65</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>United Kingdom</td>
-                                                    <td class="text-right">$46,399.22</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Turkey</td>
-                                                    <td class="text-right">$35,364.90</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Germany</td>
-                                                    <td class="text-right">$20,366.96</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>France</td>
-                                                    <td class="text-right">$10,366.96</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Australia</td>
-                                                    <td class="text-right">$5,366.96</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Italy</td>
-                                                    <td class="text-right">$1639.32</td>
-                                                </tr>
+                                                <tbody id="studentList">
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
+                                    <div class="au-card-inner" style="bottom: 15px;position: absolute;max-width: 100%;">
+                                            <div class="table-responsive">
+                                        <button type="button" id="addAt" class="btn btn-success btn-sm" style="margin-right: 5px;">Save<div hidden id="curDate"></div></button>
+                                        <button type="button" id="delAt" class="btn btn-danger btn-sm" style="margin-right: 5px;">Delete</button>
+                                        <button type="button" class="btn btn-secondary btn-sm" >Cancel</button>
+                                    </div>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -67,5 +42,6 @@
                     </div>
                 </div>
             </div>
-
+<script src="vendor/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/Page/attendance.js"></script>
 

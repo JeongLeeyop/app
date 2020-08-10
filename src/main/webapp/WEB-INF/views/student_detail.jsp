@@ -17,7 +17,7 @@
                             <div class="col-lg-6"style="max-width: 100%;flex: 100 100 100%;">
                             <div class="au-card m-b-30">
                                 <div class="au-card-inner">
-                                    <h3 class="title-2 m-b-40">Yearly Sales</h3>
+                                    <h3 class="title-2 m-b-40">Grade Chart</h3>
                                     <canvas id="sales-chart"></canvas>
                                 </div>
                             </div>

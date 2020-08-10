@@ -8,7 +8,9 @@
     import com.example.app.model.dto.request.classRequest;
     import com.example.app.model.dto.request.studentRequest;
     import com.example.app.model.dto.request.taskInfoRequest;
+    import com.example.app.service.ClassService;
     import com.example.app.service.SettingService;
+    import com.example.app.service.StudentService;
     import lombok.RequiredArgsConstructor;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.data.jpa.repository.Modifying;
@@ -27,12 +29,16 @@
 
         @Autowired
         SettingService settingService;
+        @Autowired
+        ClassService classService;
+        @Autowired
+        StudentService studentService;
 
         //0. 클래스 목록을 조회하는 기능
         @RequestMapping("findClassList")
         @ResponseBody
         public List<Class> findClassList(HttpSession session) {
-            List<Class> result = settingService.findClassList(session);
+            List<Class> result = classService.findClassList(session);
             System.out.println("컨트롤러" + result);
             //에러제어 필요
             return result;
@@ -42,7 +48,7 @@
          @RequestMapping("findClass")
          @ResponseBody
          public Class findClass(Long classIdx) {
-             Optional<Class> result = settingService.findClass(classIdx);
+             Optional<Class> result = classService.findClass(classIdx);
              System.out.println("findClass 결과");
              System.out.println(result.get());
              //Null일 경우 에러처리
@@ -123,7 +129,7 @@
         @ResponseBody
         public List<Student> findStudent(HttpSession session)  {
             System.out.println("컨트롤러 findStudent() 진입");
-            List<Student> result = settingService.findStudent(session);
+            List<Student> result = studentService.findStudentList(session);
             System.out.println("컨트롤러 findStudent() 끝");
             return result;
         }

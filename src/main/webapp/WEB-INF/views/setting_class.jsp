@@ -50,7 +50,7 @@
                                             <div class="row form-group">
 
                                                 <div class="col col-md-3">
-                                                    <label for="select" class=" form-control-label">섹션 명</label>
+                                                    <label for="select" class=" form-control-label">섹션 타이틀 명</label>
                                                 </div>
 
                                                 <div class="col-12 col-md-9">
@@ -165,4 +165,6 @@
         </div>
     </div>
 </div>
-
+<script src="vendor/jquery-3.2.1.min.js"></script>
+<script src="vendor/select2/select2.min.js"></script>
+<script type="text/javascript" src="js/Page/setting_class.js"></script>

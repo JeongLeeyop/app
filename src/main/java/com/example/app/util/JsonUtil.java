@@ -1,4 +1,3 @@
-/*
 package com.example.app.util;
 
 import java.lang.reflect.ParameterizedType;
@@ -52,4 +51,3 @@ public class JsonUtil {
 }
 
 
-*/

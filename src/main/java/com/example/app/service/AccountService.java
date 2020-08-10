@@ -17,15 +17,11 @@ public class AccountService {
 
     //0. 로그인
     public Account signIn(String email, String password){
-        System.out.println("service signIn() 진입");
         Account result = accountRepo.findAccountByUserEmail(email);
-        System.out.println("emailcheck 결과" + result);
         System.out.println(password + " == " + result.getUserPw());
         if(password.equals(result.getUserPw())) {
-            System.out.println("패스워드 일치함");
             return result;
         }else{
-            System.out.println("패스워드 불일치");
             return null;
         }
     }

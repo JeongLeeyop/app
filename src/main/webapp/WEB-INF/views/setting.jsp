@@ -7,27 +7,27 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row" style="justify-content: center;">
-                            <div class="col-md-4">
-                                <div class="card" onclick="location.href='setting_class'">
-                                    <img class="card-img-top" src="images/bg-title-01.jpg" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-3">Class Setting</h4>
-                                        <p class="card-text">You can create, modify, and delete classes.
-                                        </p>
+
+                            <figure class="snip1445">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample84.jpg" alt="sample84" />
+                                <figcaption>
+                                    <div>
+                                        <h2>Class</h2>
+                                        <h4>Setting</h4>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card" onclick="location.href='setting_student'">
-                                    <img class="card-img-top" src="images/bg-title-02.jpg" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-3">Student Setting</h4>
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                                            content.
-                                        </p>
+                                </figcaption>
+                                <a href="setting_class"></a>
+                            </figure>
+                            <figure class="snip1445"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample21.jpg" alt="sample21" />
+                                <figcaption>
+                                    <div>
+                                        <h2>Student</h2>
+                                        <h4>Setting</h4>
                                     </div>
-                                </div>
-                            </div>
+                                </figcaption>
+                                <a href="setting_student"></a>
+                            </figure>
+
                         </div>
                         <div class="row">
                             <div class="col-md-12">

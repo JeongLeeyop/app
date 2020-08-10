@@ -3,6 +3,8 @@ since calendar doesn't add href's be default,
 it leads to odd behaviors like loading 'undefined'
 moving the class to menus lead to only the menu having the effect -->
 <!-- MAIN CONTENT-->
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8"%>
 <div class="main-content">
     <div class="section__content section__content--p30" style="padding-left: 50px;">
         <div class="container-fluid">
@@ -63,7 +65,7 @@ moving the class to menus lead to only the menu having the effect -->
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="mediumModalLabel">Medium Modal</h5>
+                <h5 class="modal-title" id="mediumModalLabel">신규 학생 등록</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -94,10 +96,12 @@ moving the class to menus lead to only the menu having the effect -->
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button"  data-toggle="modal" data-target="#mediumModal" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button type="button" id="student-add" class="btn btn-primary" data-dismiss="modal">Confirm</button>
             </div>
         </div>
     </div>
 </div>
+<script src="vendor/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/Page/setting_student.js"></script>
 

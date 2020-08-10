@@ -3,18 +3,37 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
+
+
+    <!-- layout-->
     <definition name="layout" template="/WEB-INF/views/tiles/layout.jsp">
         <put-attribute name="link" value="/WEB-INF/views/tiles/link.jsp"/>
         <put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"/>
         <put-attribute name="content" value=""/>
         <put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
     </definition>
-    <definition name="nolayout" template="/WEB-INF/views/tiles/nolayout.jsp">
-        <put-attribute name="content" value=""/>
-    </definition>
 
     <definition name="*" extends="layout">
         <put-attribute name="content" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+
+    <!-- setting-->
+
+    <definition name="settingHover" template="/WEB-INF/views/tiles/settingHover.jsp">
+        <put-attribute name="link" value="/WEB-INF/views/tiles/link.jsp"/>
+        <put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"/>
+        <put-attribute name="content" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
+    </definition>
+
+    <definition name="setting" extends="settingHover">
+        <put-attribute name="content" value="/WEB-INF/views/setting.jsp" />
+    </definition>
+
+    <!-- nolayout-->
+
+    <definition name="nolayout" template="/WEB-INF/views/tiles/nolayout.jsp">
+        <put-attribute name="content" value=""/>
     </definition>
 
     <definition name="login" extends="nolayout">

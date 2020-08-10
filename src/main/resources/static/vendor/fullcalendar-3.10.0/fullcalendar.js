@@ -7469,7 +7469,7 @@ var DayGrid = /** @class */ (function (_super) {
         classes.unshift('fc-day-top');
         if (this.cellWeekNumbersVisible) {
             // To determine the day of week number change under ISO, we cannot
-            // rely on moment.js methods such as firstDayOfWeek() or weekday(),
+            // rely on setting.js methods such as firstDayOfWeek() or weekday(),
             // because they rely on the locale's dow (possibly overridden by
             // our firstDay option), which may not be Monday. We cannot change
             // dow, because that would affect the calendar start day as well.

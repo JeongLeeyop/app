@@ -1,17 +1,25 @@
 package com.example.app.controller;
 
+import com.example.app.model.domain.Class;
+import com.example.app.service.ClassService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Controller
 @Slf4j
 public class MainViewController {
+
+    @Autowired
+    ClassService classService;
 
     //1. 로그인 화면
     @RequestMapping("/login")
@@ -62,11 +70,13 @@ public class MainViewController {
         return view;
     }
 
-    //5. 수업 화면
+    //5. 클래스 화면
     @RequestMapping("/class")
-    public ModelAndView _class(Long classIdx) {
+    public ModelAndView _class(@RequestParam(value = "idx") Long Idx) {
 //        log.debug("class");
+        Class _class = classService.findClass(Idx).get();
         ModelAndView view = new ModelAndView("class");
+        view.addObject("curClassIdx",_class.getClassIdx());
         return view;
     }
 
@@ -78,7 +88,7 @@ public class MainViewController {
         return view;
     }
 
-    //4. 설정 화면
+    //4. 설정 화면_클래스
     @RequestMapping("/setting_class")
     public ModelAndView setting_class() {
 //        log.debug("setting_class");
@@ -86,7 +96,7 @@ public class MainViewController {
         return view;
     }
 
-    //4. 설정 화면
+    //4. 설정 화면_학생
     @RequestMapping("/setting_student")
     public ModelAndView setting_student() {
 //        log.debug("setting_student");

@@ -9,6 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Setter
 @Getter
+@ToString
 public class TaskItem {
 
     @Id
