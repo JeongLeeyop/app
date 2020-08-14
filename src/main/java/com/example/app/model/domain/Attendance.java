@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Setter
 @Getter
+@ToString
 public class Attendance {
 
     @Id

@@ -43,5 +43,5 @@
                 </div>
             </div>
 <script src="vendor/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="js/Page/attendance.js"></script>
+<%--<script type="text/javascript" src="js/Page/attendance.js"></script>--%>
 

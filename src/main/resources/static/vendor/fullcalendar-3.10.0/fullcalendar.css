@@ -1291,3 +1291,6 @@ be a descendant of the grid when it is being dragged.
 .fc-unthemed .fc-list-empty {
   /* theme will provide own background */
   background-color: #eee; }
+
+/*.fc-day-top.fc-sat { color:#0000FF; }     !* 토요일 *!*/
+/*.fc-day-top.fc-sun { color:#FF0000; }    !* 일요일 *!*/

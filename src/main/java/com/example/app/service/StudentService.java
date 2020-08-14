@@ -35,6 +35,9 @@ public class StudentService {
     //attendanceservice.findTotalAt() 사용
 
     //1. 한 학생을 찾는 기능
+    public Student findStudentList(Long stIdx) {
+        return studentRepo.findById(stIdx).get();
+    }
 
     //5. 전체 학생을 조회하는 기능
     public List<Student> findStudentList(HttpSession session) {

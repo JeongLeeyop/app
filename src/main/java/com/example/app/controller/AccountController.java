@@ -2,6 +2,7 @@ package com.example.app.controller;
 
 import com.example.app.model.domain.Account;
 import com.example.app.model.dto.request.accountRequest;
+import com.example.app.repository.AccountRepository;
 import com.example.app.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,26 +23,26 @@ public class AccountController {
     @Autowired
     AccountService accountService;
 
+    //자동 로그인
+    @Autowired
+    AccountRepository testRepo;
+    @RequestMapping("/test")
+    @ResponseBody
+    public void test(HttpSession session, HttpServletRequest req) {
+        session.setAttribute("Account", testRepo.findAccountByUserEmail("anfdmavy777@naver.com"));
+    }
+
     //1.로그인
     @PostMapping("/signIn")
     public String signIn(HttpSession session, HttpServletRequest req) {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        System.out.println(email);
-        System.out.println(password);
         //1. 해쉬화
 
         //2. 로그인
         Account result = accountService.signIn(email,password);
         if(result!=null){
-            System.out.println("로그인 성공");
             session.setAttribute("Account",result);
-//            ModelAndView mv = new ModelAndView();
-//            mv.setViewName("student");
-//            mv.addObject("userEmail",result.getUserEmail());
-//            mv.addObject("userName",result.getUserName());
-//            model.addAttribute("userEmail",result.getUserEmail());
-//            model.addAttribute("userName",result.getUserName());
             return "redirect:student";
         } else {
             System.out.println("로그인 실패");
