@@ -11,8 +11,8 @@
                                     <table class="table table-borderless table-striped table-earning" style="height: 100%;">
                                         <thead id = "StudentChart">
                                         <tr>
-                                            <th>학생명</th>
-                                            <th>출결일</th>
+                                            <th>Name</th>
+                                            <th>attendance</th>
                                         </tr>
                                         </thead>
                                         <tbody id="StudentChartData">

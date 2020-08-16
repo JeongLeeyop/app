@@ -42,12 +42,12 @@
         function checkValid(){
 
             if($("input[name=email]").val()==""){
-                alert("이메일을 입력하세요.");
+                alert("Check your Email.");
                 $("input[name=email]").focus();
                 return false;
             }
             if($("input[name=password]").val()==""){
-                alert("패스워드를 입력하세요.");
+                alert("Check your PassWord.");
                 $("input[name=password]").focus();
                 return false;
             }
@@ -77,6 +77,7 @@
                                     <label>Password</label>
                                     <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
                                 </div>
+
                               <%--  <div class="login-checkbox">
                                     <label>
                                         <input type="checkbox" name="remember">Remember Me

@@ -54,7 +54,7 @@ public class AccountController {
         } else {
             response.setContentType("text/html; charset=UTF-8");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('로그인에 실패하였습니다.'); location.href='login';</script>");
+            out.println("<script>alert('Login failed.'); location.href='login';</script>");
             out.flush();
         }
         return null;
@@ -91,10 +91,10 @@ public class AccountController {
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
         if(result !=null){
-            out.println("<script>alert('회원가입에 성공하셨습니다.'); location.href='login';</script>");
+            out.println("<script>alert('You have successfully registered as a member.'); location.href='login';</script>");
             out.flush();
         } else {
-            out.println("<script>alert('회원가입에 실패하였습니다.'); location.href='register';</script>");
+            out.println("<script>alert('Failed to sign up as a membership.'); location.href='register';</script>");
             out.flush();
         }
             return null;
@@ -108,9 +108,9 @@ public class AccountController {
         Account result = accountService.emailCheck(memberEmail);
 
         if (result == null){
-            return "사용 가능한 이메일 입니다.";
+            return "This email is available.";
         } else {
-            return "이미 사용중인 이메일 입니다.";
+            return "This email is already in use.";
         }
 
     }

@@ -44,22 +44,29 @@
         function checkValid(){
 
             if($("#username").val()==""){
-                alert("이름을 입력하세요.");
+                alert("Please enter your name.");
                 $("#username").focus();
                 return false;
             }
             if($("#email").val()==""){
-                alert("이메일을 입력하세요.");
+                alert("Please enter your email.");
                 $("#email").focus();
                 return false;
             }
-            if($("#span").text()=="이미 사용중인 이메일 입니다."){
-                alert("이메일을 변경하세요.");
+            if($("#span").text()=="This email is already in use."){
+                alert("Please change your email.");
                 $("#email").focus();
                 return false;
             }
             if($("#password").val()==""){
-                alert("비밀번호를 입력하세요.");
+                alert("Please enter your password.");
+                $("#password").focus();
+                return false;
+            }
+            if($("#password").val()!=$("#password2").val()){
+                alert("Passwords do not match.");
+                $("#password").val("");
+                $("#password2").val("");
                 $("#password").focus();
                 return false;
             }
@@ -83,7 +90,7 @@
                         $("#span").html(result);
                     },
                     error : function(err) {
-                        console.log(err + "=> 오류발생");
+                        console.log(err + "=> find error");
                     }
                 });//ajax끝
             });//keyup끝
@@ -114,11 +121,15 @@
                             <div class="form-group">
                                 <label>Email Address</label>
                                 <input class="au-input au-input--full" type="email" name="email" id="email" placeholder="Email">
-                                <span id="span">이메일 중복 체크</span>
+                                <span id="span">Check for email duplication</span>
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
                                 <input class="au-input au-input--full" type="password" name="password" id="password" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label>Password Check</label>
+                                <input class="au-input au-input--full" type="password" name="password" id="password2" placeholder="Password">
                             </div>
                             <%--<div class="login-checkbox">
                                 <label>

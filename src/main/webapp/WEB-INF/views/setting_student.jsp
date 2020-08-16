@@ -66,7 +66,7 @@ moving the class to menus lead to only the menu having the effect -->
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="mediumModalLabel">신규 학생 등록</h5>
+                <h5 class="modal-title" id="mediumModalLabel">Add New Student</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

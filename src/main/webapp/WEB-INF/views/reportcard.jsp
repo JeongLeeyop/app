@@ -262,7 +262,7 @@ moving the class to menus lead to only the menu having the effect -->
 <script type="text/javascript">
     $(function(){
         console.log(1);
-        alert("준비중 입니다.");
+        alert("Preparing for service.");
         history.back();
     });
 </script>

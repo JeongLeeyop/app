@@ -18,11 +18,11 @@
         var studentGender = $(".form-check-input:checked").val();
 
         if( $("#text-input").val()==""){
-            alert("학생 이름을 입력하세요.");
+            alert("Please enter a student name.");
             return false;
         }
         if( $("input:radio[name=inline-radios]").is(":checked") == false){
-            alert("성별을 입력하세요.");
+            alert("Please enter your gender.");
             return false;
         }
 
@@ -32,7 +32,7 @@
             dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             data : "studentName="+studentName+"&studentGender="+studentGender+"&studentGrade="+studentGrade,//서버에게 보내는 parameter정보
             success : function(result){
-                alert("새 학생을 등록하였습니다.");
+                alert("You have registered a new student.");
                 StudentAjax();
                 location.reload();
             } , //성공했을때
@@ -47,7 +47,7 @@
 
     //delete_student
     $(document).on("click", "#delete", function(){
-        var check = confirm("정말로 삭제하시겠습니까?");
+        var check = confirm("Are you sure you want to delete it?");
         if (check==true){
             var studentIdx = $(this).children("#delDev").text();
             $.ajax({
@@ -56,7 +56,7 @@
                 dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
                 data : "studentIdx="+studentIdx,//서버에게 보내는 parameter정보
                 success : function(result){
-                    alert("삭제성공");
+                    alert("Delete Complete");
                     StudentAjax();
                 } , //성공했을때
                 error : function(request){
@@ -69,12 +69,12 @@
 
     //more Student
     $(document).on("click", "#more", function() {
-        alert("준비중 입니다.");
+        alert("In ready...");
     });
 
     //edit Student
     $(document).on("click", "#edit", function() {
-        alert("준비중 입니다.");
+        alert("In ready...");
     });
 
     //Student_AJAX

@@ -71,13 +71,13 @@
 
 
         if (Account == "null") {
-            alert("로그인이 필요한 서비스 입니다.");
+            alert("This service requires login.");
             location.href = "login";
         }
 
         //로그 아웃
         $("#logout").on("click", function () {
-            alert("로그아웃 되셨습니다.");
+            alert("You are logged out.");
             /*
             <%
                         response.setHeader("cache-control","no-cache");
@@ -115,11 +115,11 @@
         });// 실패했을때
 
         $(document).on('click','#classList',function(){
-            alert("점검 중입니다.");
+            alert("We're under inspection.");
         });
 
         $(document).on('click','#classListMobile',function(){
-            alert("점검 중입니다.");
+            alert("We're under inspection.");
         });
 
         /////////////////////////// /////////////////////////////////////
@@ -460,7 +460,7 @@
             console.log("stIdx : " + stIdx + " | atIdx : " + atIdx + " | state : " + state);
 
             if (state == "none") {
-                alert("항목을 선택하세요");
+                alert("Please select an item");
                 return false;
             }
 
@@ -474,7 +474,7 @@
         }
 
         if (curDate == "") {
-            alert("날짜를 선택하세요");
+            alert("Please select a date");
             return false;
         }
 
@@ -486,7 +486,7 @@
             dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             async : false,
             success: function (result) {
-                alert("성공적으로 저장되었습니다.");
+                alert("Saved successfully.");
                 location.reload();
 
             }, //성공했을때
@@ -502,7 +502,7 @@
     //list클릭
     $(document).on('click', '.fc-right .fc-button-group button:last', function () {
         $('.fc-view-container').empty();
-        $('.fc-center h2').text('전체 학생 출석 현황');
+        $('.fc-center h2').text('Overall Student Attendance');
         $('.col').css('width', '100%');
         $('.col-lg-3').css('display', 'none');
         StudentAjax();
@@ -596,11 +596,11 @@
     //delete 클릭시
     $(document).on('click', '#delAt', function () {
 
-        if (confirm("정말로 삭제 하시겠습니까?")) {
+        if (confirm("Are you sure you want to delete it?")) {
 
             var curDate = $(".col-lg-3 h3").text();
             if (curDate == "") {
-                alert("날짜를 선택해 주세요");
+                alert("Please select a date.");
                 return false;
             }
 
@@ -610,7 +610,7 @@
                 data: "curDate=" + curDate,
                 dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
                 success: function (result) {
-                    alert(result + "의 데이터가 정상적으로 삭제 되었습니다.");
+                    alert(result + " : data has been successfully deleted..");
                     printAtAjax();
 
                 }, //성공했을때
