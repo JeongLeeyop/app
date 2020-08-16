@@ -39,7 +39,7 @@
 
                                             <div class="row form-group">
                                                 <div class="col col-md-3">
-                                                    <label for="text-input1" class=" form-control-label">클래스 명</label>
+                                                    <label for="text-input1" class=" form-control-label">Class Name</label>
                                                     <div id="classIdx" hidden>addClass</div>
                                                 </div>
                                                 <div class="col-12 col-md-9">
@@ -50,7 +50,7 @@
                                             <div class="row form-group">
 
                                                 <div class="col col-md-3">
-                                                    <label for="select" class=" form-control-label">섹션 타이틀 명</label>
+                                                    <label for="select" class=" form-control-label">Section Title Name</label>
                                                 </div>
 
                                                 <div class="col-12 col-md-9">
@@ -66,7 +66,7 @@
 
                                             <div class="row form-group">
                                                 <div class="col col-md-3">
-                                                    <label for="multiple-select" class=" form-control-label">과제 등록</label>
+                                                    <label for="multiple-select" class=" form-control-label">Task Manager</label>
                                                 </div>
                                                 <div class="col-12 col-md-9">
                                                     <input type="text" id="text-input2" name="text-input" placeholder="Text" class="form-control" disabled>
@@ -74,7 +74,7 @@
                                                     <select name="multiple-select" id="multiple-select" multiple="" class="form-control" style="height: 164px;">
                                                     </select>
                                                     <div id="alert" class="col-12 col-md-9" style="margin-top: 5px;">
-                                                        <small class="help-block form-text">클래스 생성 후 과제를 등록 할 수 있습니다.</small>
+                                                        <small class="help-block form-text">After class creation, you can register the task.</small>
                                                     <button id ="addTask" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mediumModal">
                                                         <i class="fa fa-dot-circle-o">Add</i>
                                                     </button>
@@ -133,20 +133,20 @@
                         </div>
                         <div class="card-body card-block">
                             <div class="form-group">
-                                <label for="taskName" class=" form-control-label">과제명</label>
+                                <label for="taskName" class=" form-control-label">Task name</label>
                                 <input type="text" id="taskName" placeholder="Enter your Task name" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label for="gradeRatio" class=" form-control-label">과제 등급 비율</label>
+                                <label for="gradeRatio" class=" form-control-label">Task Rating Ratio</label>
                                 <input type="text" id="gradeRatio" placeholder="0" class="form-control">
-                                <small class="help-block form-text">숫자만 입력 가능하며, 모든 비율의 합이 100%이어야 합니다.</small>
+                                <small class="help-block form-text">Only numbers can be entered; all proportions must be summed up to 100%.</small>
                             </div>
                             <div class="row form-group">
 
                                     <div class="form-check">
                                         <div class="checkbox">
                                             <label for="ckDefault" class="form-check-label ">
-                                                Default 과제 여부
+                                                Default Task Check
                                             </label>
                                             <input type="checkbox" id="ckDefault" name="checkbox1" value="option1" class="form-check-input" style="
                                             margin-left: 5px;">

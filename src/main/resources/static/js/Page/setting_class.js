@@ -214,7 +214,7 @@
         var sectionName = $(".select2-selection__rendered").text();
 
         if(sectionName=="Please select"){
-            alert("섹션명을 입력하세요.");
+            alert("Please enter section name.");
             return true;
         }
 
@@ -224,7 +224,7 @@
             data : "className="+className+"&sectionName="+sectionName,
             dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success : function(result){
-                alert("클래스가 생성 되었습니다.");
+                alert("The class has been created.");
                 ClassAjax();
                 FormClear();
             } , //성공했을때
@@ -241,7 +241,7 @@
         var classIdx = $("#classIdx").text();
 
         if(sectionName=="Please select"){
-            alert("섹션명을 입력하세요.");
+            alert("Please enter section name.");
             return true;
         }
 
@@ -251,7 +251,7 @@
             data : "className="+className+"&sectionName="+sectionName+"&classIdx="+classIdx,
             dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success : function(result){
-                alert("클래스가 수정 되었습니다.");
+                alert("The class has been modified.");
                 ClassAjax();
                 FormClear();
             } , //성공했을때
@@ -263,7 +263,7 @@
 
     //클래스 삭제
     $(document).on("click","#delClass",function(){
-        if(confirm("현재 클래스를 정말 삭제 하시겠습니까?")==true){
+        if(confirm("Are you sure you want to delete the current class?")==true){
             var classIdx = $("#classIdx").text();
             $.ajax({
                 url : "/delClass", //서버요청주소
@@ -271,7 +271,7 @@
                 data : "classIdx="+classIdx,
                 dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
                 success : function(result){
-                    alert("클래스가 삭제 되었습니다.");
+                    alert("The class has been deleted.");
                     ClassAjax();
                     FormClear();
 
@@ -321,7 +321,7 @@
         //숫자만 가능
         var regexp = /^[0-9]*$/
         if( !regexp.test($("#gradeRatio").val()) ) {
-            alert("숫자만 입력하세요");
+            alert("Please enter only numbers.");
             $("#gradeRatio").val("");
             return false;
         }
@@ -341,7 +341,7 @@
             Sum = Number(Sum) + Number(item);
         });
         if(Number(Sum)+Number(gradeRatio)>100){
-            alert("등급 비율의 합은 100을 넘을 수 없습니다.");
+            alert("The sum of the rating proportions cannot exceed 100.");
             return false;
         }
 
@@ -358,7 +358,7 @@
             data : "taskName="+taskName+"&gradeRatio="+gradeRatio+"&ckDefault="+ckDefault+"&classIdx="+classIdx,
             dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success : function(result){
-                alert("과제가 생성 되었습니다.");
+                alert("The Task has been created.");
                 TaskAjax();
 
             } , //성공했을때
@@ -373,7 +373,7 @@
     //과제 삭제
     $("#delTask").on('click',function(){
 
-        if(confirm("선택된 과제를 정말로 삭제하시겠습니까?")){
+        if(confirm("Are you sure you want to delete the selected task?")){
             var taskIdx = $("#taskIdx").text();
             $.ajax({
                 url : "/delTask", //서버요청주소
@@ -381,7 +381,7 @@
                 data : "taskIdx="+taskIdx,
                 dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
                 success : function(result){
-                    alert("과제가 삭제 되었습니다.");
+                    alert("The Task has been deleted.");
                     TaskAjax();
                 } , //성공했을때
                 error : function(request){
@@ -432,7 +432,7 @@
 
     //delete_student
     $(document).on("click", "#delete", function(){
-        var check = confirm("정말로 삭제하시겠습니까?");
+        var check = confirm("Are you sure you want to delete it?");
         if (check==true){
             var studentIdx = $(this).children("#delDev").text();
             alert(studentIdx);
@@ -442,7 +442,7 @@
                 dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
                 data : "studentIdx="+studentIdx,//서버에게 보내는 parameter정보
                 success : function(result){
-                    alert("삭제성공");
+                    alert("Delete Complete");
                     StudentAjax();
                 } , //성공했을때
                 error : function(request){
