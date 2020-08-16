@@ -1,5 +1,6 @@
 package com.example.app.repository;
 
+import com.example.app.model.domain.Student;
 import com.example.app.model.dto.response.repository.TaskItemMapping;
 import com.example.app.model.domain.section.Section;
 import com.example.app.model.domain.section.TaskItem;
@@ -27,6 +28,10 @@ public interface TaskItemRepository extends JpaRepository<TaskItem, Long> {
     @Transactional
     @Modifying
     public void DelTaskItemBySectionIdx(Long sectionIdx);
+
+    @Transactional
+    @Modifying
+    public void deleteByStudent(Student student);
 
     //과제 차트 데이터 불러오기
     public List<TaskItemMapping> findAllBySectionOrderByStudent(Section curSection);

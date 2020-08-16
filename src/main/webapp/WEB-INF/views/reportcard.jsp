@@ -3,6 +3,8 @@ since calendar doesn't add href's be default,
 it leads to odd behaviors like loading 'undefined'
 moving the class to menus lead to only the menu having the effect -->
 <!-- MAIN CONTENT-->
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8"%>
 <div class="main-content">
     <div class="section__content section__content--p30" style="padding-left: 50px;">
         <div class="container-fluid">
@@ -256,4 +258,12 @@ moving the class to menus lead to only the menu having the effect -->
         </div>
     </div>
 </div>
+<script src="vendor/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        console.log(1);
+        alert("준비중 입니다.");
+        history.back();
+    });
+</script>
 

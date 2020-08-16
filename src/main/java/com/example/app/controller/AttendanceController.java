@@ -2,16 +2,17 @@ package com.example.app.controller;
 
 import com.example.app.model.domain.Attendance;
 import com.example.app.model.dto.response.atCountResponse;
+import com.example.app.model.dto.response.repository.AtSummaryResponse;
 import com.example.app.service.AttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,11 +21,19 @@ public class AttendanceController {
     @Autowired
     AttendanceService attendanceService;
 
+    //1.모든 날짜의 출석 요약을 조회하는 기능
+    @ResponseBody
+    @RequestMapping("findTotalAtSummary")
+    public Map<String,Object> findTotalAtSummary(String strDate, HttpSession session)throws Exception {
+        return attendanceService.findTotalAtSummary(strDate, session);
+    }
+
+
     //1.선택 날짜의 학생별 출석여부를 조회하는 기능
     @ResponseBody
     @RequestMapping("findAtByDate")
-    public List<Attendance> findAtByDate(String strDate)throws Exception {
-        return attendanceService.findAtByDate(strDate);
+    public List<Attendance> findAtByDate(String strDate,HttpSession session)throws Exception {
+        return attendanceService.findAtByDate(strDate,session);
     }
 
     //1.학생별 전체 출석을 조회하는 기능
@@ -37,14 +46,17 @@ public class AttendanceController {
     //2.선택 날짜의 학생별 출석여부를 입력,수정하는 기능
     @ResponseBody
     @RequestMapping("updateAt")
-    public ModelAndView updateDetailAt( @RequestParam String dataArray ,String curDate){
+    public void updateAt( @RequestParam String dataArray ,String curDate)throws Exception{
         attendanceService.updateAt(dataArray,curDate);
-        return null;
+//        return null;
     }
 
     //3.선택 날짜의 학생별 출석여부를 삭제하는 기능
+    @ResponseBody
     @RequestMapping("deleteAt")
-    public ModelAndView deleteDetailAt(HttpServletRequest req) {
-        return null;
+    public String deleteAt(String curDate, HttpSession session) {
+        attendanceService.deleteAt(curDate,session);
+        return curDate;
+
     }
 }

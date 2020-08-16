@@ -21,6 +21,8 @@ public class Student {
     private String studentName;
     @Column(nullable = false)
     private int studentGender;
+    @Column(nullable = false)
+    private int studentGrade;
     @Column
     private String studentMemo;
 

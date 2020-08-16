@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,6 +35,24 @@
 
     <!-- Main CSS-->
     <link href="/css/theme.css" rel="stylesheet" media="all">
+    <script>
+
+
+
+        function checkValid(){
+
+            if($("input[name=email]").val()==""){
+                alert("이메일을 입력하세요.");
+                $("input[name=email]").focus();
+                return false;
+            }
+            if($("input[name=password]").val()==""){
+                alert("패스워드를 입력하세요.");
+                $("input[name=password]").focus();
+                return false;
+            }
+        }
+    </script>
 
 </head>
 
@@ -45,11 +64,11 @@
                     <div class="login-content">
                         <div class="login-logo">
                             <a href="#">
-                                <img src="/images/icon/logo.png" alt="CoolAdmin">
+                                <img src="/images/icon/logo.png" alt="CoolAdmin"style="max-width: 50%;margin-bottom: 30px;">
                             </a>
                         </div>
                         <div class="login-form">
-                            <form action="signIn" method="post">
+                            <form action="signIn" method="post" onSubmit="return checkValid()">
                                 <div class="form-group">
                                     <label>Email Address</label>
                                     <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
@@ -58,15 +77,15 @@
                                     <label>Password</label>
                                     <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
                                 </div>
-                                <div class="login-checkbox">
+                              <%--  <div class="login-checkbox">
                                     <label>
                                         <input type="checkbox" name="remember">Remember Me
                                     </label>
                                     <label>
                                         <a href="#">Forgotten Password?</a>
                                     </label>
-                                </div>
-                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
+                                </div>--%>
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit" id="signIn">sign in</button>
                                <%-- <div class="social-login-content">
                                     <div class="social-button">
                                         <button class="au-btn au-btn--block au-btn--blue m-b-20">sign in with facebook</button>
@@ -88,8 +107,45 @@
 
     </div>
 
-    <!-- Jquery JS-->
     <script src="/vendor/jquery-3.2.1.min.js"></script>
+
+    <script>
+       /* $(function(){
+
+
+        $("#signIn").on('click',function(){
+
+            var email = $("input[name=email]").val();
+            var password = $("input[name=password]").val();
+            $.ajax({
+                url : "/signIn", //서버요청주소
+                type : "post",//요청방식 (get,post,patch,delete,put)
+                data : "email="+email+"&password="+password,
+                dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
+                success : function(result) {
+                        if(result==0){
+                            alert("로그인에 성공하셨습니다.");
+                            location.href("redirect:attendance");
+                        }else if(result=="1"){
+                            alert("로그인에 실패하셨습니다.");
+                            location.href("redirect:login");
+
+                        }
+                }, //성공했을때
+                error : function(request) {
+                    alert(request.responseText);
+                }
+            });// 실패했을때
+            })
+
+        })
+*/
+
+    </script>
+
+    </script>
+    <!-- Jquery JS-->
+
     <!-- Bootstrap JS-->
     <script src="/vendor/bootstrap-4.1/popper.min.js"></script>
     <script src="/vendor/bootstrap-4.1/bootstrap.min.js"></script>

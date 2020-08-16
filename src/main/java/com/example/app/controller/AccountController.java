@@ -4,6 +4,8 @@ import com.example.app.model.domain.Account;
 import com.example.app.model.dto.request.accountRequest;
 import com.example.app.repository.AccountRepository;
 import com.example.app.service.AccountService;
+import com.example.app.util.PwUtil;
+import com.sun.deploy.net.HttpResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,36 +28,39 @@ public class AccountController {
     @Autowired
     AccountService accountService;
 
+    PwUtil pwUtil;
+
     //자동 로그인
-    @Autowired
+  /*  @Autowired
     AccountRepository testRepo;
     @RequestMapping("/test")
     @ResponseBody
     public void test(HttpSession session, HttpServletRequest req) {
         session.setAttribute("Account", testRepo.findAccountByUserEmail("anfdmavy777@naver.com"));
-    }
+    }*/
 
     //1.로그인
     @PostMapping("/signIn")
-    public String signIn(HttpSession session, HttpServletRequest req) {
+    public String signIn(HttpServletResponse response, HttpSession session, HttpServletRequest req, Model model) throws Exception {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        //1. 해쉬화
 
         //2. 로그인
         Account result = accountService.signIn(email,password);
+
         if(result!=null){
             session.setAttribute("Account",result);
-            return "redirect:student";
+            return "redirect:attendance";
         } else {
-            System.out.println("로그인 실패");
-            ModelAndView mv = new ModelAndView();
-            mv.setViewName("login");
-            return null;
-            //에러 출력 해줄 것
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('로그인에 실패하였습니다.'); location.href='login';</script>");
+            out.flush();
         }
-//
-    }
+        return null;
+        }
+
+
 
     //2.로그아웃
     @RequestMapping("/logout")
@@ -63,23 +71,48 @@ public class AccountController {
 
     //2.회원가입 버튼
     @RequestMapping("/signUp")
-    public String signUp(accountRequest account, HttpServletRequest req) throws Exception{
-        System.out.println("SignUp 메소드 진입");
+    public String signUp(accountRequest account, HttpServletRequest req,HttpServletResponse response) throws Exception{
         //1. 이메일 중복 확인
-        Account result = accountService.emailCheck(account.getEmail());
-        System.out.println(result);
-        System.out.println("이메일 중복 확인 메소드");
+       /* Account result = accountService.emailCheck(account.getEmail());
+
         if(result!=null){
             System.out.println("이메일 중복!!");
             throw new Exception();
-        }
-
+        }*/
+        System.out.println(account.getPassword());
+        String hashPw = account.getPassword();
         //2. 해쉬화
+        String pwHash = pwUtil.Encryption(hashPw);
+        System.out.println(pwHash);
+        account.setPassword(pwHash);
 
         //3. 저장
-        accountService.signUp(account);
+        Account result = accountService.signUp(account);
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        if(result !=null){
+            out.println("<script>alert('회원가입에 성공하셨습니다.'); location.href='login';</script>");
+            out.flush();
+        } else {
+            out.println("<script>alert('회원가입에 실패하였습니다.'); location.href='register';</script>");
+            out.flush();
+        }
+            return null;
+    }
 
-        return "redirect:login";
+    //2.이메일 중복확인 Ajax
+    @RequestMapping("/emailCheck")
+    @ResponseBody
+    public String emailCheck(String memberEmail) throws Exception{
+        //1. 이메일 중복 확인
+        Account result = accountService.emailCheck(memberEmail);
+
+        if (result == null){
+            return "사용 가능한 이메일 입니다.";
+        } else {
+            return "이미 사용중인 이메일 입니다.";
+        }
+
     }
 
     //3.회원정보 수정 (예정)

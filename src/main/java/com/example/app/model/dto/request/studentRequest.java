@@ -11,5 +11,6 @@ public class studentRequest {
 
     private String studentName;
     private String studentGender;
+    private String studentGrade;
 
 }

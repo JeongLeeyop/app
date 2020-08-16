@@ -4,9 +4,12 @@ import com.example.app.model.domain.Account;
 import com.example.app.model.dto.request.accountRequest;
 import com.example.app.repository.AccountRepository;
 import com.example.app.util.DateTimeHelper;
+import com.example.app.util.PwUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 
 @Service
@@ -15,15 +18,26 @@ public class AccountService {
     @Autowired
     AccountRepository accountRepo;
 
+    PwUtil pwUtil;
+
     //0. 로그인
-    public Account signIn(String email, String password){
+    public Account signIn(String email, String password) throws NoSuchAlgorithmException {
         Account result = accountRepo.findAccountByUserEmail(email);
-        System.out.println(password + " == " + result.getUserPw());
-        if(password.equals(result.getUserPw())) {
+        //1.패스워드 체크
+//        String pwHash = pwUtil.Encryption(password);
+//        System.out.println( pwHash+ " == " + result.getUserPw());
+
+        if (pwUtil.Encryption(password).toUpperCase().equals(result.getUserPw().toUpperCase())) {
+            return result;
+        }
+        return null;
+/*
+        if(pwUtil.PWCheck(password,result.getUserPw())){
             return result;
         }else{
             return null;
-        }
+        }*/
+
     }
 
     //1. 이메일 중복체크
@@ -38,7 +52,7 @@ public class AccountService {
     }
 
     //3. 회원가입
-    public int signUp(accountRequest accountReq) {
+    public Account signUp(accountRequest accountReq) {
         Account account = new Account();
         Timestamp createDate = DateTimeHelper.timeStampNow();
 
@@ -51,6 +65,6 @@ public class AccountService {
         account.setUserPw(accountReq.getPassword());
         Account result = accountRepo.save(account);
         System.out.println("SignUp 결과값 : " + result);
-        return 0;
+        return result;
     }
 }

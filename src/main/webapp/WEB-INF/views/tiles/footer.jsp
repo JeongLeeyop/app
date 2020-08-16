@@ -3,7 +3,7 @@
 <!-- Bootstrap JS-->
 <script src="vendor/bootstrap-4.1/popper.min.js"></script>
 <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-<!-- Vendor JS       -->
+<!-- Vendor JS -->
 <script src="vendor/slick/slick.min.js">
 </script>
 <script src="vendor/wow/wow.min.js"></script>
@@ -26,24 +26,25 @@
 <script src="vendor/fullcalendar-3.10.0/lib/moment.min.js"></script>
 <script src="vendor/fullcalendar-3.10.0/fullcalendar.js"></script>
 <%@ page language="java" contentType="text/html; charset=utf-8"
-         pageEncoding="utf-8"%>
+         pageEncoding="utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- select2 JS -->
 <%--<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />--%>
 <%--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>--%>
 
 
-<script type="text/javascript" >
+<script type="text/javascript">
 
-    $(document).ready(function() {
-
-    });
-
-    $(window).on('load',function(){
+    $(document).ready(function () {
 
     });
 
-    $(function() {
+    $(window).on('load', function () {
+
+    });
+
+    $(function () {
 
         ////////////////////////////////////////////////////////////////////
         //                                                                //
@@ -51,32 +52,38 @@
         //                                                                //
         ////////////////////////////////////////////////////////////////////
 
-          //자동로그인
-  $.ajax({
-      url : "/test", //서버요청주소
-      type : "post",//요청방식 (get,post,patch,delete,put)
-      dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
-      success : function(result) {
+        //자동로그인
+        /*  $.ajax({
+              url : "/test", //서버요청주소
+              type : "post",//요청방식 (get,post,patch,delete,put)
+              dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
+              success : function(result) {
 
-      }, //성공했을때
-      error : function(request) {
-          alert(request.responseText);
-      }
-  });// 실패했을때
+              }, //성공했을때
+              error : function(request) {
+                  alert(request.responseText);
+              }
+          });// 실패했을때*/
 
 
         //로그인 세션 확인
         var Account = "<%=session.getAttribute("Account")%>";
 
 
-      /*  if(Account == "null"){
+        if (Account == "null") {
             alert("로그인이 필요한 서비스 입니다.");
             location.href = "login";
-        }*/
+        }
 
         //로그 아웃
-        $("#logout").on("click",function(){
+        $("#logout").on("click", function () {
             alert("로그아웃 되셨습니다.");
+            /*
+            <%
+                        response.setHeader("cache-control","no-cache");
+                        response.setHeader("expires","0");
+                        response.setHeader("pragma","no-cache");
+                        %>*/
             location.href = "logout";
         });
 
@@ -88,27 +95,36 @@
         ////////////////////////////////////////////////////////////////////
 
 
-
-
         //좌측 메뉴에 클래스 목록 출력
         $.ajax({
-            url : "/findClassList", //서버요청주소
-            type : "post",//요청방식 (get,post,patch,delete,put)
-            dataType : "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
-            success : function(result) {
-                $.each(result, function(index,item){
-                      $("#classList").append("<li><a href=\"class?idx="+item.classIdx+"\">"+item.className+"</a></li>")
+            url: "/findClassList", //서버요청주소
+            type: "post",//요청방식 (get,post,patch,delete,put)
+            dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+            success: function (result) {
+                $.each(result, function (index, item) {
+                    /*$("#classList").append("<li><a href=\"class?idx=" + item.classIdx + "\">" + item.className + "</a></li>")
+                    $("#classListMobile").append("<li><a href=\"class?idx=" + item.classIdx + "\">" + item.className + "</a></li>")
+*/
+                    $("#classList").append("<li><a href=\"#\">" + item.className + "</a></li>");
+                    $("#classListMobile").append("<li><a href=\"#\">" + item.className + "</a></li>");
                 });
             }, //성공했을때
-            error : function(request) {
+            error: function (request) {
                 alert(request.responseText);
             }
         });// 실패했을때
 
+        $(document).on('click','#classList',function(){
+            alert("점검 중입니다.");
+        });
+
+        $(document).on('click','#classListMobile',function(){
+            alert("점검 중입니다.");
+        });
+
         /////////////////////////// /////////////////////////////////////
         ////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////
-
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -123,79 +139,176 @@
         ////////////////////////////////////////////////////////////////////
 
 
+        //FullCalendar 설정
+
         //Css 동적 추가
         $('head').append('<link rel="stylesheet" href="css/fullcalendar.css" type="text/css" />');
 
         printAtAjax();
 
         //출석 학생 목록 출력 Ajax
-        function printAtAjax(){
-        $.ajax({
-            url : "/findStudent", //서버요청주소
-            type : "post",//요청방식 (get,post,patch,delete,put)
-            dataType : "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
-            success : function(result){
-                $.each(result, function(index, item) {
-                    // studentSize = result.length;
-                    var str = "<tr class=\"studentDetail\"><td id=\""+item.studentIdx+"\"style=\"vertical-align: middle;\">"+item.studentName+"</td><td>" +
-                        "<div class=\"noselect\" style=\"width: 130px;\">\n" +
-                        "                    <select style=\"position: relative;left: 32px;\"class=\"js-select\" name=\"time\">\n" +
-                        "                    <option data-id=\"0\" value=\"\">Present</option>\n" +
-                        "                    <option data-id=\"1\" value=\"\">Ex. Tardy</option>\n" +
-                        "                    <option data-id=\"2\" value=\"\">Tardy </option>\n" +
-                        "                    <option data-id=\"3\" value=\"\">Family Leave</option>\n" +
-                        "                    <option data-id=\"4\" value=\"\">Ex. Absent</option>\n" +
-                        "                    <option data-id=\"5\" value=\"\">Absent</option>\n" +
-                        "                    <option data-id=\"6\" value=\"\">Early Leave</option>\n" +
-                        "                </select>\n" +
-                        "                <div class=\"dropDownSelect2\"></div>\n" +
-                        "                    </div></td></tr>";
+        function printAtAjax() {
+            $("#studentList").empty();
+            $.ajax({
+                url: "/findStudent", //서버요청주소
+                type: "post",//요청방식 (get,post,patch,delete,put)
+                dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+                success: function (result) {
+                    $.each(result, function (index, item) {
+                        // studentSize = result.length;
+                        var str = "<tr class=\"studentDetail\"><td id=\"" + item.studentIdx + "\"style=\"vertical-align: middle;\">" + item.studentName + "</td><td>" +
+                            "<div class=\"noselect\" style=\"width: 130px;\">\n" +
+                            "                    <select style=\"position: relative;left: 32px;\"class=\"js-select\" name=\"time\">\n" +
+                            "                    <option data-id=\"0\" value=\"\">Present</option>\n" +
+                            "                    <option data-id=\"1\" value=\"\">Ex. Tardy</option>\n" +
+                            "                    <option data-id=\"2\" value=\"\">Tardy </option>\n" +
+                            "                    <option data-id=\"3\" value=\"\">Family Leave</option>\n" +
+                            "                    <option data-id=\"4\" value=\"\">Ex. Absent</option>\n" +
+                            "                    <option data-id=\"5\" value=\"\">Absent</option>\n" +
+                            "                    <option data-id=\"6\" value=\"\">Early Leave</option>\n" +
+                            "                </select>\n" +
+                            "                <div class=\"dropDownSelect2\"></div>\n" +
+                            "                    </div></td></tr>";
 
-                    $("#studentList").append(str);
-                });
-                $(".table-top-countries tbody tr td:odd").css("color","#666");
+                        $("#studentList").append(str);
+                    });
+                    $(".table-top-countries tbody tr td:odd").css("color", "#666");
 
-            } , //성공했을때
-            error : function(request){
-                alert(request.responseText);
-            }// 실패했을때
-        });
+                }, //성공했을때
+                error: function (request) {
+                    alert(request.responseText);
+                }// 실패했을때
+            });
         };
 
-        //FullCalendar 설정
-        // for now, there is something adding a click handler to 'a'
-        var tues = moment().day(2).hour(19);
 
-        // build trival night events for example data
-        var events = [
-            {
-                title: "Special Conference",
-                start: moment().format('YYYY-MM-DD'),
-                url: '#'
-            },
-            {
-                title: "Doctor Appt",
-                start: moment().hour(9).add(2, 'days').toISOString(),
-                url: '#'
-            }
+        //모든 날짜 요약
+        // 이벤트 추가
+        function date_to_str(format)
 
-        ];
+        {
 
-        var trivia_nights = []
+            var year = format.getFullYear();
 
-        for(var i = 1; i <= 4; i++) {
-            var n = tues.clone().add(i, 'weeks');
-            console.log("isoString: " + n.toISOString());
-            trivia_nights.push({
-                title: 'Trival Night @ Pub XYZ',
-                start: n.toISOString(),
-                allDay: false,
-                url: '#'
-            });
+            var month = format.getMonth() + 1;
+
+            if(month<10) month = '0' + month;
+
+            var date = format.getDate();
+
+            if(date<10) date = '0' + date;
+
+
+            return year + "-" + month + "-" + date ;
+
         }
 
-        // var studentSize;
-        // var curDate ;
+
+
+
+
+
+        function AtSummary(){
+
+
+            var strDate = jQuery("#calendar").fullCalendar('getDate');
+            console.log("현재 날짜는 " + strDate.format());
+
+            $.ajax({
+                url: "/findTotalAtSummary", //서버요청주소
+                type: "post",//요청방식 (get,post,patch,delete,put)
+                data: "strDate="+strDate.format(),
+                dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+                success: function (result) {
+                    var trivia_nights = []
+
+                    var dateCnt = result.useDateCnt;
+                    var list = result.list;
+                    console.log("이달에 입력된 츨석의 개수는 " + dateCnt.length+"개입니다.");
+
+                        $.each(dateCnt,function(index,item){
+
+
+                            var title = "";
+                            var present=0;
+                            var tardy=0;
+                            var absent=0;
+                            var leave=0;
+
+                            var date = date_to_str(new Date(item));
+
+                            $.each(list,function(index2,item2) {
+                                var date2 = date_to_str(new Date(item2.atDate));
+
+                                if (date == date2){
+                                    console.log(date + " == " + date2 );
+
+                                        //present
+                                    if(item2.atState==0){
+                                        present += item2.count;
+
+                                        //ex.tardy
+                                    } else if(item2.atState==1){
+                                        tardy += item2.count;
+
+                                        //tardy
+                                    }else if(item2.atState==2){
+                                        tardy += item2.count;
+
+                                        //family leave
+                                    }else if(item2.atState==3){
+                                        leave += item2.count;
+
+                                        //ex.absent
+                                    }else if(item2.atState==4){
+                                        absent += item2.count;
+
+                                        //absent
+                                    }else if(item2.atState==5){
+                                        absent += item2.count;
+
+                                        //early leave
+                                    }else if(item2.atState==6){
+                                        leave += item2.count;
+
+                                    }
+                                }
+
+                            });
+
+                            title = present + " | " + tardy + " | " + absent + " | " + leave;
+                            console.log("title은 : " + title);
+
+                            var event={title: title, start:  moment().format(date)};
+                            $('#calendar').fullCalendar( 'renderEvent', event, true);
+
+
+                        });
+
+
+
+                    // events: events.concat(trivia_nights),
+
+                }, //성공했을때
+                error: function (request) {
+                    alert(request.responseText);
+                }
+            });// 실패했을때
+        }
+
+        // for now, there is something adding a click handler to 'a'
+        //  var tues = moment().day(2).hour(19);
+        // build trival night events for example data
+       var events = [
+        /*   {
+           title: "Special Conference", start: moment().format('2020-08-01'),
+        },
+        {
+            title: "Doctor Appt",
+            start: moment().format('2020-08-03'),
+        }*/
+        ];
+
 
 
         // setup a few events
@@ -203,26 +316,25 @@
             header: {
                 left: 'prev,next today',
                 center: 'title',
-                right:'month,list'
+                right: 'month,list'
             },
-            editable : true,
+            editable: true,
+            eventLimit : true,
             // googleCalendarApiKey : "c4fc2c7cf094c0f00e0afa812ec4705aecfea0cc",
-            // eventLimit : true,
-            events: events.concat(trivia_nights),
-        /*    eventSources : [
-                // 대한민국의 공휴일
-                {
-                    googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com"
-                    , className : "koHolidays"
-                    , color : "#FF0000"
-                    , textColor : "#FFFFFF"
-                }],*/
+            /*    eventSources : [
+                    // 대한민국의 공휴일
+                    {
+                        googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com"
+                        , className : "koHolidays"
+                        , color : "#FF0000"
+                        , textColor : "#FFFFFF"
+                    }],*/
 
 
-            dayClick: function(date, jsEvent, view) {
-                $(".fc-day.fc-widget-content").not('.fc-day.fc-widget-content.fc-today').css('background','#fff');
-                $(".fc-day.fc-widget-content.fc-today").css('background','#fcf8e3');
-                $(".fc-day.fc-widget-content[data-date=\""+date.format()+"\"]").css('background','#d6d6d6');
+            dayClick: function (date, jsEvent, view) {
+                $(".fc-day.fc-widget-content").not('.fc-day.fc-widget-content.fc-today').css('background', '#fff');
+                $(".fc-day.fc-widget-content.fc-today").css('background', '#fcf8e3');
+                $(".fc-day.fc-widget-content[data-date=\"" + date.format() + "\"]").css('background', '#d6d6d6');
 
                 // jsEvent.
 
@@ -230,7 +342,7 @@
                 //선택된 날짜 알림
                 // alert(date.format());
 
-                var strDate=date.format();
+                var strDate = date.format();
 
                 //전역변수에 현재날짜 저장
                 //전역변수 사용. 왜 안되지???
@@ -240,56 +352,54 @@
                 $("#curDate").text(strDate);
 
 
-
                 //해당날짜 출결여부 조회 Ajax
                 $.ajax({
-                    url : "/findAtByDate", //서버요청주소
-                    type : "post",//요청방식 (get,post,patch,delete,put)
-                    data : "strDate="+date.format(),
-                    dataType : "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
-                    success : function(result) {
+                    url: "/findAtByDate", //서버요청주소
+                    type: "post",//요청방식 (get,post,patch,delete,put)
+                    data: "strDate=" + date.format(),
+                    dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+                    success: function (result) {
                         console.log(result);
 
                         //데이터가 없으면
-                        if (result == "") {
+                        if (result == "" || result == null) {
                             //우측 항목 날짜 표시
                             $(".au-card.au-card--bg-blue.au-card-top-countries.m-b-30:first h3").remove();
-                            var str = "<h3 style=\"color:#ffffff;\">"+strDate+"</h3>"
+                            var str = "<h3 style=\"color:#ffffff;\">" + strDate + "</h3>"
                             $(".au-card.au-card--bg-blue.au-card-top-countries.m-b-30:first").prepend(str);
-
-                            $("#studentList").empty();
 
                             //출석 학생 목록 출력
                             printAtAjax()
 
                         } else {    //데이터가 존재하면
+
                             //선택된 날짜 출력
                             $(".au-card.au-card--bg-blue.au-card-top-countries.m-b-30:first h3").remove();
-                            var str = "<h3 style=\"color:#ffffff;\">"+strDate+"</h3>"
+                            var str = "<h3 style=\"color:#ffffff;\">" + strDate + "</h3>"
                             $(".au-card.au-card--bg-blue.au-card-top-countries.m-b-30:first").prepend(str);
 
                             //가져온 목록 출력하기
                             $.each(result, function (index, item) {
                                 //일치 학생 검색
 
-                                var select = $(".studentDetail #"+item.student.studentIdx+"").parent().children().last().children().children().first();
-                                    // var select = $(".studentDetail td div:contains(\"" + item.student.studentIdx + "\"").parent().parent().children().last().children().children();
+                                var select = $(".studentDetail #" + item.student.studentIdx + "").parent().children().last().children().children().first();
+                                // var select = $(".studentDetail td div:contains(\"" + item.student.studentIdx + "\"").parent().parent().children().last().children().children();
 
-                                    select.children("option:selected").attr('selected', false);
+                                select.children("option[data-id=\"none\"]").remove();
 
-                                    select.children("option[data-id=\"" + item.atState + "\"]").attr('selected', true);
+                                select.children("option:selected").attr('selected', false);
 
-                                    select.children("option[data-id=\"none\"]").remove();
+                                select.children("option[data-id=\"" + item.atState + "\"]").attr('selected', true);
 
-                                    select.parent().attr('id',item.atIdx);
+                                select.parent().attr('id', item.atIdx);
 
                             });
 
                             //가져온 값 외에 새로 추가된 학생들에 대한 처리
 
-                            if(result.length < $(".studentDetail").length){
-                                for(i = result.length ; i < $(".studentDetail").length; i++){
-                                    var select = $(".studentDetail:eq("+i+")").children().last().children().children().first();
+                            if (result.length < $(".studentDetail").length) {
+                                for (i = result.length; i < $(".studentDetail").length; i++) {
+                                    var select = $(".studentDetail:eq(" + i + ")").children().last().children().children().first();
                                     select.children("option:selected").attr('selected', false);
 
 
@@ -297,25 +407,25 @@
                                     select.children("option[data-id=\"none\"]").remove();
                                     select.prepend("<option data-id=\"none\" value=\"\">Please Choose</option>");
 
-
                                     select.children('option:eq(0)').attr('selected', true);
                                     // alert(select.children("option:selected").text());
+
+                                    select.parent().removeAttr('id');
 
                                 }
                             }
                         }
 
 
-
                     }, //성공했을때
-                    error : function(request) {
+                    error: function (request) {
                         alert(request.responseText);
                     }
                 });// 실패했을때
 
             },
-            eventClick:function(event) {
-                if(event.url) {
+            eventClick: function (event) {
+                if (event.url) {
                     // alert(event.title + "\n" + event.url, "wicked", "width=700,height=600");
                     // window.open(event.url);
                     return false;
@@ -323,10 +433,11 @@
             }
 
         });
-    });
+        AtSummary();
 
-        //데이터 저장
-        $("#addAt").on('click',function(){
+
+    //데이터 저장
+    $("#addAt").on('click', function () {
 
         //날짜
         // 학생idx,
@@ -335,22 +446,20 @@
 
 
         var curDate = $("#curDate").text();
-        alert(curDate);
-
         var length = $(".studentDetail").length
         var dataArray = new Array();
 
-        for(var i=0;i<length;i++){
-            var stIdx = $(".studentDetail:eq(\""+i+"\")").children().first().attr('id');
+        for (var i = 0; i < length; i++) {
+            var stIdx = $(".studentDetail:eq(\"" + i + "\")").children().first().attr('id');
 
-            var state = $(".studentDetail:eq(\""+i+"\") option:selected").attr('data-id');
+            var state = $(".studentDetail:eq(\"" + i + "\") option:selected").attr('data-id');
             // var state = $(".studentDetail:eq(\""+i+"\")").find(".select2-selection__rendered").text();
 
-            var atIdx = $(".studentDetail:eq(\""+i+"\")").children().last().children().attr('id');
+            var atIdx = $(".studentDetail:eq(\"" + i + "\")").children().last().children().attr('id');
 
-            console.log("stIdx : " + stIdx + " | atIdx : "+atIdx+" | state : " + state);
+            console.log("stIdx : " + stIdx + " | atIdx : " + atIdx + " | state : " + state);
 
-            if(state=="none"){
+            if (state == "none") {
                 alert("항목을 선택하세요");
                 return false;
             }
@@ -359,54 +468,55 @@
             data.stIdx = stIdx;
             data.state = state;
             //if(atIdx!=null) {
-                data.atIdx = atIdx;
+            data.atIdx = atIdx;
             //}
             dataArray.push(data);
         }
 
-        if(curDate==""){
+        if (curDate == "") {
             alert("날짜를 선택하세요");
             return false;
         }
 
 
         $.ajax({
-            url : "/updateAt", //서버요청주소
-            type : "post",//요청방식 (get,post,patch,delete,put)
-            data : "dataArray="+JSON.stringify(dataArray)+"&curDate="+curDate,
-            dataType : "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
-            success : function(result) {
-
+            url: "/updateAt", //서버요청주소
+            type: "post",//요청방식 (get,post,patch,delete,put)
+            data: "dataArray=" + JSON.stringify(dataArray) + "&curDate=" + curDate,
+            dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
+            async : false,
+            success: function (result) {
+                alert("성공적으로 저장되었습니다.");
+                location.reload();
 
             }, //성공했을때
-            error : function(request) {
+            error: function (request) {
                 alert(request.responseText);
             }
         });// 실패했을때
 
 
+    });
 
-    })
 
+    //list클릭
+    $(document).on('click', '.fc-right .fc-button-group button:last', function () {
+        $('.fc-view-container').empty();
+        $('.fc-center h2').text('전체 학생 출석 현황');
+        $('.col').css('width', '100%');
+        $('.col-lg-3').css('display', 'none');
+        StudentAjax();
 
-        //list클릭
-        $(document).on('click','.fc-right .fc-button-group button:last',function(){
-            $('.fc-view-container').empty();
-            $('.fc-center h2').text('전체 학생 출석 현황');
-            $('.col').css('width','100%');
-            $('.col-lg-3').css('display','none');
-            StudentAjax();
+    });
 
-        });
+    //month클릭
+    $(document).on('click', '.fc-right .fc-button-group button:first', function () {
+        $('.col-md-12.At').empty();
+        $('.col').css('width', '70%');
+        $('.col-lg-3').css('display', 'block');
+    });
 
-        //month클릭
-        $(document).on('click','.fc-right .fc-button-group button:first',function() {
-            $('.col-md-12.At').empty();
-            $('.col').css('width','70%');
-            $('.col-lg-3').css('display','block');
-      });
-
-        //전체 출석 결과 Ajax
+    //전체 출석 결과 Ajax
     function StudentAjax() {
 
         $.ajax({
@@ -414,7 +524,7 @@
             type: "post",//요청방식 (get,post,patch,delete,put)
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
-                    console.log(result);
+                console.log(result);
 
 
                 var str = "<div class=\"col-md-12 At\">\n" +
@@ -439,18 +549,27 @@
                     "                                        </thead>\n" +
                     "                                        <tbody>";
 
-                $.each(result,function(index,item){
 
-                    var str2=    "                                        <tr class=\"tr-shadow\">\n" +
-                        "                                            <td>"+item.studentName+"<div hidden>"+item.studentIdx+"</div></td>\n" +
-                        "                                            <td>"+item.presentCnt+"</td>\n" +
-                        "                                            <td>"+item.exTardyCnt+"</td>\n" +
-                        "                                            <td>"+item.tardyCnt+"</td>\n" +
-                        "                                            <td>"+item.familyLeaveCnt+"</td>\n" +
-                        "                                            <td>"+item.exAbsentCnt+"</td>\n" +
-                        "                                            <td>"+item.absentCnt+"</td>\n" +
-                        "                                            <td>"+item.earlyLeaveCnt+"</td>\n" +
-                        "                                            <td>"+item.perfectAt+"</td>\n" +
+                $.each(result, function (index, item) {
+
+                    var perfectAt = item.perfectAt;
+                    var str3;
+                    if (perfectAt == "True") {
+                        str3 = "<td style=\"color:#00ad5f;\">True</td>"
+                    } else if (perfectAt == "False") {
+                        str3 = "<td style=\"color:#fa4251;\">False</td>"
+                    }
+
+
+                    var str2 = "                                        <tr class=\"tr-shadow\">\n" +
+                        "                                            <td>" + item.studentName + "<div hidden>" + item.studentIdx + "</div></td>\n" +
+                        "                                            <td>" + item.presentCnt + "</td>\n" +
+                        "                                            <td>" + item.exTardyCnt + "</td>\n" +
+                        "                                            <td>" + item.tardyCnt + "</td>\n" +
+                        "                                            <td>" + item.familyLeaveCnt + "</td>\n" +
+                        "                                            <td>" + item.exAbsentCnt + "</td>\n" +
+                        "                                            <td>" + item.absentCnt + "</td>\n" +
+                        "                                            <td>" + item.earlyLeaveCnt + "</td>\n" + str3 +
                         "                                        </tr>\n" +
                         "                                        <tr class=\"spacer\"></tr>";
                     str = str + str2;
@@ -470,6 +589,38 @@
                 alert(request.responseText);
             }
         });// 실패했을때
+
     }
 
+
+    //delete 클릭시
+    $(document).on('click', '#delAt', function () {
+
+        if (confirm("정말로 삭제 하시겠습니까?")) {
+
+            var curDate = $(".col-lg-3 h3").text();
+            if (curDate == "") {
+                alert("날짜를 선택해 주세요");
+                return false;
+            }
+
+            $.ajax({
+                url: "/deleteAt", //서버요청주소
+                type: "post",//요청방식 (get,post,patch,delete,put)
+                data: "curDate=" + curDate,
+                dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
+                success: function (result) {
+                    alert(result + "의 데이터가 정상적으로 삭제 되었습니다.");
+                    printAtAjax();
+
+                }, //성공했을때
+                error: function (request) {
+                    alert(request.responseText);
+                }
+            });// 실패했을때
+
+        }
+    });
+
+    });
 </script>

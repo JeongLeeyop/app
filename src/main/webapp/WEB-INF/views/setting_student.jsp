@@ -13,14 +13,14 @@ moving the class to menus lead to only the menu having the effect -->
                     <div class="col-md-12">
                         <!-- DATA TABLE -->
                         <div class="table-data__tool">
-                            <h3 class="title-5 m-b-35" style="margin-bottom: 0px;">data table</h3>
+                            <h3 class="title-5 m-b-35" style="margin-bottom: 0px;">Student Setting</h3>
                             <div class="table-data__tool-left">
                                 <div class="rs-select2--light rs-select2--md">
                                     <div class="dropDownSelect2"></div>
                                 </div>
                             </div>
                             <div class="table-data__tool-right">
-
+                                <button type="button" class="btn btn-secondary" style="float: right;" onclick="location.href='setting'">Go back</button>
                                 <button type="button" class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal"  data-target="#mediumModal" >
                                     <i class="zmdi zmdi-plus"></i>add Student
                                 </button>
@@ -32,13 +32,14 @@ moving the class to menus lead to only the menu having the effect -->
                                 <thead>
                                 <tr>
                                     <th>
-                                        <label class="au-checkbox">
+                                       <%-- <label class="au-checkbox">
                                             <input type="checkbox">
                                             <span class="au-checkmark"></span>
-                                        </label>
+                                            <span class="au-checkmark"></span>
+                                        </label>--%>
                                     </th>
                                     <th>name</th>
-                                    <th>email</th>
+                                    <th>Grade</th>
                                     <th>Gender</th>
                                     <th></th>
                                 </tr>
@@ -77,6 +78,20 @@ moving the class to menus lead to only the menu having the effect -->
                     </div>
                     <div class="col-12 col-md-9">
                         <input type="text" id="text-input" name="text-input" placeholder="Text" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3">
+                        <label class=" form-control-label">Grade</label>
+                    </div>
+                    <div class="col-12 col-md-9">
+                        <select class="form-control" name="time">
+                            <option data-id="1" value="">1</option>
+                            <option data-id="2" value="">2</option>
+                            <option data-id="3" value="">3</option>
+                            <option data-id="4" value="">4</option>
+                            <option data-id="5" value="">5</option>
+                        </select>
                     </div>
                 </div>
                 <div class="row form-group">

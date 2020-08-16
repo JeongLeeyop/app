@@ -128,9 +128,7 @@
         @RequestMapping("findStudent")
         @ResponseBody
         public List<Student> findStudent(HttpSession session)  {
-            System.out.println("컨트롤러 findStudent() 진입");
             List<Student> result = studentService.findStudentList(session);
-            System.out.println("컨트롤러 findStudent() 끝");
             return result;
         }
 
@@ -143,7 +141,7 @@
             return null;
 
         }
-        //5. 새 학생을 삭제하는 기능
+        //5. 학생을 삭제하는 기능
         @ResponseBody
         @RequestMapping("delStudent")
         public void delStudent(Long studentIdx) throws Exception{

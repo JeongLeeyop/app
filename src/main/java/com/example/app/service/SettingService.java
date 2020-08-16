@@ -41,6 +41,8 @@ public class SettingService {
     TaskItemRepository taskItemRepo;
     @Autowired
     SectionRepository sectionRepo;
+    @Autowired
+    AttendanceRepository attendanceRepo;
 
 
     @Transactional
@@ -172,6 +174,7 @@ public class SettingService {
         } else {
             student.setStudentGender(GenderCode.Female.getValue());
         }
+        student.setStudentGrade(Integer.parseInt(studentReq.getStudentGrade()));
         student.setStudentName(studentReq.getStudentName());
         student.setStudentMemo(null);
         System.out.println(student);
@@ -180,7 +183,17 @@ public class SettingService {
     }
 
     //6. 기존 학생을 삭제하는 기능
-    public void delStudent(Long studentIdx) {
+
+    @Transactional
+    @Modifying
+    public void delStudent(Long studentIdx) throws Exception{
+
+        Student student = studentRepo.findById(studentIdx).get();
+
+        attendanceRepo.deleteByStudent(student);
+
+        taskItemRepo.deleteByStudent(student);
+
         settingRepo.deleteById(studentIdx);
         //에러제어가 없다
     }

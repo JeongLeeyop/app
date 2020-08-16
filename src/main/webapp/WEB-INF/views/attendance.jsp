@@ -3,6 +3,7 @@
       it leads to odd behaviors like loading 'undefined'
       moving the class to menus lead to only the menu having the effect -->
             <!-- MAIN CONTENT-->
+
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
@@ -22,11 +23,11 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="au-card-inner" style="bottom: 15px;position: absolute;max-width: 100%;">
+                                    <div class="au-card-inner" style="bottom: 2%;position: absolute;max-width: 100%;left: 10%;">
                                             <div class="table-responsive">
                                         <button type="button" id="addAt" class="btn btn-success btn-sm" style="margin-right: 5px;">Save<div hidden id="curDate"></div></button>
                                         <button type="button" id="delAt" class="btn btn-danger btn-sm" style="margin-right: 5px;">Delete</button>
-                                        <button type="button" class="btn btn-secondary btn-sm" >Cancel</button>
+
                                     </div>
                                         </div>
                                 </div>
@@ -43,5 +44,8 @@
                 </div>
             </div>
 <script src="vendor/jquery-3.2.1.min.js"></script>
-<%--<script type="text/javascript" src="js/Page/attendance.js"></script>--%>
-
+<script type="text/javascript" src="js/Page/attendance.js"></script>
+<script scr="vendor/fullcalendar-3.10.0/gcal.js"></script>
+<script src="vendor/fullcalendar-3.10.0/lib/moment.min.js"></script>
+<script src="vendor/fullcalendar-3.10.0/fullcalendar.js"></script>
+<script src="js/main.js"></script>

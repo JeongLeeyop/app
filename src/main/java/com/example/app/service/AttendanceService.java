@@ -6,20 +6,22 @@ import com.example.app.model.domain.Student;
 import com.example.app.model.domain.section.Section;
 import com.example.app.model.domain.section.TaskItem;
 import com.example.app.model.dto.response.atCountResponse;
+import com.example.app.model.dto.response.repository.AtSummaryResponse;
+import com.example.app.repository.AccountRepository;
 import com.example.app.repository.AttendanceRepository;
 import com.example.app.repository.StudentRepository;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AttendanceService {
@@ -30,17 +32,40 @@ public class AttendanceService {
     StudentRepository studentRepo;
 
     //1.캘린더를 통해 일별로 하루의 총 출석, 지각, 결석, 조퇴 횟수를 간략하게 표시해주는 기능
-    public List<Attendance> findAtByDate(String strDate) throws Exception {
+    public Map<String,Object> findTotalAtSummary(String strDate,HttpSession session) throws Exception {
+
+        String searchDate = strDate.substring(0,7);
+
+        String startDate = searchDate + "-01";
+        Timestamp startTimeStamp = Timestamp.valueOf(startDate + " 00:00:00");
+        String endDate = searchDate + "-31";
+        Timestamp endTimeStamp = Timestamp.valueOf(endDate + " 00:00:00");
+
+        System.out.println(startDate);
+        System.out.println(endDate);
+
+        List<AtSummaryResponse> list = attendanceRepo.findAtCount(startTimeStamp,endTimeStamp,(Account)session.getAttribute("Account"));
+        List<Timestamp> dateCnt = attendanceRepo.useDateCnt(startTimeStamp,endTimeStamp,(Account)session.getAttribute("Account"));
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        map.put("list",list);
+        map.put("useDateCnt",dateCnt);
+        return map;
+    }
+
+    //1.캘린더를 통해 일별로 하루의 총 출석, 지각, 결석, 조퇴 횟수를 간략하게 표시해주는 기능
+    public List<Attendance> findAtByDate(String strDate,HttpSession session) throws Exception {
 
         Timestamp curDate = Timestamp.valueOf(strDate + " 00:00:00");
         List<Attendance> curDateList = new ArrayList<>();
 
-        try {
-            curDateList = attendanceRepo.findAllByAtDate(curDate);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        Account account = (Account)session.getAttribute("Account");
+        List<Student> stList = studentRepo.findStudentByAccount(account);
 
+        for(Student student : stList){
+            Attendance at = attendanceRepo.findAllByAtDateAndStudent(curDate,student);
+            if(at!=null) curDateList.add(at);
+        }
         return curDateList;
     }
 
@@ -88,7 +113,9 @@ public class AttendanceService {
     }
 
     //4.선택 날짜의 학생별 출석여부를 입력,수정하는 기능
-    public int updateAt(String dataArray, String strDate) {
+    @Transactional
+    @Modifying
+    public void updateAt(String dataArray, String strDate) throws Exception {
         System.out.println(dataArray);
         JsonParser parser = new JsonParser();
         JsonArray jsonArray = (JsonArray) parser.parse(dataArray);
@@ -115,12 +142,21 @@ public class AttendanceService {
             System.out.println("========" + attendance);
             attendanceRepo.save(attendance);
         }
-
-        return 0;
     }
 
     //5.선택 날짜의 학생별 출석여부를 삭제하는 기능
-    public int deleteDetailAt(int a) {
-        return 0;
+    @Transactional
+    @Modifying
+    public void deleteAt(String strDate, HttpSession session) {
+
+        Account account = (Account)session.getAttribute("Account");
+
+        List<Student> stList = studentRepo.findStudentByAccount(account);
+
+        Timestamp curDate = Timestamp.valueOf(strDate + " 00:00:00");
+
+        for(Student student : stList){
+            attendanceRepo.deleteAllByAtDateAndStudent(curDate,student);
+        }
     }
 }

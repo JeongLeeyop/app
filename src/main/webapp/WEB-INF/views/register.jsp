@@ -34,6 +34,8 @@
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
 
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+
     <!--register -->
     <script>
 
@@ -51,13 +53,42 @@
                 $("#email").focus();
                 return false;
             }
+            if($("#span").text()=="이미 사용중인 이메일 입니다."){
+                alert("이메일을 변경하세요.");
+                $("#email").focus();
+                return false;
+            }
             if($("#password").val()==""){
                 alert("비밀번호를 입력하세요.");
                 $("#password").focus();
                 return false;
             }
+
         }
 
+        $(function() {
+
+            //이메일 중복 체크
+            $("#email").keyup(function () {
+                if ($(this).val() == "") {
+                    $("#span").text("   ");
+                    return;
+                }
+                $.ajax({
+                    type: "post",
+                    url: "emailCheck",
+                    dataType: "text",//서버에게 받은 응답결과 type(text, xml, html, json)
+                    data: {memberEmail: $(this).val()},//서버에게 전송할 parameter
+                    success: function (result) {
+                        $("#span").html(result);
+                    },
+                    error : function(err) {
+                        console.log(err + "=> 오류발생");
+                    }
+                });//ajax끝
+            });//keyup끝
+
+        });
 
     </script>
 
@@ -71,7 +102,7 @@
                 <div class="login-content">
                     <div class="login-logo">
                         <a href="#">
-                            <img src="images/icon/logo.png" alt="CoolAdmin">
+                            <img style="max-width: 50%;margin-bottom: 30px;" src="images/icon/logo.png" alt="CoolAdmin">
                         </a>
                     </div>
                     <div class="login-form">
@@ -83,22 +114,23 @@
                             <div class="form-group">
                                 <label>Email Address</label>
                                 <input class="au-input au-input--full" type="email" name="email" id="email" placeholder="Email">
+                                <span id="span">이메일 중복 체크</span>
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
                                 <input class="au-input au-input--full" type="password" name="password" id="password" placeholder="Password">
                             </div>
-                            <div class="login-checkbox">
+                            <%--<div class="login-checkbox">
                                 <label>
                                     <input type="checkbox" name="agree">Agree the terms and policy
                                 </label>
-                            </div>
+                            </div>--%>
                             <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
                         </form>
                         <div class="register-link">
                             <p>
                                 Already have account?
-                                <a href="#">Sign In</a>
+                                <a href="login">Sign In</a>
                             </p>
                         </div>
                     </div>
