@@ -85,6 +85,7 @@
                     type: "post",
                     url: "emailCheck",
                     dataType: "text",//서버에게 받은 응답결과 type(text, xml, html, json)
+                    async : false,
                     data: {memberEmail: $(this).val()},//서버에게 전송할 parameter
                     success: function (result) {
                         $("#span").html(result);
@@ -129,7 +130,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Password Check</label>
-                                <input class="au-input au-input--full" type="password" name="password" id="password2" placeholder="Password">
+                                <input class="au-input au-input--full" type="password" name="password2" id="password2" placeholder="Password">
                             </div>
                             <%--<div class="login-checkbox">
                                 <label>

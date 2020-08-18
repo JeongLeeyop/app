@@ -26,7 +26,7 @@ public class AccountService {
         //1.패스워드 체크
 //        String pwHash = pwUtil.Encryption(password);
 //        System.out.println( pwHash+ " == " + result.getUserPw());
-
+        System.out.println(pwUtil.Encryption(password).toUpperCase()+" : "+result.getUserPw().toUpperCase());
         if (pwUtil.Encryption(password).toUpperCase().equals(result.getUserPw().toUpperCase())) {
             return result;
         }
@@ -62,6 +62,7 @@ public class AccountService {
         account.setUserEmail(accountReq.getEmail());
 //        account.setUserIdx();
         account.setUserName(accountReq.getUsername());
+        System.out.println();
         account.setUserPw(accountReq.getPassword());
         Account result = accountRepo.save(account);
         System.out.println("SignUp 결과값 : " + result);
