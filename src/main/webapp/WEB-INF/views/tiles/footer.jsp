@@ -25,6 +25,12 @@
 <script scr="vendor/fullcalendar-3.10.0/gcal.js"></script>
 <script src="vendor/fullcalendar-3.10.0/lib/moment.min.js"></script>
 <script src="vendor/fullcalendar-3.10.0/fullcalendar.js"></script>
+<!-- blockUI -->
+<!-- include jQuery -->
+<%--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>--%>
+<!-- include BlockUI -->
+<script src="vendor/blockui-master/jquery.blockUI.js"></script>
+
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -35,7 +41,7 @@
 
 
 <script type="text/javascript">
-
+    $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 /*    $(document).ready(function () {});
     $(window).on('load', function () {});*/
 
