@@ -23,7 +23,7 @@ $(function () {
                 $.each(result, function (index, item) {
                     // studentSize = result.length;
                     var str = "<tr class=\"studentDetail\"><td id=\"" + item.studentIdx + "\"style=\"vertical-align: middle;\">" + item.studentName + "</td><td>" +
-                        "<div class=\"noselect\" style=\"width: 130px;\">\n" +
+                        "<div data-id=\"none\" class=\"noselect\" style=\"width: 130px;\">\n" +
                         "                    <select style=\"position: relative;left: 32px;\"class=\"js-select\" name=\"time\">\n" +
                         "                    <option data-id=\"0\" value=\"\">Present</option>\n" +
                         "                    <option data-id=\"1\" value=\"\">Ex. Tardy</option>\n" +
@@ -50,21 +50,14 @@ $(function () {
 
 //모든 날짜 요약
 // 이벤트 추가
+
     function date_to_str(format) {
-
         var year = format.getFullYear();
-
         var month = format.getMonth() + 1;
-
         if (month < 10) month = '0' + month;
-
         var date = format.getDate();
-
         if (date < 10) date = '0' + date;
-
-
         return year + "-" + month + "-" + date;
-
     }
 
 
@@ -158,16 +151,7 @@ $(function () {
 // for now, there is something adding a click handler to 'a'
 //  var tues = moment().day(2).hour(19);
 // build trival night events for example data
-    var events = [
-        /*   {
-           title: "Special Conference", start: moment().format('2020-08-01'),
-        },
-        {
-            title: "Doctor Appt",
-            start: moment().format('2020-08-03'),
-        }*/
-    ];
-
+    var events = [];
 
 // setup a few events
     $('#calendar').fullCalendar({
@@ -189,16 +173,11 @@ $(function () {
                 }],*/
 
 
+        //날짜 클릭시
         dayClick: function (date, jsEvent, view) {
             $(".fc-day.fc-widget-content").not('.fc-day.fc-widget-content.fc-today').css('background', '#fff');
             $(".fc-day.fc-widget-content.fc-today").css('background', '#fcf8e3');
             $(".fc-day.fc-widget-content[data-date=\"" + date.format() + "\"]").css('background', '#d6d6d6');
-
-            // jsEvent.
-
-
-            //선택된 날짜 알림
-            // alert(date.format());
 
             var strDate = date.format();
 
@@ -209,7 +188,6 @@ $(function () {
             //대안법으로 데이터값을 엘리먼트에 저장..
             $("#curDate").text(strDate);
 
-
             //해당날짜 출결여부 조회 Ajax
             $.ajax({
                 url: "/findAtByDate", //서버요청주소
@@ -219,22 +197,20 @@ $(function () {
                 success: function (result) {
                     console.log(result);
 
+
+                    //우측 항목 날짜 표시
+                    $(".au-card.au-card--bg-blue.au-card-top-countries.m-b-30:first h3").remove();
+                    var str = "<h3 style=\"color:#ffffff;\">" + strDate + "</h3>"
+                    $(".au-card.au-card--bg-blue.au-card-top-countries.m-b-30:first").prepend(str);
+
                     //데이터가 없으면
                     if (result == "" || result == null) {
-                        //우측 항목 날짜 표시
-                        $(".au-card.au-card--bg-blue.au-card-top-countries.m-b-30:first h3").remove();
-                        var str = "<h3 style=\"color:#ffffff;\">" + strDate + "</h3>"
-                        $(".au-card.au-card--bg-blue.au-card-top-countries.m-b-30:first").prepend(str);
 
                         //출석 학생 목록 출력
                         printAtAjax()
 
                     } else {    //데이터가 존재하면
-
-                        //선택된 날짜 출력
-                        $(".au-card.au-card--bg-blue.au-card-top-countries.m-b-30:first h3").remove();
-                        var str = "<h3 style=\"color:#ffffff;\">" + strDate + "</h3>"
-                        $(".au-card.au-card--bg-blue.au-card-top-countries.m-b-30:first").prepend(str);
+                        $(".studentDetail .noselect").attr("data-id","none");
 
                         //가져온 목록 출력하기
                         $.each(result, function (index, item) {
@@ -249,28 +225,40 @@ $(function () {
 
                             select.children("option[data-id=\"" + item.atState + "\"]").attr('selected', true);
 
-                            select.parent().attr('id', item.atIdx);
+                            select.parent().attr('data-id', item.atIdx);
 
                         });
 
                         //가져온 값 외에 새로 추가된 학생들에 대한 처리
 
                         if (result.length < $(".studentDetail").length) {
-                            for (i = result.length; i < $(".studentDetail").length; i++) {
-                                var select = $(".studentDetail:eq(" + i + ")").children().last().children().children().first();
-                                select.children("option:selected").attr('selected', false);
+                                var select = $(".noselect[data-id=none] select");
+                                alert(select.length);
+                                    select.each(function(index,item){
+                                        $(item).children("option:selected").attr('selected', false);
+
+                                    //pleaseChoose 작업
+                                    $(item).children("option[data-id=\"none\"]").remove();
+                                        $(item).prepend("<option data-id=\"none\" value=\"\">Please Choose</option>");
+                                        $(item).children('option:eq(0)').attr('selected', true);
+                                });
 
 
-                                //plaseChoose 작업
-                                select.children("option[data-id=\"none\"]").remove();
-                                select.prepend("<option data-id=\"none\" value=\"\">Please Choose</option>");
 
-                                select.children('option:eq(0)').attr('selected', true);
-                                // alert(select.children("option:selected").text());
+                             /*   for (i = result.length; i < $(".studentDetail").length; i++) {
+                                    var select = $(".studentDetail:eq(" + i + ")").children().last().children().children().first();
+                                    select.children("option:selected").attr('selected', false);
 
-                                select.parent().removeAttr('id');
+                                    //plaseChoose 작업
+                                    select.children("option[data-id=\"none\"]").remove();
+                                    select.prepend("<option data-id=\"none\" value=\"\">Please Choose</option>");
 
-                            }
+                                    select.children('option:eq(0)').attr('selected', true);
+                                    // alert(select.children("option:selected").text());
+
+                                    select.parent().removeAttr('id');
+
+                            }*/
                         }
                     }
 
@@ -313,7 +301,7 @@ $(function () {
             var state = $(".studentDetail:eq(\"" + i + "\") option:selected").attr('data-id');
             // var state = $(".studentDetail:eq(\""+i+"\")").find(".select2-selection__rendered").text();
 
-            var atIdx = $(".studentDetail:eq(\"" + i + "\")").children().last().children().attr('id');
+            var atIdx = $(".studentDetail:eq(\"" + i + "\")").children().last().children().attr('data-id');
 
             console.log("stIdx : " + stIdx + " | atIdx : " + atIdx + " | state : " + state);
 
@@ -325,9 +313,9 @@ $(function () {
             var data = new Object();
             data.stIdx = stIdx;
             data.state = state;
-            //if(atIdx!=null) {
-            data.atIdx = atIdx;
-            //}
+            if (atIdx != "none") {
+                data.atIdx = atIdx;
+            }
             dataArray.push(data);
         }
 

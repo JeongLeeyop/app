@@ -4,6 +4,7 @@ import com.example.app.model.domain.Account;
 import com.example.app.model.domain.Attendance;
 import com.example.app.model.domain.Class;
 import com.example.app.model.domain.Student;
+import com.example.app.model.dto.response.atCountResponse;
 import com.example.app.model.dto.response.studentChartResponse;
 import com.example.app.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,32 +53,49 @@ public class StudentService {
 
         //. 전체 클래스명 출력 : 열
         System.out.println("전체 클래스명 출력");
-        List <Class> _class = classService.findClassList(session);
+        List<Class> _class = classService.findClassList(session);
         System.out.println("=========> " + _class);
 
         //. 전체 학생명 출력 : 행
         System.out.println("전체 학생명 출력");
-        List <Student> studentList = this.findStudentList(session);
+        List<Student> studentList = this.findStudentList(session);
         System.out.println("=========> " + studentList);
 
         //. 전체 학생 출결일 출력
         System.out.println("전체 학생 출결일 출력");
-        List <String> attendanceList = new ArrayList<String>();
+        List<atCountResponse> atCntResList = attendanceService.findTotalAt(session);
+
+
         List<studentChartResponse> chartList = new ArrayList<studentChartResponse>();
+        for (int i = 0; i < studentList.size(); i++) {
 
-        for(int i=0; i < studentList.size(); i++) {
-
-            //클래스 수만큼 최종 성적을 담는다.
             studentChartResponse studentChartRes = new studentChartResponse();
-            List <String> studentGradeList = new ArrayList<String>();
+            //성적을 담을 list선언
+            List<String> studentGradeList = new ArrayList<String>();
 
-                studentChartRes.setStudentName(studentList.get(i).getStudentName());
-                studentChartRes.setStudentIdx(studentList.get(i).getStudentIdx());
-                studentChartRes.setStudentAttendance(null);
 
-            for(int j=0; j < _class.size(); j++) {
+
+            String str="null";
+            //학생당 출석일 도출하기;
+            for (atCountResponse item : atCntResList) {
+                if (studentList.get(i).getStudentIdx().equals(item.getStudentIdx())) {
+                    Long extardy = item.getExTardyCnt();
+                    Long tardy = item.getTardyCnt();
+                    Long absent = item.getAbsentCnt();
+                    Long exabsent = item.getExAbsentCnt();
+                    Long fleave = item.getFamilyLeaveCnt();
+                    Long eleave = item.getEarlyLeaveCnt();
+                    String perfect = item.getPerfectAt();
+                    Long present = item.getPresentCnt();
+                    str = present + " | " + (extardy + tardy) + " | " + (absent + exabsent) + " | " + (fleave + eleave) + " | " + perfect.substring(0, 1);
+                }
+            }
+            for (int j = 0; j < _class.size(); j++) {
                 studentGradeList.add("null");
             }
+            studentChartRes.setStudentName(studentList.get(i).getStudentName());
+            studentChartRes.setStudentIdx(studentList.get(i).getStudentIdx());
+            studentChartRes.setStudentAttendance(str);
             studentChartRes.setStudentGrade(studentGradeList);
             chartList.add(studentChartRes);
         }
