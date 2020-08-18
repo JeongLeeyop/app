@@ -85,7 +85,6 @@
                     type: "post",
                     url: "emailCheck",
                     dataType: "text",//서버에게 받은 응답결과 type(text, xml, html, json)
-                    async : false,
                     data: {memberEmail: $(this).val()},//서버에게 전송할 parameter
                     success: function (result) {
                         $("#span").html(result);
