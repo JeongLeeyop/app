@@ -129,7 +129,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Password Check</label>
-                                <input class="au-input au-input--full" type="password" name="password" id="password2" placeholder="Password">
+                                <input class="au-input au-input--full" type="password" name="password2" id="password2" placeholder="Password">
                             </div>
                             <%--<div class="login-checkbox">
                                 <label>

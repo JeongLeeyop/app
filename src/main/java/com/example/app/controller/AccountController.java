@@ -5,7 +5,6 @@ import com.example.app.model.dto.request.accountRequest;
 import com.example.app.repository.AccountRepository;
 import com.example.app.service.AccountService;
 import com.example.app.util.PwUtil;
-import com.sun.deploy.net.HttpResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
