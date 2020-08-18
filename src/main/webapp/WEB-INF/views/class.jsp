@@ -124,7 +124,7 @@
                                 <!--  END TOP CAMPAIGN-->
                             </div>
                         </div>
-                        <div class="row">
+                        <%--<div class="row">
                             <div class="col-md-12">
                                 <!-- DATA TABLE -->
                                 <h3 class="title-5 m-b-25">data table
@@ -193,7 +193,7 @@
                                 </div>
                                 <!-- END DATA TABLE -->
                             </div>
-                        </div>
+                        </div>--%>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="copyright">

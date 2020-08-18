@@ -45,7 +45,3 @@
             </div>
 <script src="vendor/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/Page/attendance.js"></script>
-<script scr="vendor/fullcalendar-3.10.0/gcal.js"></script>
-<script src="vendor/fullcalendar-3.10.0/lib/moment.min.js"></script>
-<script src="vendor/fullcalendar-3.10.0/fullcalendar.js"></script>
-<script src="js/main.js"></script>

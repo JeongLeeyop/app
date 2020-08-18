@@ -29,14 +29,29 @@ public interface TaskItemRepository extends JpaRepository<TaskItem, Long> {
     @Modifying
     public void DelTaskItemBySectionIdx(Long sectionIdx);
 
+    @Query("DELETE FROM TaskItem t where t.section.sectionIdx = ?1 And t.taskItemInfo.taskItemInfoIdx = ?2")
+    @Transactional
+    @Modifying
+    public void delTask(Long sectionIdx,Long sectionItemIdx);
+
+
     @Transactional
     @Modifying
     public void deleteByStudent(Student student);
+
+    @Transactional
+    @Modifying
+    @Query("update TaskItem t set t.taskScore = ?1 Where t.taskItemIdx = ?2")
+    public void updateScore(Long score, Long taskItemIdx);
+
 
     //과제 차트 데이터 불러오기
     public List<TaskItemMapping> findAllBySectionOrderByStudent(Section curSection);
 
     //사용중인 과제항목 불러오기
     public List<UsedTaskList> findDistinctBySection(Section section);
+
+    @Query("select t from TaskItem t where t.section.sectionIdx = ?1 and t.taskItemInfo.taskItemInfoIdx=?2")
+    public List<TaskItem> findSectionItemTask(Long sectionIdx, Long taskItemInfoIdx);
 
 }

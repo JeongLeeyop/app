@@ -1,296 +1,433 @@
 
-    ////////////////////////////////////////////////////////////////////
-    //                                                                //
-    //                           클래스                               //
-    //                                                                //
-    ////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+//                                                                //
+//                             클래스                             //
+//                                                                //
+////////////////////////////////////////////////////////////////////
 
+$(function(){
 
-    // $("#StudentChartData tr").css("height","26px")
+// $("#StudentChartData tr").css("height","26px")
 
-    // var curClassIdx = <%=request.getAttribute("curClassIdx")%>;
-    var curClassIdx = 45;
-    SectionAjax();
+// var curClassIdx = <%=request.getAttribute("curClassIdx")%>;
+    var curClassIdx = getParameterByName("idx");
 
-    //섹션 목록 출력
-    function SectionAjax(){
-        $("#multiple-select").empty();
-        $("#sectionName").val("");
-
-        $.ajax({
-            url : "/findSectionList", //서버요청주소
-            type : "post",//요청방식 (get,post,patch,delete,put)
-            data : "curClassIdx="+curClassIdx,
-            dataType : "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
-            success : function(result){
-                //섹션 생성
-                $("#multiple-select").empty();
-
-
-                $.each(result, function(index, item) {
-                    var sectionName = item.sectionName;
-                    var sectionIdx = item.sectionIdx;
-                    var str = "<option value=\""+sectionIdx+"\">"+sectionName+"</option>";
-                    $("#multiple-select").append(str);
-
-                });
-                // alert("StudentAjax 성공");
-            } , //성공했을때
-            error : function(request){
-                alert(request.responseText);
-            }// 실패했을때
-        });
+    //주소창의 파라메터를 가져오는 함수
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
+    SectionAjax();
+    TaskTemplate();
 
-    //섹션 추가
-    $(document).on("click","#addSectionOk",function(){
+//섹션 목록 출력
+function SectionAjax(){
+    $("#multiple-select").empty();
+    $("#sectionName").val("");
 
-        var sectionName = $("#sectionName").val();
-        alert(curClassIdx);
+    $.ajax({
+        url : "/findSectionList", //서버요청주소
+        type : "post",//요청방식 (get,post,patch,delete,put)
+        data : "curClassIdx="+curClassIdx,
+        dataType : "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+        success : function(result){
+            //섹션 생성
+            $("#multiple-select").empty();
 
-        $.ajax({
-            url : "/addSection", //서버요청주소
-            type : "post",//요청방식 (get,post,patch,delete,put)
-            data : "sectionName="+sectionName+"&curClassIdx="+curClassIdx,
-            dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
-            success : function(result){
 
-                SectionAjax()
-            } , //성공했을때
-            error : function(request){
-                alert(request.responseText);
-            }// 실패했을때
-        });
+            $.each(result, function(index, item) {
+                var sectionName = item.sectionName;
+                var sectionIdx = item.sectionIdx;
+                var str = "<option value=\""+sectionIdx+"\">"+sectionName+"</option>";
+                $("#multiple-select").append(str);
 
-    });
-
-    //섹션 삭제
-    $(document).on("click","#delSection",function(){
-        var curSectionIdx = $("#multiple-select option:checked").val();
-        if(confirm("현재 섹션을 정말 삭제 하시겠습니까?")==true){
-            $.ajax({
-                url : "/delSection", //서버요청주소
-                type : "post",//요청방식 (get,post,patch,delete,put)
-                data : "curSectionIdx="+curSectionIdx,
-                dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
-                success : function(result){
-                    alert("섹션이 삭제 되었습니다.");
-                    SectionAjax();
-
-                } , //성공했을때
-                error : function(request){
-                    alert(request.responseText);
-                }// 실패했을때
             });
-        }
+            // alert("StudentAjax 성공");
+        } , //성공했을때
+        error : function(request){
+            alert(request.responseText);
+        }// 실패했을때
     });
+}
 
-    //옵션 선택시 selected 옵션 수정
-    $(document).on("change","select[name=select]",function(){
-        // $(".option:selected").text();
+//초기 과제 항목 테이블 출력 : 학생과 과제 정보만 볼수 있는.
+function TaskTemplate() {
+    $.ajax({
+        url : "/findTaskTemplate", //서버요청주소
+        type : "post",//요청방식 (get,post,patch,delete,put)
+        data : "curClassIdx="+curClassIdx,
+        dataType : "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+        success : function(result){
+            console.log(result);
+            // 섹션 생성
+            $("#taskChart").empty();
+            $("#taskList").empty();
 
-        alert($(this).val());
+            //현 섹션에 사용중인 과제로 열 구성하기
+            //모든 과제 목록 가져오기
 
-        // $(this).find("option:selected").attr("selected",false);
-        // $(this).attr('selected',true);
-    });
+            // Head - Tr 생성
+            var str = "<tr id=\"taskListTr\"><th style=\"border-top: none;font-size: 0.38cm;padding-bottom: 21.5px;padding-right: 40px;\">Name</th></tr>";
+            $("#taskList").append(str).trigger("create");
 
-    //테이블 크기를 측정하기 위한 전역변수
-    var studentSize;
-    var usedTaskSize;
+            $.each(result.DefaultTaskList,function(index,item){
+                var str2 = "";
+                var str3 = "";
 
-    //섹션 클릭시 과제 항목 출력 & 입력
-    $(document).on("click","#multiple-select option",function(){
+                str2 = str2+ "<th><div class=\"col-12 col-md-9\">\n" +
+                    "<select name=\"select\" class=\"form-control\">\n" +
+                    "\n" +
+                    "</select>\n" +
+                    "</div></td>\n";
 
-        //초기 입력
+                //Head - Tr 추가하기
+                $("#taskListTr").append(str2).trigger("create");
+                //css 적용
+                $('head').append('<link rel="stylesheet" href="css/class.css" type="text/css" />');
 
-        var curSectionIdx = $("#multiple-select option:checked").val();
+                //Head - Td 추가하기
+                $.each(result.taskList,function(index2,item2) {
+                    if(item2.taskItemInfoIdx==item.taskItemInfoIdx){
+                        str3 = str3 + "<option class=\"option\" selected=\"selected\" value=\"" + item2.taskItemInfoIdx + "\">" + item2.taskItemName + "</option>"
 
-        $.ajax({
-            url : "/findTaskChart", //서버요청주소
-            type : "post",//요청방식 (get,post,patch,delete,put)
-            data : "curSectionIdx="+curSectionIdx+"&curClassIdx="+curClassIdx,
-            dataType : "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
-            success : function(result){
-                console.log(result);
-                // 섹션 생성
-                $("#taskChart").empty();
-                $("#taskList").empty();
-                /*
-                                    Long taskItemIdx();
-                                    Long taskScore();
-                                    Long taskItemInfoTaskItemInfoIdx();
-                                    String studentStudentName();
-                                    String taskItemInfoTaskItemName();
-                                    Long studentStudentIdx();
-                //
-                                    taskItemInfoTaskItemName
-                                    taskItemInfoTaskItemInfoIdx
-                */
-
-                //현 섹션에 사용중인 과제로 열 구성하기
-                //모든 과제 목록 가져오기
-
-                var str = "<tr id=\"taskListTr\"><th style=\"border-top: none;font-size: 0.38cm;padding-bottom: 21.5px;padding-right: 40px;\">이름</th></tr>";
-                $("#taskList").append(str).trigger("create");
-
-
-                $.each(result.usedList,function(index,item){
-                    var str2 = "";
-                    var str3 = "";
-
-                    /*                      str2 = str2+ "<th style=\"border-top: none;\" >\n" +
-                                              "      <div class=\"rs-select2--light rs-select2--sm\">\n" +
-                                              "      <select class=\"js-select2\" name=\"time\"></select><div class=\"dropDownSelect2\"></div></div></th>";*/
-
-                    str2 = str2+ "<th><div class=\"col-12 col-md-9\">\n" +
-                        "<select name=\"select\" class=\"form-control\">\n" +
-                        "\n" +
-                        "</select>\n" +
-                        "</div></td>\n";
-
-                    $("#taskListTr").append(str2).trigger("create");
-                    $('head').append('<link rel="stylesheet" href="css/class.css" type="text/css" />');
-
-                    $.each(result.taskList,function(index2,item2) {
-                        // alert(item2.taskItemInfoIdx+" :: "+item.taskItemInfoTaskItemInfoIdx);
-                        if(item2.taskItemInfoIdx==item.taskItemInfoTaskItemInfoIdx){
-                            // alert("selected 수행됨");
-                            str3 = str3 + "<option class=\"option\" selected=\"selected\" value=\"" + item2.taskItemInfoIdx + "\">" + item2.taskItemName + "</option>"
-
-                        } else {
-                            // alert("수행됨");
-                            str3 = str3 + "<option class=\"option\" value=\"" + item2.taskItemInfoIdx + "\">" + item2.taskItemName + "</option>"
-                        }
-                    });
-                    $("#taskListTr th:last div select").append(str3).trigger("create");
-
-
-                });
-
-                str = "<th style=\"border-top: none;border-bottom: none\"><button class=\"au-btn au-btn-icon au-btn--green au-btn--small\" style=\"height: 35px;width: 47px;\">\n" +
-                    "                                                        <i class=\"zmdi zmdi-plus\"></i></button></th>"
-                $("#taskListTr").append(str).trigger("create");
-
-                $(".js-select2").each(function () {
-                    $(this).select2({
-                        minimumResultsForSearch: Infinity,
-                        dropdownParent: $(this).next('.dropDownSelect2')
-                    });
-                });
-
-                $('.js-select2').on('select2:select', function (e) {
-                    var data = e.params.data;
-                    console.log(data);
-                });
-
-
-                $(".select2-selection--single").css("box-shadow","none");
-
-
-                //학생 목록 출력
-
-                var str = "<tr>";
-                $.each(result.studentList,function(index,item){
-                    str = str + "<td>"+item.studentName+"</td><td hidden class=\"studentIdx\">"+item.studentIdx+"</td>"
-                    $.each(result.usedList,function(index2,item2){
-                        str = str+"<td><input type=\"text\" placeholder=\"\" class=\"form-control\"></td>";
-                    });
-                    str = str+"</tr>";
-                    $("#taskChart").append(str).trigger("create");
-                    str = "<tr>";
-
-                });
-
-
-                //빈칸에 과제idx 넣기???
-
-                var roundIndex = result.usedList.length;
-                var curTaskIdx;
-
-                //값 입력
-                $.each(result.classChart,function(index,item) {
-                    var curStudentTd = $(".studentIdx").filter(":contains(" + item.studentStudentIdx + ")");
-
-                    for (var i = 0; i <= roundIndex; i++) {
-                        // alert($("#taskList tr th:eq("+i+") div select option").attr('selected','selected').val());
-                        curTaskIdx = $("select[name=select]:eq(" + i + ")").val();
-
-                        if (item.taskItemInfoTaskItemInfoIdx == curTaskIdx) {
-                            curStudentTd.parent().children("td:eq(" + Number(i + 2) + ")").children().val(item.taskScore);
-                        }
+                    } else {
+                        // alert("수행됨");
+                        str3 = str3 + "<option class=\"option\" value=\"" + item2.taskItemInfoIdx + "\">" + item2.taskItemName + "</option>"
                     }
                 });
+                str3= str3 +  "<option class=\"option\" value=\"del\">Delete</option>";
+                $("#taskListTr th:last div select").append(str3).trigger("create");
+            });
 
-                //전역변수에 테이블의 크기를 입력
-                studentSize = result.studentList.length;
-                usedTaskSize = result.usedList.length;
+            //과제 추가 버튼
+            str = "<th style=\"border-top: none;border-bottom: none\"><button class=\"au-btn au-btn-icon au-btn--green au-btn--small\" style=\"height: 35px;width: 47px;\">\n" +
+                "                                                        <i class=\"zmdi zmdi-plus\"></i></button></th>"
+            $("#taskListTr").append(str).trigger("create");
 
-            } , //성공했을때
+            //select css 수정
+            $(".js-select2").each(function () {
+                $(this).select2({
+                    minimumResultsForSearch: Infinity,
+                    dropdownParent: $(this).next('.dropDownSelect2')
+                });
+            });
+            $('.js-select2').on('select2:select', function (e) {
+                var data = e.params.data;
+                console.log(data);
+            });
+            $(".select2-selection--single").css("box-shadow","none");
 
-            error : function(request){
-                alert(request.responseText);
-            }// 실패했을때
-        });
+
+            //학생 목록 출력
+            var str = "<tr>";
+            $.each(result.studentList,function(index,item){
+                str = str + "<td>"+item.studentName+"</td><td hidden class=\"studentIdx\">"+item.studentIdx+"</td>"
+                $.each(result.DefaultTaskList,function(index2,item2){
+                    str = str+"<td><input type=\"text\" placeholder=\"\" class=\"form-control\"></td>";
+                });
+                str = str+"</tr>";
+                $("#taskChart").append(str).trigger("create");
+                str = "<tr>";
+
+            });
+
+
+        } , //성공했을때
+
+        error : function(request){
+            alert(request.responseText);
+        }// 실패했을때
+    });
+}
+
+//섹션 추가
+$(document).on("click","#addSectionOk",function(){
+
+    var sectionName = $("#sectionName").val();
+    alert(curClassIdx);
+
+    $.ajax({
+        url : "/addSection", //서버요청주소
+        type : "post",//요청방식 (get,post,patch,delete,put)
+        data : "sectionName="+sectionName+"&curClassIdx="+curClassIdx,
+        dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
+        success : function(result){
+
+            SectionAjax()
+        } , //성공했을때
+        error : function(request){
+            alert(request.responseText);
+        }// 실패했을때
     });
 
-    //과제 점수 등록
+});
 
-    $("#saveTask").on('click',function(){
-
-        //데이터 전송을 위한 배열 만들기
-        var taskChart = new Array();
-
-
-        // 섹션id
-        var curSectionIdx = $("#multiple-select option:checked").val();
-        console.log("현재 섹션 Idx : " + curSectionIdx);
-
-        //테이블 점수 가져오기
-        for(var i=0;i<studentSize;i++){
-            var curRow = $("#taskChart tr:eq("+i+")");
-            for(var j=0;j<usedTaskSize;j++){
-
-                //학생id
-                var studentIdx = $(".studentIdx").eq(i).text();
-
-                //과제항목id
-                var taskInfoIdx = $("select[name=select]:eq(" + j + ")").val();
-
-                //점수
-                var score = curRow.find("td:eq("+Number(j+2)+")").children().val();
-
-                console.log("현재 학생 Idx : " + studentIdx + " || 현재 과제 Idx : " + taskInfoIdx + " || 현재 점수:" + score);
-                var data = new Object();
-                data.studentIdx = studentIdx;
-                data.taskInfoIdx = taskInfoIdx;
-                data.score = score;
-                taskChart.push(data);
-            }
-
-        }
-
-        //저장 Ajax
+//섹션 삭제
+$(document).on("click","#delSection",function(){
+    var curSectionIdx = $("#multiple-select option:checked").val();
+    if(confirm("Are you sure you want to delete the current section?")==true){
         $.ajax({
-            url : "/saveTaskScore", //서버요청주소
+            url : "/delSection", //서버요청주소
             type : "post",//요청방식 (get,post,patch,delete,put)
-            data : "taskChart="+JSON.stringify(taskChart)+"&curSectionIdx="+curSectionIdx,
+            data : "curSectionIdx="+curSectionIdx,
             dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success : function(result){
-                alert("성공적으로 저장되었습니다.");
-
-
-
+                alert("The section has been deleted.");
+                SectionAjax();
 
             } , //성공했을때
             error : function(request){
                 alert(request.responseText);
             }// 실패했을때
         });
+    }
+});
 
-        //수정 하기
+//옵션 선택시 selected 옵션 수정 [ 작업 중 ]
+$(document).on("change","select[name=select]",function(){
+    // $(".option:selected").text();
+
+    if ($(this).val() == "del") {
+        if (confirm("Are you sure you want to delete the task item?")) {
+            var sectionItemIdx = $(this).attr('data-id');
+            alert(sectionItemIdx);
+            $.ajax({
+                url: "/class_delTask", //서버요청주소
+                type: "post",//요청방식 (get,post,patch,delete,put)
+                data: "sectionItemIdx="+sectionItemIdx,
+                dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
+                success: function (result) {
+                    alert("Delete completed");
+                    location.reload();
+                }, //성공했을때
+                error: function (request) {
+                    alert(request.responseText);
+                }
+            });// 실패했을때
+        }
+    } else {
+
+        var length = $("select[name=select]").length;
+        for(var i = 0 ; i<=length;i++){
+            if($(this).val() == $("select[name=select]").eq(i+1).val()){
+                alert("You cannot select the same task item.");
+                return false;
+            }
+        }
+
+        if (confirm("Are you sure you want to modify the assignment item? : Results are immediately reflected.")) {
+            var sectionItemIdx = $(this).attr('data-id');
+            var targetTaskIdx = $(this).val();
+            alert(targetTaskIdx);
+            $.ajax({
+                url: "/class_changeTask", //서버요청주소
+                type: "post",//요청방식 (get,post,patch,delete,put)
+                data: "sectionItemIdx="+sectionItemIdx+"&targetTaskIdx="+targetTaskIdx,
+                dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
+                success: function (result) {
+                    alert("Modification completed");
+                    location.reload();
+                }, //성공했을때
+                error: function (request) {
+                    alert(request.responseText);
+                }
+            });// 실패했을때
+        }
+    }
+
+
+
+    // $(this).find("option:selected").attr("selected",false);
+    // $(this).attr('selected',true);
+});
+
+//테이블 크기를 측정하기 위한 전역변수
+var studentSize;
+var usedTaskSize;
+
+//섹션 클릭시 과제 항목 출력 & 입력
+$(document).on("click","#multiple-select option",function(){
+
+    var curSectionIdx = $("#multiple-select option:checked").val();
+    $.ajax({
+        url : "/findTaskChart", //서버요청주소
+        type : "post",//요청방식 (get,post,patch,delete,put)
+        data : "curSectionIdx="+curSectionIdx+"&curClassIdx="+curClassIdx,
+        dataType : "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+        success : function(result){
+            console.log(result);
+            // 섹션 생성
+            $("#taskChart").empty();
+            $("#taskList").empty();
+
+            //현 섹션에 사용중인 과제로 열 구성하기
+            //모든 과제 목록 가져오기
+
+            // Head - Tr 생성
+            var str = "<tr id=\"taskListTr\"><th style=\"border-top: none;font-size: 0.38cm;padding-bottom: 21.5px;padding-right: 40px;\">Name</th></tr>";
+            $("#taskList").append(str).trigger("create");
+
+
+            $.each(result.usedList,function(index,item){
+                var str2 = "";
+                var str3 = "";
+
+                str2 = str2+ "<th><div class=\"col-12 col-md-9\">\n" +
+                    "<select data-id=\""+item.sectionItemIdx+"\" name=\"select\" class=\"form-control\">\n" +
+                    "\n" +
+                    "</select>\n" +
+                    "</div></td>\n";
+
+                //Head - Tr 추가하기
+                $("#taskListTr").append(str2).trigger("create");
+                //css 적용
+                $('head').append('<link rel="stylesheet" href="css/class.css" type="text/css" />');
+
+                //Head - Td 추가하기
+                $.each(result.taskList,function(index2,item2) {
+                    if(item2.taskItemInfoIdx==item.taskItemInfo.taskItemInfoIdx){
+                        str3 = str3 + "<option class=\"option\" selected=\"selected\" value=\"" + item2.taskItemInfoIdx + "\">" + item2.taskItemName + "</option>"
+
+                    } else {
+                        // alert("수행됨");
+                        str3 = str3 + "<option class=\"option\" value=\"" + item2.taskItemInfoIdx + "\">" + item2.taskItemName + "</option>"
+                    }
+                });
+                str3= str3 +  "<option class=\"option\" value=\"del\">Delete</option>";
+                $("#taskListTr th:last div select").append(str3).trigger("create");
+            });
+
+            //과제 추가 버튼
+            str = "<th style=\"border-top: none;border-bottom: none\"><button class=\"au-btn au-btn-icon au-btn--green au-btn--small\" style=\"height: 35px;width: 47px;\">\n" +
+                "                                                        <i class=\"zmdi zmdi-plus\"></i></button></th>"
+            $("#taskListTr").append(str).trigger("create");
+
+            //select css 수정
+            $(".js-select2").each(function () {
+                $(this).select2({
+                    minimumResultsForSearch: Infinity,
+                    dropdownParent: $(this).next('.dropDownSelect2')
+                });
+            });
+            $('.js-select2').on('select2:select', function (e) {
+                var data = e.params.data;
+                console.log(data);
+            });
+            $(".select2-selection--single").css("box-shadow","none");
+
+
+            //학생 목록 출력
+            var str = "<tr>";
+            $.each(result.studentList,function(index,item){
+                str = str + "<td>"+item.studentName+"</td><td hidden class=\"studentIdx\" data-id=\""+item.studentIdx+"\">"+item.studentIdx+"</td>"
+                $.each(result.usedList,function(index2,item2){
+                    str = str+"<td><input type=\"text\" placeholder=\"\" class=\"form-control\"></td>";
+                });
+                str = str+"</tr>";
+                $("#taskChart").append(str).trigger("create");
+                str = "<tr>";
+            });
+
+
+            //빈칸에 과제idx 넣기???
+
+            var roundIndex = result.usedList.length;
+            var curTaskIdx;
+
+            //값 입력
+            $.each(result.classChart,function(index,item) {
+                //일치 학생 idx 찾기 : tr
+                var curStudentTd = $(".studentIdx[data-id=\""+item.studentStudentIdx+"\"]");
+                //일치 과제 idx 찾고 점수 삽입 : td
+                for (var i = 0; i < roundIndex; i++) {
+                    // alert($("#taskList tr th:eq("+i+") div select option").attr('selected','selected').val());
+
+                    //select에 selected되어있는 option의 value값을 가지고 온다.
+                    curTaskIdx = $("select[name=select]:eq(" + i + ")").val();
+                    if (item.taskItemInfoTaskItemInfoIdx == curTaskIdx) {
+                        curStudentTd.parent().children("td:eq(" + Number(i + 2) + ")").children().val(item.taskScore);
+                        curStudentTd.parent().children("td:eq(" + Number(i + 2) + ")").children().attr('data-id',item.taskItemIdx);
+                    }
+                }
+            });
+
+            //전역변수에 테이블의 크기를 입력
+            studentSize = result.studentList.length;
+            usedTaskSize = result.usedList.length;
+
+        } , //성공했을때
+
+        error : function(request){
+            alert(request.responseText);
+        }// 실패했을때
     });
-    function idxMatch(){
+});
 
+//과제 점수 등록
+$("#saveTask").on('click',function(){
+
+    //데이터 전송을 위한 배열 만들기
+    var taskChart = new Array();
+    // 섹션id
+    var curSectionIdx = $("#multiple-select option:checked").val();
+    console.log("현재 섹션 Idx : " + curSectionIdx);
+
+    //테이블 점수 가져오기
+    for(var i=0;i<studentSize;i++){
+        var curRow = $("#taskChart tr:eq("+i+")");
+        for(var j=0;j<usedTaskSize;j++){
+
+            //학생id
+            var studentIdx = $(".studentIdx").eq(i).text();
+
+            //과제항목id
+            var taskInfoIdx = $("select[name=select]:eq(" + j + ")").val();
+
+            //점수
+            var score = curRow.find("td:eq("+Number(j+2)+")").children().val();
+
+
+            //과제id (있을경우)
+            var taskItemIdx = curRow.find("td:eq("+Number(j+2)+")").children().attr("data-id");
+
+            console.log("idx : " + taskItemIdx + "현재 학생 Idx : " + studentIdx + " || 현재 과제 Idx : " + taskInfoIdx);
+            var data = new Object();
+            if(score!=""){
+                data.score = score;
+                console.log("현재 점수:" + score);
+            }
+
+            data.taskItemIdx = taskItemIdx;
+            data.studentIdx = studentIdx;
+            data.taskInfoIdx = taskInfoIdx;
+
+            taskChart.push(data);
+        }
 
     }
+
+    //저장 Ajax
+    $.ajax({
+        url : "/saveTaskScore", //서버요청주소
+        type : "post",//요청방식 (get,post,patch,delete,put)
+        data : "taskChart="+JSON.stringify(taskChart)+"&curSectionIdx="+curSectionIdx,
+        dataType : "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
+        success : function(result){
+            alert("Saved successfully.");
+            location.reload();
+        } , //성공했을때
+        error : function(request){
+            alert("Failed to save. Please check the input value.");
+            console.log(request.responseText);
+        }// 실패했을때
+    });
+
+    //수정 하기
+});
+
+
+
+
+});

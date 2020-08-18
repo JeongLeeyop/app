@@ -20,5 +20,5 @@ public interface SectionRepository extends CrudRepository<Section, Long> {
 
     public void deleteSectionBySectionIdx(Long sectionIdx);
 
-    public List<Section> findSectionBy_class_ClassIdx(Long classIdx);
+    public List<Section> findSectionBy_class_ClassIdxOrderBySectionIdx(Long classIdx);
 }

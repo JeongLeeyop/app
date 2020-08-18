@@ -23,4 +23,10 @@ public interface ClassDefaultTaskRepository extends CrudRepository<ClassDefaultT
     @Transactional
     @Modifying
     public void ClassDefaultTaskByClassIdx(Long ClassIdx);
+
+    @Query("select d from ClassDefaultTask d where d._class.classIdx = ?1")
+    @Transactional
+    @Modifying
+    public List<ClassDefaultTask> findDefaultTaskByClassId(Long classIdx);
+
 }

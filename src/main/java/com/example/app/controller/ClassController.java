@@ -53,8 +53,14 @@ public class ClassController {
     @RequestMapping("findTaskChart")
     @ResponseBody
     public Map findTaskChart(Long curSectionIdx, Long curClassIdx, HttpSession session) {
-
         return classService.findTaskChart(curSectionIdx,curClassIdx,session);
+    }
+
+    //4. 섹션의 기본 템플릿 제공
+    @RequestMapping("findTaskTemplate")
+    @ResponseBody
+    public Map findTaskTemplate(Long curClassIdx, HttpSession session) {
+        return classService.findTaskTemplate(curClassIdx,session);
     }
 
     //5. 섹션의 과제 항목을 추가하는 기능
@@ -65,13 +71,15 @@ public class ClassController {
 
     //6. 섹션의 과제 항목을 삭제하는 기능
     @RequestMapping("class_delTask")
-    public ModelAndView delTask(HttpServletRequest req) {
+    public ModelAndView delTask(Long sectionItemIdx) {
+        classService.delTask(sectionItemIdx);
         return null;
     }
 
-    //7. 섹션의 과제 항목을 이름을 수정하는 기능
-    @RequestMapping("taskName")
-    public ModelAndView taskName(HttpServletRequest req) {
+    //7. 섹션의 과제 항목을 수정하는 기능
+    @RequestMapping("class_changeTask")
+    public ModelAndView taskName(Long sectionItemIdx,Long targetTaskIdx) {
+        classService.changeTask(sectionItemIdx,targetTaskIdx);
         return null;
     }
 

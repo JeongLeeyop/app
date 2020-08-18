@@ -61,7 +61,7 @@
 
                 //클래스 생성
                 $("#multiple-select2").empty();
-                $("#multiple-select2").append("<option selected style=\"text-align: center;\"value=\"addClass\"> --- 클래스 생성 ---</option>");
+                $("#multiple-select2").append("<option selected style=\"text-align: center;\"value=\"addClass\"> --- Add Class ---</option>");
                 $("#multiple-select").attr("disabled", true);
 
                 $("#addTask").attr("hidden",true);
