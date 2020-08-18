@@ -11,8 +11,8 @@ import java.util.List;
 @ToString
 public class studentChartResponse {
 
-    private String studentName;
     private Long studentIdx;
+    private String studentName;
     private String studentAttendance;
     private List<String> studentGrade;
 
