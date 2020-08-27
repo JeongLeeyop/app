@@ -49,12 +49,54 @@
 
     <!-- MENU SIDEBAR-->
     <aside class="menu-sidebar d-none d-lg-block">
+
+
+
+
         <div class="logo">
             <a href="attendance">
                 <img src="images/icon/logo.png" alt="Cool Admin" style="max-width:80%;margin-left: 15px;" />
             </a>
         </div>
-        <div class="menu-sidebar__content js-scrollbar1">
+
+
+
+        <%--<div class="setting-menu js-right-sidebar d-none d-lg-block show-sidebar">
+            <div class="account-dropdown__body">
+                <div class="account-dropdown__item">
+                    <a href="#">
+                        <i class="zmdi zmdi-account"></i>Account</a>
+                </div>
+                <div class="account-dropdown__item">
+                    <a href="#">
+                        <i class="zmdi zmdi-settings"></i>Setting</a>
+                </div>
+                <div class="account-dropdown__item">
+                    <a href="#">
+                        <i class="zmdi zmdi-money-box"></i>Billing</a>
+                </div>
+            </div>
+            <div class="account-dropdown__body">
+                <div class="account-dropdown__item">
+                    <a href="#">
+                        <i class="zmdi zmdi-globe"></i>Language</a>
+                </div>
+                <div class="account-dropdown__item">
+                    <a href="#">
+                        <i class="zmdi zmdi-pin"></i>Location</a>
+                </div>
+                <div class="account-dropdown__item">
+                    <a href="#">
+                        <i class="zmdi zmdi-email"></i>Email</a>
+                </div>
+                <div class="account-dropdown__item">
+                    <a href="#">
+                        <i class="zmdi zmdi-notifications"></i>Notifications</a>
+                </div>
+            </div>
+        </div>--%>
+
+        <div class="setting-menu js-right-sidebar d-none d-lg-block show-sidebar">
             <nav class="navbar-sidebar">
                 <ul class="list-unstyled navbar__list">
                     <%--<li class="active has-sub">--%>
@@ -97,7 +139,14 @@
         <!-- HEADER DESKTOP-->
         <header class="header-desktop" >
             <div class="section__content section__content--p30">
+
+
                 <div class="container-fluid">
+
+                    <div class="header-button-item mr-0 js-sidebar-btn" style="position: absolute;top: 7px;color: #000;">
+                        <i class="zmdi zmdi-menu"></i>
+                    </div>
+
                     <div class="header-wrap">
                         <form class="form-header" action="" method="POST">
                         </form>
@@ -132,6 +181,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

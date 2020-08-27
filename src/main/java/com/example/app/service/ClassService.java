@@ -162,8 +162,18 @@ public class ClassService {
     }
 
     //7. 섹션의 과제 항목을 추가하는 기능
-    public int addTask(int a) {
-        return 0;
+    public Map<String, Object> addTask(Long curClassIdx,Long curSectionIdx) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        SectionItem sectionItem = new SectionItem();
+        sectionItem.setSection(sectionRepo.findById(curSectionIdx).get());
+        SectionItem result = sectionItemRepo.save(sectionItem);
+        List<TaskItemInfo> taskItemInfo = taskItemInfoRepo.findTaskItemInfoByClassIdx(curClassIdx);
+
+        map.put("sectionItem", result);
+        map.put("taskItemInfo",taskItemInfo);
+        return map;
     }
 
     //8. 섹션의 과제 항목을 삭제하는 기능
@@ -171,9 +181,14 @@ public class ClassService {
     @Transactional
     @Modifying
     public int delTask(Long sectionItemIdx) {
-        //섹션내부 데이터 삭제
+
         SectionItem sectionItem = sectionItemRepo.findById(sectionItemIdx).get();
-        taskItemRepo.delTask(sectionItem.getSection().getSectionIdx(),sectionItem.getTaskItemInfo().getTaskItemInfoIdx());
+
+        //taskiteminfo Null여부 체크 : 새로 추가된 Task이므로 TaskItem이 없음
+        if(sectionItem.getTaskItemInfo()!=null) {
+            //섹션내부 데이터 삭제
+            taskItemRepo.delTask(sectionItem.getSection().getSectionIdx(), sectionItem.getTaskItemInfo().getTaskItemInfoIdx());
+        }
         //섹션항목 삭제
         sectionItemRepo.deleteById(sectionItemIdx);
         return 0;
@@ -188,11 +203,14 @@ public class ClassService {
 
         SectionItem sectionItem = sectionItemRepo.findById(sectionItemIdx).get();
 
-        //taskitem의 taskiteminfo를 전부 수정
-        List<TaskItem> taskItemList = taskItemRepo.findSectionItemTask(sectionItem.getSection().getSectionIdx(),sectionItem.getTaskItemInfo().getTaskItemInfoIdx());
-        for(TaskItem taskItem : taskItemList){
-            taskItem.setTaskItemInfo(taskItemInfoRepo.findById(targetTaskIdx).get());
-            taskItemRepo.save(taskItem);
+        //taskiteminfo Null여부 체크 : 새로 추가된 Task이므로 TaskItem이 없음
+        if(sectionItem.getTaskItemInfo()!=null){
+            //taskitem의 taskiteminfo를 전부 수정
+            List<TaskItem> taskItemList = taskItemRepo.findSectionItemTask(sectionItem.getSection().getSectionIdx(),sectionItem.getTaskItemInfo().getTaskItemInfoIdx());
+            for(TaskItem taskItem : taskItemList){
+                taskItem.setTaskItemInfo(taskItemInfoRepo.findById(targetTaskIdx).get());
+                taskItemRepo.save(taskItem);
+            }
         }
 
         //sectionitem의 taskiteminfo를 수정

@@ -96,6 +96,12 @@
         ////////////////////////////////////////////////////////////////////
 
 
+        //메뉴버튼 클릭시 패딩 삭제
+        $(".zmdi.zmdi-menu").on("click",function(){
+           $(".page-container").toggleClass('hide');
+            $(".menu-sidebar.d-none.d-lg-block").toggleClass('hide');
+        });
+
         //좌측 메뉴에 클래스 목록 출력
         $.ajax({
             url: "/findClassList", //서버요청주소
@@ -122,7 +128,6 @@
         $(document).on('click', '#classListMobile', function () {
             // alert("We're under inspection.");
         });*/
-
 
 
 

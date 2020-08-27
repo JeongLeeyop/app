@@ -1,6 +1,7 @@
 package com.example.app.controller;
 
 import com.example.app.model.domain.section.Section;
+import com.example.app.model.domain.section.TaskItemInfo;
 import com.example.app.service.ClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +66,9 @@ public class ClassController {
 
     //5. 섹션의 과제 항목을 추가하는 기능
     @RequestMapping("addTask")
-    public ModelAndView addTask(HttpServletRequest req) {
-        return null;
+    @ResponseBody
+    public Map<String, Object> addTask(Long curClassIdx,Long curSectionIdx) {
+        return classService.addTask(curClassIdx,curSectionIdx);
     }
 
     //6. 섹션의 과제 항목을 삭제하는 기능
