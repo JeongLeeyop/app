@@ -56,9 +56,14 @@ public class SettingService {
 
         System.out.println("서비스 delClass 진입");
 
+
         //Default 과제 항목 삭제
         classDfRepo.ClassDefaultTaskByClassIdx(ClassIdx);
         System.out.println("Default과제삭제");
+
+        //SectionItem 삭제
+        sectionItemRepo.DelSectionItemByClassIdx(ClassIdx);
+        System.out.println("섹션항목 삭제");
 
         //과제 항목 데이터 삭제
         taskItemRepo.DelTaskItemByClassIdx(ClassIdx);
@@ -142,7 +147,8 @@ public class SettingService {
         classDfRepo.deleteClassDefaultTaskByTaskItemInfoIdx(taskIdx);
         System.out.println("Default과제삭제");
         //sectionitem 과제 삭제
-        sectionItemRepo.
+        sectionItemRepo.DelSectionItemByTaskIdx(taskIdx);
+
         //과제 항목 삭제
         taskInfoRepo.deleteById(taskIdx);
         System.out.println("과제항목삭제");

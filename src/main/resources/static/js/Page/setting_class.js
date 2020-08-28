@@ -227,6 +227,7 @@
                 alert("The class has been created.");
                 ClassAjax();
                 FormClear();
+                location.reload();
             } , //성공했을때
             error : function(request){
                 alert(request.responseText);

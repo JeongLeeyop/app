@@ -17,7 +17,17 @@ public interface SectionItemRepository extends CrudRepository<SectionItem, Long>
     @Query("DELETE FROM SectionItem s where s.section.sectionIdx = ?1")
     public void DelSectionItemBySectionIdx(Long sectionIdx);
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM SectionItem s where s.taskItemInfo.taskItemInfoIdx = ?1")
+    public void DelSectionItemByTaskIdx(Long taskItemInfoIdx);
+
     @Query("Select s From SectionItem s where s.section.sectionIdx = ?1")
     public List<SectionItem> findSectionItemBySectionIdx(Long sectionIdx);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM SectionItem s where s.section.sectionIdx in (select ss.sectionIdx from Section ss where ss._class.classIdx = ?1)")
+    public void DelSectionItemByClassIdx(Long classIdx);
 
 }
