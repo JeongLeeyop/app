@@ -42,6 +42,8 @@ public class SettingService {
     @Autowired
     SectionRepository sectionRepo;
     @Autowired
+    SectionItemRepository sectionItemRepo;
+    @Autowired
     AttendanceRepository attendanceRepo;
 
 
@@ -139,6 +141,8 @@ public class SettingService {
         //Default 과제 삭제
         classDfRepo.deleteClassDefaultTaskByTaskItemInfoIdx(taskIdx);
         System.out.println("Default과제삭제");
+        //sectionitem 과제 삭제
+        sectionItemRepo.
         //과제 항목 삭제
         taskInfoRepo.deleteById(taskIdx);
         System.out.println("과제항목삭제");
