@@ -16,7 +16,7 @@
                                         <h4>Setting</h4>
                                     </div>
                                 </figcaption>
-                                <a href="setting_class"></a>
+                                <a href="setting_class_list"></a>
                             </figure>
                             <figure class="snip1445"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample21.jpg" alt="sample21" />
                                 <figcaption>

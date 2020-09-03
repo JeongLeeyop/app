@@ -88,6 +88,14 @@ public class MainViewController {
         return view;
     }
 
+    //4. 설정 화면_클래스_리스트
+    @RequestMapping("/setting_class_list")
+    public ModelAndView setting_class_list() {
+//        log.debug("setting_class_list");
+        ModelAndView view = new ModelAndView("setting_class_list");
+        return view;
+    }
+
     //4. 설정 화면_클래스
     @RequestMapping("/setting_class")
     public ModelAndView setting_class() {
@@ -95,6 +103,8 @@ public class MainViewController {
         ModelAndView view = new ModelAndView("setting_class");
         return view;
     }
+
+
 
     //4. 설정 화면_학생
     @RequestMapping("/setting_student")

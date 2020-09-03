@@ -279,7 +279,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <label for="sectionName" class=" form-control-label" style="font-weight: bold">섹션명 입력</label>
+                    <label for="sectionName" class=" form-control-label" style="font-weight: bold">Please enter section name.</label>
                     <input type="text" id="sectionName" placeholder="${curClass}" class="form-control">
                 </div>
             </div>

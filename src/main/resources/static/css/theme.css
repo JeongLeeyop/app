@@ -4623,7 +4623,8 @@ section {
     }
 
     .table-data__tool .table-data__tool-right > button {
-        margin-right: 0;
+        float:right;
+        margin-right: 12px;
         margin-bottom: 10px;
     }
 }

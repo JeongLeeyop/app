@@ -262,7 +262,7 @@ moving the class to menus lead to only the menu having the effect -->
 <script type="text/javascript">
     $(function(){
         console.log(1);
-        alert("Preparing for service.");
+        alert("Developing.");
         history.back();
     });
 </script>

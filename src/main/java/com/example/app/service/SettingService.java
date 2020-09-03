@@ -156,11 +156,16 @@ public class SettingService {
     }
 
     //4. 클래스 정보를 입력, 수정하는 기능
-    public Class updateClass(HttpSession session, classRequest classReq) {
+    public Class updateClass(HttpSession session, classRequest classReq){
         Class _class = new Class();
         _class.setClassMemo(null);
         _class.setClassName(classReq.getClassName());
-        _class.setClassSectionName(classReq.getSectionName());
+
+        if(classReq.getSectionName().isEmpty()){
+            _class.setClassSectionName(null);
+        } //        _class.setClassSectionName(classReq.getSectionName());
+
+
         _class.setAccount((Account)session.getAttribute("Account"));
 
         System.out.println("클래스 아이디는 : " + classReq.getClassIdx());

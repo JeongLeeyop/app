@@ -69,12 +69,12 @@
 
     //more Student
     $(document).on("click", "#more", function() {
-        alert("In ready...");
+        alert("Developing");
     });
 
     //edit Student
     $(document).on("click", "#edit", function() {
-        alert("In ready...");
+        alert("Developing");
     });
 
     //Student_AJAX

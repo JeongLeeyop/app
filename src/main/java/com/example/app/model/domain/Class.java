@@ -18,7 +18,6 @@ public class Class {
     private long classIdx;
     @Column(nullable = false)
     private String className;
-    @Column(nullable = false)
     private String classSectionName;
     @Column
     private String classMemo;

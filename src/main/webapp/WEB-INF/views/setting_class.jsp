@@ -50,7 +50,7 @@
                                             <div class="row form-group">
 
                                                 <div class="col col-md-3">
-                                                    <label for="select" class=" form-control-label">Section Title Name</label>
+                                                    <label for="select" class=" form-control-label">Section Title</label>
                                                 </div>
 
                                                 <div class="col-12 col-md-9">
