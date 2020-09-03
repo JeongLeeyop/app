@@ -69,7 +69,7 @@ $(function(){
                 //모든 과제 목록 가져오기
 
                 // Head - Tr 생성
-                var str = "<tr id=\"taskListTr\"><th style=\"border-top: none;font-size: 0.38cm;padding-bottom: 21.5px;padding-right: 40px;\">Name</th></tr>";
+                var str = "<tr id=\"taskListTr\"><th style=\"width: 10%;border-top: none;font-size: 0.38cm;padding-bottom: 21.5px;padding-right: 40px;\">Name</th></tr>";
                 $("#taskList").append(str).trigger("create");
 
                 $.each(result.DefaultTaskList,function(index,item){
@@ -196,7 +196,7 @@ $(function(){
         if ($(this).val() == "del") {
             if (confirm("Are you sure you want to delete the task item?")) {
                 var sectionItemIdx = $(this).attr('data-id');
-                alert(sectionItemIdx);
+                // alert(sectionItemIdx);
                 $.ajax({
                     url: "/class_delTask", //서버요청주소
                     type: "post",//요청방식 (get,post,patch,delete,put)
@@ -277,6 +277,10 @@ $(function(){
     $(document).on("click","#addTaskBtn",function(){
         // 열 제목 추가
         var curSectionIdx = $("#multiple-select option:checked").val();
+        if(curSectionIdx==undefined){
+            alert("Please select a section");
+            return false;
+        }
 
         $.ajax({
             url : "/addTask", //서버요청주소

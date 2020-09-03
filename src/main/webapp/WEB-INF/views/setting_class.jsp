@@ -10,7 +10,7 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-lg-6" style="flex: 0 0 70%;max-width: 30%;">
+                            <%--<div class="col-lg-6" style="flex: 0 0 70%;max-width: 30%;">
                                 <div class="card">
                                     <div class="card-header">
                                         <strong>Class</strong> List
@@ -28,7 +28,7 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div>--%>
                             <div class="col-lg-6" style="flex: 0 0 70%;max-width: 70%;">
                                 <div class="card">
                                     <div class="card-header">
@@ -69,9 +69,11 @@
                                                     <label for="multiple-select" class=" form-control-label">Task Manager</label>
                                                 </div>
                                                 <div class="col-12 col-md-9">
-                                                    <input type="text" id="text-input2" name="text-input" placeholder="Text" class="form-control" disabled>
+                                                    <input type="text" id="text-input2" name="text-input" placeholder="" class="form-control" disabled>
                                                     <a id="taskIdx" hidden></a>
-                                                    <select name="multiple-select" id="multiple-select" multiple="" class="form-control" style="height: 164px;">
+                                                    <select name="multiple-select" id="multiple-select" multiple="" class="form-control" style="height: 320px;display: inline">
+                                                        <option disabled>Ratio &nbsp; ||&nbsp;&nbsp;&nbsp; Task Name</option>
+                                                        <option disabled>-----------------------------------</option>
                                                     </select>
                                                     <div id="alert" class="col-12 col-md-9" style="margin-top: 5px;">
                                                         <small class="help-block form-text">After class creation, you can register the task.</small>
@@ -89,7 +91,7 @@
 
                                             </div>
 
-                                            <button type="button" class="btn btn-secondary" style="float: right;" onclick="location.href='setting'">Cancel</button>
+                                            <button type="button" id="cancelClass" class="btn btn-secondary" style="float: right;">Go Back</button>
                                             <button type="button" id="delClass" class="btn btn-danger" style="float: right;margin-right: 5px;">Delete</button>
                                             <button type="button" id="addClass" class="btn btn-success" style="float: right;margin-right: 5px;">Save</button>
 
@@ -141,7 +143,7 @@
                                 <input type="text" id="gradeRatio" placeholder="0" class="form-control">
                                 <small class="help-block form-text">Only numbers can be entered; all proportions must be summed up to 100%.</small>
                             </div>
-                            <div class="row form-group">
+                            <%--<div class="row form-group">
 
                                     <div class="form-check">
                                         <div class="checkbox">
@@ -152,7 +154,7 @@
                                             margin-left: 5px;">
                                         </div>
                                     </div>
-                            </div>
+                            </div>--%>
                         </div>
                     </div>
                 </div>
