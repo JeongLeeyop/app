@@ -11,10 +11,10 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-6" style="flex: 0 0 70%;max-width: 30%;">
-                                <div class="card" style="height: 94.52%;">
+                                <div class="card" style="height: 95.3%;">
                                     <div class="card-header">
                                         <strong>Section</strong> List
-                                        <h3 class="title-3"style="padding-top: 10px;padding-bottom: 5px;">${curClass.classSectionName}Page</h3>
+                                        <h3 class="title-3"style="padding-top: 10px;padding-bottom: 5px;">${curClass.classSectionName}</h3>
                                     </div>
                                     <div class="card-body card-block" style="height: 431px;" >
                                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" style="height: 100%;">
