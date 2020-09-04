@@ -3,11 +3,8 @@ package com.example.app.service;
 import com.example.app.model.domain.Account;
 import com.example.app.model.domain.Attendance;
 import com.example.app.model.domain.Student;
-import com.example.app.model.domain.section.Section;
-import com.example.app.model.domain.section.TaskItem;
 import com.example.app.model.dto.response.atCountResponse;
-import com.example.app.model.dto.response.repository.AtSummaryResponse;
-import com.example.app.repository.AccountRepository;
+import com.example.app.model.dto.response.repository.*;
 import com.example.app.repository.AttendanceRepository;
 import com.example.app.repository.StudentRepository;
 import com.google.gson.JsonArray;
@@ -20,7 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -50,6 +46,23 @@ public class AttendanceService {
 
         map.put("list",list);
         map.put("useDateCnt",dateCnt);
+        return map;
+    }
+
+    //1.캘린더를 통해 일별로 하루의 총 출석, 지각, 결석, 조퇴 횟수를 간략하게 표시해주는 기능
+    public Map<String,Object> findTotalAtSummary2(HttpSession session) throws Exception {
+
+        List<present> present = attendanceRepo.findPresentList((Account)session.getAttribute("Account"));
+        List<leave> leave = attendanceRepo.findLeaveList((Account)session.getAttribute("Account"));
+        List<tardy> tardy = attendanceRepo.findTardyList((Account)session.getAttribute("Account"));
+        List<absent> absent = attendanceRepo.findAbsentList((Account)session.getAttribute("Account"));
+
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        map.put("present",present);
+        map.put("leave",leave);
+        map.put("tardy",tardy);
+        map.put("absent",absent);
         return map;
     }
 

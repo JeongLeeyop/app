@@ -29,7 +29,7 @@
                                     </div>
                                 </div>
                             </div>--%>
-                            <div class="col-lg-6" style="flex: 0 0 70%;max-width: 70%;">
+                            <div class="col-lg-6" style="flex: 0 0 70%;max-width: 70%;min-width: 450px;">
                                 <div class="card">
                                     <div class="card-header">
                                         <strong>Class</strong> Setting
@@ -80,7 +80,7 @@
                                                     <button id ="addTask" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mediumModal">
                                                         <i class="fa fa-dot-circle-o">Add</i>
                                                     </button>
-                                                    <button id ="editTask" type="submit" class="btn btn-primary btn-sm">
+                                                    <button id ="editTask" type="button" class="btn btn-primary btn-sm">
                                                         <i class="fa fa-dot-circle-o">Edit</i>
                                                     </button>
                                                         <button id ="delTask" type="button" class="btn btn-danger btn-sm">
@@ -163,6 +163,45 @@
             <div class="modal-footer">
                 <button id="cancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button id="confirm" data-toggle="modal" data-target="#mediumModal" type="button" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mediumModal2" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="width: 50%;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel2">Medium Modal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-6" style="max-width: 100%;">
+                    <div class="card" style="margin-bottom: 0px;">
+                        <div class="card-header">
+                            <strong>Task</strong>
+                            <small> Form</small>
+                        </div>
+                        <div class="card-body card-block">
+                            <div class="form-group">
+                                <label for="taskName" class=" form-control-label">Task name</label>
+                                <a id="modalTaskIdx" hidden></a>
+                                <input type="text" id="taskName2" placeholder="Enter your Task name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="gradeRatio" class=" form-control-label">Task Rating Ratio</label>
+                                <input type="text" id="gradeRatio2" placeholder="0" class="form-control">
+                                <small class="help-block form-text">Only numbers can be entered; all proportions must be summed up to 100%.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="modal-footer">
+                <button id="cancel2" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="confirm2" data-toggle="modal" data-target="#mediumModal2" type="button" class="btn btn-primary">Confirm</button>
             </div>
         </div>
     </div>

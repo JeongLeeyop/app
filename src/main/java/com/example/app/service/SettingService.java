@@ -87,7 +87,7 @@ public class SettingService {
     @ResponseBody
     @Transactional
     //1. 클래스의 과제를 생성하는 기능
-    public void createTask(taskInfoRequest taskInfoReq ,Long classIdx) {
+    public void updateTask(taskInfoRequest taskInfoReq ,Long classIdx) {
 
         //현재 클래스
         Class _class = classRepo.findById(classIdx).get();
@@ -100,6 +100,10 @@ public class SettingService {
         taskInfo.set_class(_class);
         taskInfo.setTaskGradeRatio(taskInfoReq.getGradeRatio());
         taskInfo.setTaskItemName(taskInfoReq.getTaskName());
+
+        if(taskInfoReq.getTaskIdx()!=null) {
+            taskInfo.setTaskItemInfoIdx(taskInfoReq.getTaskIdx());
+        }
 
         //과제항목정보 입력, 객체 반환
         TaskItemInfo result = taskInfoRepo.save(taskInfo);
@@ -117,6 +121,13 @@ public class SettingService {
     public List<TaskItemInfo> findTask(classRequest classReq) {
         List<TaskItemInfo> result = taskInfoRepo.findTaskItemInfoBy_class_ClassIdx(classReq.getClassIdx());
         System.out.println(result);
+        return result;
+    }
+
+    @ResponseBody
+    //2. 클래스의 과제를 조회하는 기능
+    public TaskItemInfo findTaskItemInfo(Long taskIdx) {
+        TaskItemInfo result = taskInfoRepo.findById(taskIdx).get();
         return result;
     }
 
@@ -163,8 +174,9 @@ public class SettingService {
 
         if(classReq.getSectionName().isEmpty()){
             _class.setClassSectionName(null);
-        } //        _class.setClassSectionName(classReq.getSectionName());
-
+        }else{
+            _class.setClassSectionName(classReq.getSectionName());
+        }
 
         _class.setAccount((Account)session.getAttribute("Account"));
 
@@ -183,7 +195,7 @@ public class SettingService {
         //session에서 가져오기
 
         //gender를 int타입으로 변형
-        System.out.println(GenderCode.Male.getValue());
+
         if(studentReq.getStudentGender().equals("Male")){
             student.setStudentGender(GenderCode.Male.getValue());
         } else {
@@ -192,8 +204,11 @@ public class SettingService {
         student.setStudentGrade(Integer.parseInt(studentReq.getStudentGrade()));
         student.setStudentName(studentReq.getStudentName());
         student.setStudentMemo(null);
-        System.out.println(student);
-        System.out.println("studentService 끝");
+
+        if(studentReq.getStudentIdx()!=null){
+            student.setStudentIdx(studentReq.getStudentIdx());
+        }
+
         return settingRepo.save(student);
     }
 

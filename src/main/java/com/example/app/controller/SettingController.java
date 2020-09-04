@@ -80,10 +80,10 @@
         }
 
         //4. 과제 항목을 등록하는 기능
-        @RequestMapping("createTask")
+        @RequestMapping("updateTask")
         @ResponseBody
-        public void createTask(taskInfoRequest taskInfoReq, Long classIdx) throws Exception {
-           settingService.createTask(taskInfoReq,classIdx);
+        public void updateTask(taskInfoRequest taskInfoReq, Long classIdx) throws Exception {
+           settingService.updateTask(taskInfoReq,classIdx);
         }
 
      //4. 과제 항목을 삭제하는 기능
@@ -111,6 +111,15 @@
              return result;
          }
 
+     //4. 과제 항목을 조회하는 기능
+     @RequestMapping("findTaskItemInfo")
+     @ResponseBody
+     public TaskItemInfo findTaskItemInfo(Long taskIdx) {
+         TaskItemInfo result = settingService.findTaskItemInfo(taskIdx);
+         System.out.println(result);
+         return result;
+     }
+
          //4. Default 과제 항목을 조회하는 기능
          @RequestMapping("findDfTask")
          @ResponseBody
@@ -124,7 +133,7 @@
          }
 
 
-        //4. 학생을 조회하는 기능
+        //4. 학생의 리스트를 조회하는 기능
         @RequestMapping("findStudent")
         @ResponseBody
         public List<Student> findStudent(HttpSession session)  {
@@ -132,11 +141,18 @@
             return result;
         }
 
+         //4. 학생을 조회하는 기능
+         @RequestMapping("findStudentInfo")
+         @ResponseBody
+         public Student findStudentInfo(Long studentIdx)  {
+             Student result = studentService.findStudent(studentIdx);
+             return result;
+         }
+
         //4. 새 학생을 생성하는 기능
         @ResponseBody
         @RequestMapping("addStudent")
         public String addStudent(studentRequest student, HttpSession session)  {
-            System.out.println(student);
             Student result = settingService.addStudent(student,session);
             return null;
 

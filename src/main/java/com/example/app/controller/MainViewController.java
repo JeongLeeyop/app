@@ -77,6 +77,7 @@ public class MainViewController {
         Class _class = classService.findClass(Idx).get();
         ModelAndView view = new ModelAndView("class");
         view.addObject("curClassIdx",_class.getClassIdx());
+        view.addObject("curClass",_class);
         return view;
     }
 

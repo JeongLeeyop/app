@@ -148,6 +148,42 @@ $(function () {
         });// 실패했을때
     }
 
+    function AtSummary2() {
+
+        $.ajax({
+            url: "/findTotalAtSummary2", //서버요청주소
+            type: "post",//요청방식 (get,post,patch,delete,put)
+            dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+            success: function (result) {
+                console.log(result);
+
+                var atList = [[]];
+                var at = [];
+
+                $.each(result.present, function(index,item){
+                    at = [item.atDate,item.present];
+                    atList.push(at);
+                });
+
+                $.each(result.tardy, function(index,item){
+                    $.each(atList,function(index2,item2){
+                        console.log(item2[0] +" | "+ item.atDate);
+                        if(item2.atDate == item.atDate){
+                            atList[index2][1] = atList[index2][1] + " | " + item.tardy;
+                        }
+                    });
+                });
+
+                console.log(atList[1][0]);
+
+
+            }, //성공했을때
+            error: function (request) {
+                alert(request.responseText);
+            }
+        });// 실패했을때
+    }
+
 // for now, there is something adding a click handler to 'a'
 //  var tues = moment().day(2).hour(19);
 // build trival night events for example data
@@ -279,7 +315,7 @@ $(function () {
         }
 
     });
-    AtSummary();
+    AtSummary2();
 
 
 //데이터 저장

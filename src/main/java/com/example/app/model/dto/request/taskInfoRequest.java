@@ -12,5 +12,5 @@ public class taskInfoRequest {
     private String taskName;
     private Long gradeRatio;
     private int ckDefault;
-
+    private Long taskIdx;
 }

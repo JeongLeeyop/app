@@ -1,3 +1,41 @@
     .table-data2.table tbody td{
         padding: 15px 40px;
     }
+
+    #mainContainer {
+        padding-left: 50px;
+    }
+
+    #container{
+        margin-left: 6%;
+    }
+
+    #row1{
+        spadding-left: 30px;
+    }
+
+
+    #row2{
+        flex:0 0 50%;
+    }
+
+    @media (max-width: 991px){
+    #container{
+        margin-left:0px;
+    }
+    #mainContainer {
+        padding-left: 7%;
+    }
+
+    #row1{
+        spadding-left: 0px;
+    }
+
+    #row2{
+        flex:0 0 70%;
+    }
+
+    .table-data2.table tbody td {
+        padding: 15px 15px;
+    }
+    }

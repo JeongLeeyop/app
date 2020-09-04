@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class studentRequest {
 
+    private Long studentIdx;
     private String studentName;
     private String studentGender;
     private String studentGrade;

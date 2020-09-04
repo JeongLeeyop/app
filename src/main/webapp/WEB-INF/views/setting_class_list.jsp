@@ -10,20 +10,6 @@ moving the class to menus lead to only the menu having the effect -->
     $(function () {
         $('head').append('<link rel="stylesheet" href="css/setting_class_list.css" type="text/css" />');
 
-        $('.btn-6')
-            .on('mouseenter', function(e) {
-                var parentOffset = $(this).offset(),
-                    relX = e.pageX - parentOffset.left,
-                    relY = e.pageY - parentOffset.top;
-                $(this).find('span').css({top:relY, left:relX})
-            })
-            .on('mouseout', function(e) {
-                var parentOffset = $(this).offset(),
-                    relX = e.pageX - parentOffset.left,
-                    relY = e.pageY - parentOffset.top;
-                $(this).find('span').css({top:relY, left:relX})
-            });
-
         $.ajax({
             url: "/findClassList", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
@@ -69,6 +55,10 @@ moving the class to menus lead to only the menu having the effect -->
         $("#class-add").on("click",function () {
 
             var className =  $("#text-input").val();
+            if(className==""){
+                alert("Please enter class name");
+                return false;
+            }
             var sectionName = "";
 
             // alert(className);

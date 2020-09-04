@@ -28,6 +28,13 @@ public class AttendanceController {
         return attendanceService.findTotalAtSummary(strDate, session);
     }
 
+    //1.모든 날짜의 출석 요약을 조회하는 기능
+    @ResponseBody
+    @RequestMapping("findTotalAtSummary2")
+    public Map<String,Object> findTotalAtSummary2(HttpSession session)throws Exception {
+        return attendanceService.findTotalAtSummary2(session);
+    }
+
 
     //1.선택 날짜의 학생별 출석여부를 조회하는 기능
     @ResponseBody
