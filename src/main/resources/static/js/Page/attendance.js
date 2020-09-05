@@ -157,31 +157,105 @@ $(function () {
             success: function (result) {
                 console.log(result);
 
-                var atList = [[]];
+                var atList = [];
                 var at = [];
 
-                $.each(result.present, function(index,item){
-                    at = [item.atDate,item.present];
+                //present
+                $.each(result.present, function (index, item) {
+                    at = [date_to_str(new Date(item.atDate)), item.present];
                     atList.push(at);
                 });
 
-                $.each(result.tardy, function(index,item){
-                    $.each(atList,function(index2,item2){
-                        console.log(item2[0] +" | "+ item.atDate);
-                        if(item2.atDate == item.atDate){
-                            atList[index2][1] = atList[index2][1] + " | " + item.tardy;
-                        }
-                    });
-                });
+                inputAtList(atList, result.tardy, "tardy");
 
-                console.log(atList[1][0]);
+                inputAtList(atList, result.absent, "absent");
 
+                inputAtList(atList, result.leave, "leave");
 
+                console.log(atList);
+
+                $.each(atList, function(index, item){
+                    var event = {title: item[1], start: moment().format(item[0])};
+                    $('#calendar').fullCalendar('renderEvent', event, true);
+                })
             }, //성공했을때
             error: function (request) {
                 alert(request.responseText);
             }
         });// 실패했을때
+    }
+
+    function inputAtList(atList, atType, str) {
+
+        var at = [];
+        var ckTarget = false;
+        var skipIndex = [];
+        var array = [];
+        var lastIndex = 0;
+        var countStr = "";
+
+        //전체 리스트의 마지막 인덱스를 저장
+        lastIndex = Number(atList.length - 1);
+
+        //입력 출결리스트와 같은 크기의 배열 생성, 모든 값 false로
+        $.each(atType, function (index, item) {
+            array.push(false);
+        });
+
+        $.each(atList, function (index2, item2) {
+
+            // 0을 대입할지 값을 대입할지 여부를 확인하는 변수
+            ckTarget = false;
+
+            //전체 리스트 만큼 반복
+            $.each(atType, function (index, item) {
+
+                //Date -> String 형으로 변환
+                var date1 = date_to_str(new Date(item.atDate));
+                var date2 = item2[0];
+
+                // 로그 : 날짜 비교
+                // console.log(date1 +" | "+ date2);
+
+                // 같은 날짜를 찾으면
+                if (date1 == item2[0]) {
+                    //가져온 Count값을 대입
+                    atList[index2][1] = atList[index2][1] + " | " + item[str];
+
+                    //0을 중복해서 넣지 않도록 변수 값 수정
+                    ckTarget = true;
+
+                    //입력될 출결리스트의 현재 인덱스는 전체리스트에 포함된 날짜라는 것을 알림
+                    array[index] = true;
+
+                    //로그 : 입력된 데이터 출력
+                    // console.log("tardy : " + atList[index2][0] +" : "+ atList[index2][1]);
+                }
+            }); // 입력 리스트 for문 종료
+
+            //전체 리스트에 입력된 값이 없다면 0으로 치환하여 삽입
+            if (ckTarget == false) atList[index2][1] = atList[index2][1] + " | 0";
+
+            //출석리스트의 마지막이 되면 스킵된 비출결 항목의 인덱스번호를 배열에 답는다.
+            if (index2 == lastIndex) {
+                $.each(array, function (index, item) {
+                    if (item == false) {
+                        skipIndex.push(index);
+                    }
+                });
+            }
+        }); // 전체 리스트 for문 종료
+
+        //스킵된 입력값을 전체리스트 마지막에 삽입
+        $.each(skipIndex, function (index, item) {
+            // 입력데이터의 타입별로 누락된 값을 채워넣음
+            if (str == "tardy") countStr = "0 | " + atType[item][str];
+            else if (str == "absent") countStr = "0 | 0 | " + atType[item][str];
+            else if (str == "leave") countStr = "0 | 0 | 0 | " + atType[item][str];
+            at = [date_to_str(new Date(atType[item].atDate)), countStr];
+            atList.push(at);
+        });
+        return atList;
     }
 
 // for now, there is something adding a click handler to 'a'
@@ -246,7 +320,7 @@ $(function () {
                         printAtAjax()
 
                     } else {    //데이터가 존재하면
-                        $(".studentDetail .noselect").attr("data-id","none");
+                        $(".studentDetail .noselect").attr("data-id", "none");
 
                         //가져온 목록 출력하기
                         $.each(result, function (index, item) {
@@ -268,33 +342,31 @@ $(function () {
                         //가져온 값 외에 새로 추가된 학생들에 대한 처리
 
                         if (result.length < $(".studentDetail").length) {
-                                var select = $(".noselect[data-id=none] select");
-                                alert(select.length);
-                                    select.each(function(index,item){
-                                        $(item).children("option:selected").attr('selected', false);
+                            var select = $(".noselect[data-id=none] select");
+                            select.each(function (index, item) {
+                                $(item).children("option:selected").attr('selected', false);
 
-                                    //pleaseChoose 작업
-                                    $(item).children("option[data-id=\"none\"]").remove();
-                                        $(item).prepend("<option data-id=\"none\" value=\"\">Please Choose</option>");
-                                        $(item).children('option:eq(0)').attr('selected', true);
-                                });
-
+                                //pleaseChoose 작업
+                                $(item).children("option[data-id=\"none\"]").remove();
+                                $(item).prepend("<option data-id=\"none\" value=\"\">Please Choose</option>");
+                                $(item).children('option:eq(0)').attr('selected', true);
+                            });
 
 
-                             /*   for (i = result.length; i < $(".studentDetail").length; i++) {
-                                    var select = $(".studentDetail:eq(" + i + ")").children().last().children().children().first();
-                                    select.children("option:selected").attr('selected', false);
+                            /*   for (i = result.length; i < $(".studentDetail").length; i++) {
+                                   var select = $(".studentDetail:eq(" + i + ")").children().last().children().children().first();
+                                   select.children("option:selected").attr('selected', false);
 
-                                    //plaseChoose 작업
-                                    select.children("option[data-id=\"none\"]").remove();
-                                    select.prepend("<option data-id=\"none\" value=\"\">Please Choose</option>");
+                                   //plaseChoose 작업
+                                   select.children("option[data-id=\"none\"]").remove();
+                                   select.prepend("<option data-id=\"none\" value=\"\">Please Choose</option>");
 
-                                    select.children('option:eq(0)').attr('selected', true);
-                                    // alert(select.children("option:selected").text());
+                                   select.children('option:eq(0)').attr('selected', true);
+                                   // alert(select.children("option:selected").text());
 
-                                    select.parent().removeAttr('id');
+                                   select.parent().removeAttr('id');
 
-                            }*/
+                           }*/
                         }
                     }
 
