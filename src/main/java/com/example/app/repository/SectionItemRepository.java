@@ -22,7 +22,7 @@ public interface SectionItemRepository extends CrudRepository<SectionItem, Long>
     @Query("DELETE FROM SectionItem s where s.taskItemInfo.taskItemInfoIdx = ?1")
     public void DelSectionItemByTaskIdx(Long taskItemInfoIdx);
 
-    @Query("Select s From SectionItem s where s.section.sectionIdx = ?1")
+    @Query("Select s From SectionItem s where s.section.sectionIdx = ?1 order by s.sectionItemIdx")
     public List<SectionItem> findSectionItemBySectionIdx(Long sectionIdx);
 
     @Transactional
@@ -30,4 +30,6 @@ public interface SectionItemRepository extends CrudRepository<SectionItem, Long>
     @Query("DELETE FROM SectionItem s where s.section.sectionIdx in (select ss.sectionIdx from Section ss where ss._class.classIdx = ?1)")
     public void DelSectionItemByClassIdx(Long classIdx);
 
+    @Query("select si from SectionItem si where si.section.sectionIdx In (select max(s.sectionIdx) from Section s where s._class.classIdx = ?1)")
+    public List<SectionItem> findLastSectionItem(Long classIdx);
 }

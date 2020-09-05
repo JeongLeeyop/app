@@ -11,10 +11,10 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-6" style="flex: 0 0 70%;max-width: 30%;">
-                                <div class="card" style="height: 95.3%;">
+                                <div class="card" style="height: 100%;">
                                     <div class="card-header">
                                         <strong>Section</strong> List
-                                        <h3 class="title-3"style="padding-top: 10px;padding-bottom: 5px;">${curClass.classSectionName}</h3>
+                                        <h3 class="title-3"style="padding-top: 10px;padding-bottom: 5px;">${curClass.className}</h3>
                                     </div>
                                     <div class="card-body card-block" style="height: 431px;" >
                                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" style="height: 100%;">
@@ -28,7 +28,7 @@
                                                 <button data-toggle="modal" data-target="#smallmodal2" id ="addSection" type="button" class="btn btn-primary btn-sm">
                                                     <i class="fa fa-dot-circle-o">Add</i>
                                                 </button>
-                                                <button id ="editSection" type="submit" class="btn btn-primary btn-sm">
+                                                <button id ="editSection" type="button" class="btn btn-primary btn-sm">
                                                     <i class="fa fa-dot-circle-o">Edit</i>
                                                 </button>
                                                 <button id ="delSection" type="button" class="btn btn-danger btn-sm">
@@ -40,7 +40,7 @@
                             </div>
                             <div class="col-lg-8">
                                 <!-- TOP CAMPAIGN-->
-                                <div class="top-campaign">
+                                <div class="top-campaign" style="margin-bottom: 0px;">
                                     <div class="card-header" style="background-color: #fff;position: relative;bottom: 42px;right: 38px;border-bottom: none;">
                                         <strong>Task</strong> List </div>
                                     <div class="table-responsive" style="position: relative;bottom: 66px;">
@@ -48,47 +48,43 @@
                                             <thead id = "taskList">
                                                 <tr id = "taskListTr">
                                                     <th style="border-top: none;font-size: 0.38cm;padding-bottom: 21.5px;">
-                                                        이름
+                                                        Name
                                                     </th>
                                                     <th style="border-top: none;" >
                                                         <div class="rs-select2--light rs-select2--sm">
                                                         <select class="js-select2" name="time">
-                                                            <option selected="selected" value="2">과제 1</option>
-                                                            <option value="">과제 2</option>
-                                                            <option value="">과제 3</option>
-                                                            <option value="">과제 4</option>
-                                                            <option value="">과제 5</option>
-                                                            <option value="">슬롯 삭제</option>
+                                                            <option selected="selected" value="2">Task 1</option>
+                                                            <option value="">Task 2</option>
+                                                            <option value="">Task 3</option>
+                                                            <option value="">Task 4</option>
+                                                            <option value="">Task 5</option>
                                                         </select>
                                                             <div class="dropDownSelect2"></div></div>
                                                     </th>
                                                     <th style="border-top: none;">
                                                         <div class="rs-select2--light rs-select2--sm">
                                                         <select class="js-select2" name="time">
-                                                            <option value="">과제 1</option>
-                                                            <option selected="selected">과제 2</option>
-                                                            <option value="">과제 3</option>
-                                                            <option value="">과제 4</option>
-                                                            <option value="">과제 5</option>
-                                                            <option value="">슬롯 삭제</option>
+                                                            <option selected="selected" value="2">Task 1</option>
+                                                            <option value="">Task 2</option>
+                                                            <option value="">Task 3</option>
+                                                            <option value="">Task 4</option>
+                                                            <option value="">Task 5</option>
                                                         </select>
                                                             <div class="dropDownSelect2"></div>
                                                     </th>
                                                     <th style="border-top: none;">
                                                         <div class="rs-select2--light rs-select2--sm">
                                                             <select class="js-select2" name="time">
-                                                                <option value="">과제 1</option>
-                                                                <option value="">과제 2</option>
-                                                                <option selected="selected">과제 3</option>
-                                                                <option value="">과제 4</option>
-                                                                <option value="">과제 5</option>
-                                                                <option value="">슬롯 삭제</option>
+                                                                <option selected="selected" value="2">Task 1</option>
+                                                                <option value="">Task 2</option>
+                                                                <option value="">Task 3</option>
+                                                                <option value="">Task 4</option>
+                                                                <option value="">Task 5</option>
                                                             </select>
                                                             <div class="dropDownSelect2"></div>
                                                         </div>
                                                     </th>
-                                                    <th style="border-top: none;border-bottom: none"><button class="au-btn au-btn-icon au-btn--green au-btn--small" style="height: 35px;width: 47px;">
-                                                        <i class="zmdi zmdi-plus"></i></button></th>
+                                                    <th style="border-top: none;border-bottom: none"></th>
                                                 </tr>
                                             </thead>
                                             <tbody id="taskChart">
@@ -115,26 +111,25 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                    </div>
-                                    <button type="button" id="cancel" class="btn btn-secondary" style="float: right;margin-right: 5px;">Cancel</button>
-                                    <button type="button" id="clearTask" class="btn btn-danger" style="float: right;margin-right: 5px;">Clear</button>
-                                    <button type="button" id="saveTask" class="btn btn-success" style="float: right;margin-right: 5px;">Save</button>
-
+                                        <button type="button" id = "addTaskBtn" class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i></button>
                                 </div>
+                                    <button type="button" id="cancel" class="btn btn-secondary" style="float: right;margin-right: 5px;">Cancel</button>
+                                    <button type="button" id="clear" class="btn btn-danger" style="float: right;margin-right: 5px;">Clear</button>
+                                    <button type="button" id="saveTask" class="btn btn-success" style="float: right;margin-right: 5px;">Save</button>
                                 <!--  END TOP CAMPAIGN-->
                             </div>
                         </div>
-                        <%--<div class="row">
+                        <div class="row" style="margin-top: 50px;width: 100%;margin-left: 3px;margin-right: 3%;">
                             <div class="col-md-12">
                                 <!-- DATA TABLE -->
                                 <h3 class="title-5 m-b-25">data table
-                                    <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#smallmodal" style="float: right;position: relative;right: 90px;">
+                                    <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#smallmodal" style="float: right;position: relative;">
                                         등급 반영 기준
                                     </button>
                                 </h3>
 
                                 <div class="table-responsive table-responsive-data2">
-                                    <table class="table table-data2">
+                                    <table class="table table-data2" >
                                         <thead>
                                         <tr>
                                             <th>name</th>
@@ -144,7 +139,6 @@
                                             <th>과제4</th>
                                             <th>과제5</th>
                                             <th>최종성적</th>
-                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -193,8 +187,8 @@
                                 </div>
                                 <!-- END DATA TABLE -->
                             </div>
-                        </div>--%>
-                        <div class="row">
+                        </div>
+                        <div class="row" style="width: 100%;">
                             <div class="col-md-12">
                                 <div class="copyright">
                                     <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
@@ -215,7 +209,7 @@
         </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table table-top-campaign">
+                    <table class="table table-top-campaign"style="width: 100%;display: inline-table;">
                         <tbody>
                         <tr>
                             <td>Memory Verse</td>
@@ -280,7 +274,8 @@
             <div class="modal-body">
                 <div class="table-responsive">
                     <label for="sectionName" class=" form-control-label" style="font-weight: bold">Please enter section name.</label>
-                    <input type="text" id="sectionName" placeholder="${curClass}" class="form-control">
+                    <div hidden id="modalSectionIdx"></div>
+                    <input type="text" id="sectionName" placeholder="<%--${curClass}--%>" class="form-control">
                 </div>
             </div>
             <div class="modal-footer">

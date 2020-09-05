@@ -566,6 +566,7 @@ $(function () {
                 success: function (result) {
                     alert(result + " : data has been successfully deleted..");
                     printAtAjax();
+                    location.reload();
 
                 }, //성공했을때
                 error: function (request) {

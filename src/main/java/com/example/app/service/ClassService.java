@@ -68,26 +68,45 @@ public class ClassService {
     //3. 클래스의 섹션을 추가하는 기능
     @Transactional
     @Modifying
-    public Section addSection(Long curClassIdx, String sectionName) {
+    public Section addSection(Long curClassIdx, String sectionName, Long curSectionIdx) {
+
         Class curClass = classRepo.findById(curClassIdx).get();
+
+        //현재 클래스의 가장 마지막 섹션에 있는 과제 항목 들고오기
+        List<SectionItem> sectionItemList = sectionItemRepo.findLastSectionItem(curClassIdx);
+        System.out.println("--------------------------------------->" + sectionItemList);
 
         //신규 섹션 생성
         Section section = new Section();
         section.set_class(curClass);
         section.setSectionName(sectionName);
+        //매개변수에 섹션 아이디값이 존재하면 신규 섹션에 삽입
+        if (curSectionIdx != null) {
+            section.setSectionIdx(curSectionIdx);
+        }
+
         System.out.println(section);
         Section result = sectionRepo.save(section);
 
+
+        if (curSectionIdx == null) {
+            for (SectionItem item : sectionItemList) {
+                SectionItem sectionItem = new SectionItem();
+                sectionItem.setSection(result);
+                sectionItem.setTaskItemInfo(item.getTaskItemInfo());
+                sectionItemRepo.save(sectionItem);
+            }
+        }
+
         //만든 섹션에 Default 과제항목 넣기
+//        List<ClassDefaultTask> list = classDefaultTaskRepo.findDefaultTaskByClassId(curClassIdx);
 
-        List<ClassDefaultTask> list = classDefaultTaskRepo.findDefaultTaskByClassId(curClassIdx);
-
-        for (ClassDefaultTask item : list) {
+        /*for (ClassDefaultTask item : list) {
             SectionItem sectionItem = new SectionItem();
             sectionItem.setSection(result);
             sectionItem.setTaskItemInfo(item.getTaskItemInfo());
             sectionItemRepo.save(sectionItem);
-        }
+        }*/
 
         return result;
     }
@@ -140,12 +159,14 @@ public class ClassService {
     //6. 섹션의 기본 템플릿 제공
     public Map findTaskTemplate(Long curClassIdx, HttpSession session) {
 
-
-        List<TaskItemInfo> DefaultTaskList = new ArrayList<TaskItemInfo>();
+        /*List<TaskItemInfo> DefaultTaskList = new ArrayList<TaskItemInfo>();
         List<ClassDefaultTask> DefaultTaskItem = classDefaultTaskRepo.findDefaultTaskByClassId(curClassIdx);
         for (ClassDefaultTask classDefaultTask : DefaultTaskItem) {
             DefaultTaskList.add(classDefaultTask.getTaskItemInfo());
-        }
+        }*/
+
+        //현재 클래스의 가장 마지막 섹션에 있는 과제 항목 들고오기
+        List<SectionItem> sectionItemList = sectionItemRepo.findLastSectionItem(curClassIdx);
 
         //모든 과제 리스트 불러오기
         List<TaskItemInfo> taskList = taskItemInfoRepo.findTaskItemInfoByClassIdx(curClassIdx);
@@ -154,7 +175,7 @@ public class ClassService {
         List<Student> studentList = studentService.findStudentList(session);
 
         Map<String, Object> map = new HashMap<>();
-        map.put("DefaultTaskList", DefaultTaskList);
+        map.put("sectionItemList", sectionItemList);
         map.put("taskList", taskList);
         map.put("studentList", studentList);
 
@@ -162,7 +183,7 @@ public class ClassService {
     }
 
     //7. 섹션의 과제 항목을 추가하는 기능
-    public Map<String, Object> addTask(Long curClassIdx,Long curSectionIdx) {
+    public Map<String, Object> addTask(Long curClassIdx, Long curSectionIdx) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -172,7 +193,7 @@ public class ClassService {
         List<TaskItemInfo> taskItemInfo = taskItemInfoRepo.findTaskItemInfoByClassIdx(curClassIdx);
 
         map.put("sectionItem", result);
-        map.put("taskItemInfo",taskItemInfo);
+        map.put("taskItemInfo", taskItemInfo);
         return map;
     }
 
@@ -185,7 +206,7 @@ public class ClassService {
         SectionItem sectionItem = sectionItemRepo.findById(sectionItemIdx).get();
 
         //taskiteminfo Null여부 체크 : 새로 추가된 Task이므로 TaskItem이 없음
-        if(sectionItem.getTaskItemInfo()!=null) {
+        if (sectionItem.getTaskItemInfo() != null) {
             //섹션내부 데이터 삭제
             taskItemRepo.delTask(sectionItem.getSection().getSectionIdx(), sectionItem.getTaskItemInfo().getTaskItemInfoIdx());
         }
@@ -197,17 +218,17 @@ public class ClassService {
     //9. 섹션의 과제 항목을 이름을 수정하는 기능
     @Transactional
     @Modifying
-    public int changeTask(Long sectionItemIdx,Long targetTaskIdx) {
+    public int changeTask(Long sectionItemIdx, Long targetTaskIdx) {
         //구조가 변경되야함
         //TaskItem에 SectionIdx와 TaskItemInfoIdx를 SectionItem으로 해결할 수 있다.
 
         SectionItem sectionItem = sectionItemRepo.findById(sectionItemIdx).get();
 
         //taskiteminfo Null여부 체크 : 새로 추가된 Task이므로 TaskItem이 없음
-        if(sectionItem.getTaskItemInfo()!=null){
+        if (sectionItem.getTaskItemInfo() != null) {
             //taskitem의 taskiteminfo를 전부 수정
-            List<TaskItem> taskItemList = taskItemRepo.findSectionItemTask(sectionItem.getSection().getSectionIdx(),sectionItem.getTaskItemInfo().getTaskItemInfoIdx());
-            for(TaskItem taskItem : taskItemList){
+            List<TaskItem> taskItemList = taskItemRepo.findSectionItemTask(sectionItem.getSection().getSectionIdx(), sectionItem.getTaskItemInfo().getTaskItemInfoIdx());
+            for (TaskItem taskItem : taskItemList) {
                 taskItem.setTaskItemInfo(taskItemInfoRepo.findById(targetTaskIdx).get());
                 taskItemRepo.save(taskItem);
             }
@@ -216,7 +237,6 @@ public class ClassService {
         //sectionitem의 taskiteminfo를 수정
         sectionItem.setTaskItemInfo(taskItemInfoRepo.findById(targetTaskIdx).get());
         sectionItemRepo.save(sectionItem);
-
 
 
         return 0;
@@ -253,7 +273,6 @@ public class ClassService {
             //DTO 생성
 
 
-
             System.out.println("학생 idx " + studentIdx + " | 과제정보 idx " + taskInfoIdx);
 
 
@@ -264,10 +283,10 @@ public class ClassService {
             taskItem.setSection(curSection);
 
             //아이디가 이미 있으면 넣어주기
-            if(object.has("taskItemIdx")){
+            if (object.has("taskItemIdx")) {
                 taskItemIdx = object.get("taskItemIdx").getAsLong();
                 taskItem.setTaskItemIdx(taskItemIdx);
-                System.out.println("과제 idx | "+ taskItemIdx);
+                System.out.println("과제 idx | " + taskItemIdx);
             }
 
 
@@ -280,9 +299,9 @@ public class ClassService {
             } else {
                 score = null;
             }
-                taskItemRepo.updateScore(score,result.getTaskItemIdx());
+            taskItemRepo.updateScore(score, result.getTaskItemIdx());
 //                taskItem.setTaskScore(score);
-                System.out.println("점수 | " + score);
+            System.out.println("점수 | " + score);
 
         }
         return 0;

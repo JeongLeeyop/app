@@ -171,12 +171,7 @@ public class SettingService {
         Class _class = new Class();
         _class.setClassMemo(null);
         _class.setClassName(classReq.getClassName());
-
-        if(classReq.getSectionName().isEmpty()){
-            _class.setClassSectionName(null);
-        }else{
-            _class.setClassSectionName(classReq.getSectionName());
-        }
+        _class.setClassSectionName(null);
 
         _class.setAccount((Account)session.getAttribute("Account"));
 

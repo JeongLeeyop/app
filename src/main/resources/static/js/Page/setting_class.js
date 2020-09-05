@@ -35,11 +35,11 @@ $(function () {
         success: function (result) {
             console.log(result);
             var className = result.className;
-            var classSectionName = result.classSectionName;
+            // var classSectionName = result.classSectionName;
             var classIdx = result.classIdx;
 
             $("#text-input1").val(className);
-            $("#select2-select-container").text(classSectionName);
+            // $("#select2-select-container").text(classSectionName);
             $("#classIdx").text(classIdx);
 
             TaskAjax();
@@ -65,7 +65,6 @@ $(function () {
     //클래스 수정
     $(document).on("click", "#updateClass", function () {
         var className = $("#text-input1").val();
-        var sectionName = $("#select2-select-container").text();
         var classIdx = $("#classIdx").text();
 
         if(className==""){
@@ -73,16 +72,10 @@ $(function () {
             return false;
         }
 
-        if (sectionName == "Please select") {
-            // alert("Please enter section name.");
-            sectionName = "";
-            // return true;
-        }
-
         $.ajax({
             url: "/updateClass", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
-            data: "className=" + className + "&sectionName=" + sectionName + "&classIdx=" + classIdx,
+            data: "className=" + className +"&classIdx=" + classIdx,
             dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
                 alert("The class has been modified.");

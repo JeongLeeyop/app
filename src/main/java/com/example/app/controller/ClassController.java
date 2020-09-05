@@ -31,8 +31,8 @@ public class ClassController {
     //1. 클래스의 섹션을 추가하는 기능
     @RequestMapping("addSection")
     @ResponseBody
-    public Section addSection(Long curClassIdx, String sectionName) {
-        return classService.addSection(curClassIdx,sectionName);
+    public Section addSection(Long curClassIdx, String sectionName,Long curSectionIdx) {
+        return classService.addSection(curClassIdx,sectionName,curSectionIdx);
     }
 
     //2. 클래스의 섹션을 삭제하는 기능

@@ -15,6 +15,22 @@
     }
 
     #cancel, #clearTask, #saveTask{
-        float: right;margin-right: 5px;position: relative;top: 40px;
+        float: right;
+        margin-right: 5px;
+        position: relative;
     }
 
+    table.table.table-top-campaign {
+        width: fit-content;
+        display: inline;
+    }
+
+    .top-campaign {
+        max-width: 100%;
+    }
+
+    #addTaskBtn{
+        height: 35px;
+        width: 47px;
+        float: right;
+    }

@@ -20,4 +20,6 @@ public interface TaskItemInfoRepository extends CrudRepository<TaskItemInfo, Lon
 
     @Query("select t from TaskItemInfo t where t._class.classIdx = ?1")
     public List<TaskItemInfo> findTaskItemInfoByClassIdx(Long curClassIdx);
+
+
 }

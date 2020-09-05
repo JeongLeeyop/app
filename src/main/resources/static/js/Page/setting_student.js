@@ -48,7 +48,7 @@ $("#student-add").click(function () {
             dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             data: "studentName=" + studentName + "&studentGender=" + studentGender + "&studentGrade=" + studentGrade,//서버에게 보내는 parameter정보
             success: function (result) {
-                alert("You have registered a new student.");
+                // alert("You have registered a new student.");
                 StudentAjax();
 
                 //모달1 폼 비우기
@@ -69,7 +69,7 @@ $("#student-add").click(function () {
                 dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
                 data: "studentIdx=" + studentIdx + "&studentName=" + studentName + "&studentGender=" + studentGender + "&studentGrade=" + studentGrade,//서버에게 보내는 parameter정보
                 success: function (result) {
-                    alert("Updated successfully.");
+                    // alert("Updated successfully.");
                     StudentAjax();
                     $("#mediumModal2").modal("hide");
                 }, //성공했을때
