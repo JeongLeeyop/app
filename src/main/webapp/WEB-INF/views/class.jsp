@@ -1,6 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
+
 <!-- animsition overrides all click events on clickable things like a,
       since calendar doesn't add href's be default,
       it leads to odd behaviors like loading 'undefined'
@@ -113,7 +114,7 @@
                                         </table>
                                         <button type="button" id = "addTaskBtn" class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i></button>
                                 </div>
-                                    <button type="button" id="cancel" class="btn btn-secondary" style="float: right;margin-right: 5px;">Cancel</button>
+                                    <button type="button" id="cancel" class="btn btn-secondary" style="float: right;margin-right: 5px;">Go Back</button>
                                     <button type="button" id="clear" class="btn btn-danger" style="float: right;margin-right: 5px;">Clear</button>
                                     <button type="button" id="saveTask" class="btn btn-success" style="float: right;margin-right: 5px;">Save</button>
                                 <!--  END TOP CAMPAIGN-->
@@ -124,64 +125,18 @@
                                 <!-- DATA TABLE -->
                                 <h3 class="title-5 m-b-25">data table
                                     <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#smallmodal" style="float: right;position: relative;">
-                                        등급 반영 기준
+                                        Grade Chart
                                     </button>
                                 </h3>
 
                                 <div class="table-responsive table-responsive-data2">
                                     <table class="table table-data2" >
-                                        <thead>
+                                        <thead id="GradeList">
                                         <tr>
                                             <th>name</th>
-                                            <th>과제1</th>
-                                            <th>과제2</th>
-                                            <th>과제3</th>
-                                            <th>과제4</th>
-                                            <th>과제5</th>
-                                            <th>최종성적</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
-                                        <tr class="tr-shadow">
-                                            <td>Helen</td>
-                                            <td>10</td>
-                                            <td>20</td>
-                                            <td>30</td>
-                                            <td>10</td>
-                                            <td>20</td>
-                                            <td>90</td>
-                                        </tr>
-                                        <tr class="spacer"></tr>
-                                        <tr class="tr-shadow">
-                                            <td>Dorothy</td>
-                                            <td>10</td>
-                                            <td>20</td>
-                                            <td>30</td>
-                                            <td>10</td>
-                                            <td>20</td>
-                                            <td>90</td>
-                                        </tr>
-                                        <tr class="spacer"></tr>
-                                        <tr class="tr-shadow">
-                                            <td>Carol</td>
-                                            <td>10</td>
-                                            <td>20</td>
-                                            <td>30</td>
-                                            <td>10</td>
-                                            <td>20</td>
-                                            <td>90</td>
-                                        </tr>
-                                        <tr class="spacer"></tr>
-                                        <tr class="tr-shadow">
-                                            <td>Betty</td>
-                                            <td>10</td>
-                                            <td>20</td>
-                                            <td>30</td>
-                                            <td>10</td>
-                                            <td>20</td>
-                                            <td>90</td>
-                                        </tr>
-                                        <tr class="spacer"></tr>
+                                        <tbody id="TotalGradeChart">
                                         </tbody>
                                     </table>
                                 </div>
@@ -209,48 +164,8 @@
         </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table table-top-campaign"style="width: 100%;display: inline-table;">
+                    <table id="gradeChart" class="table table-top-campaign"style="width: 100%;display: inline-table;">
                         <tbody>
-                        <tr>
-                            <td>Memory Verse</td>
-                            <td>10%</td>
-                        </tr>
-                        <tr>
-                            <td>Family Devotion</td>
-                            <td>10%</td>
-                        </tr>
-                        <tr>
-                            <td>Action Plan</td>
-                            <td>10%</td>
-                        </tr>
-                        <tr>
-                            <td>7 Steps</td>
-                            <td>10%</td>
-                        </tr>
-                        <tr>
-                            <td>Reports</td>
-                            <td>10%</td>
-                        </tr>
-                        <tr>
-                            <td>Parent Action Plan</td>
-                            <td>10%</td>
-                        </tr>
-                        <tr>
-                            <td>Parent Prayer</td>
-                            <td>10%</td>
-                        </tr>
-                        <tr>
-                            <td>Parent School</td>
-                            <td>10%</td>
-                        </tr>
-                        <tr>
-                            <td>Attendance</td>
-                            <td>10%</td>
-                        </tr>
-                        <tr>
-                            <td>Parent Assignment</td>
-                            <td>10%</td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -272,10 +187,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="table-responsive">
+                <div onsubmit="return false" class="table-responsive">
                     <label for="sectionName" class=" form-control-label" style="font-weight: bold">Please enter section name.</label>
                     <div hidden id="modalSectionIdx"></div>
-                    <input type="text" id="sectionName" placeholder="<%--${curClass}--%>" class="form-control">
+                    <input hidden>
+                    <input type="text" id="sectionName" onkeypress="if(event.keyCode == 13 ){SectionAdd();}" placeholder="<%--${curClass}--%>" class="form-control">
                 </div>
             </div>
             <div class="modal-footer">
@@ -285,6 +201,6 @@
     </div>
 </div>
 
-<script src="vendor/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="js/Page/class.js"></script>
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/Page/class.js"></script>
 

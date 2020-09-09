@@ -18,7 +18,7 @@ public interface TaskItemInfoRepository extends CrudRepository<TaskItemInfo, Lon
     @Modifying
     public void DelTaskInfoByClassIdx(Long ClassIdx);
 
-    @Query("select t from TaskItemInfo t where t._class.classIdx = ?1")
+    @Query("select t from TaskItemInfo t where t._class.classIdx = ?1 Order By t.taskItemInfoIdx")
     public List<TaskItemInfo> findTaskItemInfoByClassIdx(Long curClassIdx);
 
 

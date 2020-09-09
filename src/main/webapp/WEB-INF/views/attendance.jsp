@@ -13,7 +13,7 @@
                                 <div id="calendar"></div>
                               </div>
                             </div><!-- .col -->
-                            <div class="col-lg-3" >
+                            <div class="col-lg-3" <%--style="flex: 0 0 25%;max-width: 25%;"--%>>
                                 <div class="au-card au-card--bg-blue au-card-top-countries m-b-30" style="height: 100%;">
                                     <div class="au-card-inner">
                                         <div class="table-responsive">
@@ -23,10 +23,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="au-card-inner" style="bottom: 2%;position: absolute;max-width: 100%;left: 10%;">
-                                            <div class="table-responsive">
-                                        <button type="button" id="addAt" class="btn btn-success btn-sm" style="margin-right: 5px;">Save<div hidden id="curDate"></div></button>
-                                        <button type="button" id="delAt" class="btn btn-danger btn-sm" style="margin-right: 5px;">Delete</button>
+                                    <div class="au-card-inner" style="width: 100%;height: 10%;">
+                                            <div class="table-responsive" style="position: relative;top: 50%;">
+                                        <button type="button" id="addAt" class="btn btn-success btn-sm" >Save<div hidden id="curDate"></div></button>
+                                        <button type="button" id="delAt" class="btn btn-danger btn-sm">Delete</button>
 
                                     </div>
                                         </div>

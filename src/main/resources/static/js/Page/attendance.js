@@ -11,7 +11,7 @@ $(function () {
     $('head').append('<link rel="stylesheet" href="css/fullcalendar.css" type="text/css" />');
 
     printAtAjax();
-
+    $('head').append('<link rel="stylesheet" href="css/attendance.css" type="text/css" />');
 //출석 학생 목록 출력 Ajax
     function printAtAjax() {
         $("#studentList").empty();
@@ -23,8 +23,8 @@ $(function () {
                 $.each(result, function (index, item) {
                     // studentSize = result.length;
                     var str = "<tr class=\"studentDetail\"><td id=\"" + item.studentIdx + "\"style=\"vertical-align: middle;\">" + item.studentName + "</td><td>" +
-                        "<div data-id=\"none\" class=\"noselect\" style=\"width: 130px;\">\n" +
-                        "                    <select style=\"position: relative;left: 32px;\"class=\"js-select\" name=\"time\">\n" +
+                        "<div data-id=\"none\" class=\"noselect\">\n" +
+                        "                    <select style=\"position: relative;\"class=\"js-select\" name=\"time\">\n" +
                         "                    <option data-id=\"0\" value=\"\">Present</option>\n" +
                         "                    <option data-id=\"1\" value=\"\">Ex. Tardy</option>\n" +
                         "                    <option data-id=\"2\" value=\"\">Tardy </option>\n" +
@@ -47,7 +47,6 @@ $(function () {
         });
     };
 
-
 //모든 날짜 요약
 // 이벤트 추가
 
@@ -60,8 +59,7 @@ $(function () {
         return year + "-" + month + "-" + date;
     }
 
-
-    function AtSummary() {
+   /* function AtSummary() {
 
 
         var strDate = jQuery("#calendar").fullCalendar('getDate');
@@ -146,8 +144,7 @@ $(function () {
                 alert(request.responseText);
             }
         });// 실패했을때
-    }
-
+    }*/
     function AtSummary2() {
 
         $.ajax({

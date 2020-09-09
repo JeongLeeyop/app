@@ -1,0 +1,65 @@
+select.js-select {
+    width: 100%;
+    /* max-width: 100px; */
+}
+
+option {width: 0px;}
+
+.m-b-30 {
+    padding: 10%;
+}
+
+.table-responsive {
+    padding-right: 1px;
+}
+
+.fc-scroller.fc-day-grid-container {
+    height: fit-content !important;
+}
+
+#delAt {
+    width: 45%;
+}
+
+#addAt {
+    margin-right: 2%;
+    width: 45%;
+}
+
+    @media (max-width: 991px ) {
+
+        .au-card.au-card--bg-blue.au-card-top-countries.m-b-30 {
+            width: 90%;
+            min-width: 290px;
+            max-width: 360px;
+        }
+        .m-b-30 {
+            padding: 40px;
+        }
+
+        .col{
+            width : 90.5% !important;
+        }
+
+
+    }
+
+
+
+@media (min-width: 992px) {
+    .col-lg-3 {
+        flex: 0 0 30%;
+        max-width: 360px;
+    }
+
+    .au-card.au-card--bg-blue.au-card-top-countries.m-b-30 {
+        width: 35%;
+        min-width: 100%;
+        max-width: 100%
+    }
+
+    .col {
+        /*width: 70% !important;*/
+    }
+}
+

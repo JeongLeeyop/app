@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @NoArgsConstructor
@@ -13,8 +14,8 @@ import javax.persistence.*;
 @Setter
 @Getter
 @ToString
-@DynamicInsert
-@DynamicUpdate
+//@DynamicInsert
+//@DynamicUpdate
 public class TaskItem {
 
     @Id
@@ -22,8 +23,8 @@ public class TaskItem {
     @SequenceGenerator(sequenceName = "TaskItem_SEQ_NO", name = "TaskItem_SEQ_NO", allocationSize = 1)
     private long taskItemIdx;
 
-    @Column(insertable=false, updatable=false,nullable=true)
-    private Long taskScore;
+    @Column(nullable=true)
+    private BigDecimal taskScore;
 
     @ManyToOne
     @JoinColumn(name = "sectionIdx")

@@ -6,12 +6,13 @@ import com.example.app.model.domain.section.TaskItemInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 public interface TaskItemMapping {
 
     Long getTaskItemIdx();
 
-    Long getTaskScore();
+    BigDecimal getTaskScore();
 
     Long getStudentStudentIdx();
 

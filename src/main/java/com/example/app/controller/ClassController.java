@@ -2,6 +2,7 @@ package com.example.app.controller;
 
 import com.example.app.model.domain.section.Section;
 import com.example.app.model.domain.section.TaskItemInfo;
+import com.example.app.model.dto.response.totalGradeResponse;
 import com.example.app.service.ClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,5 +92,19 @@ public class ClassController {
     public ModelAndView saveTaskScore(@RequestParam String taskChart, Long curSectionIdx) throws Exception{
         classService.saveTaskScore(taskChart,curSectionIdx);
         return null;
+    }
+
+    //9. 과제 정보를 출력해주는 기능 : 성적비율
+    @RequestMapping("findTaskItemInfoList")
+    @ResponseBody
+    public List<TaskItemInfo> findTaskItemInfoList(Long curClassIdx) throws Exception{
+        return classService.findTaskItemInfoList(curClassIdx);
+    }
+
+    //10. 전체 학생 목록을 출력하여 등급 항목에 과제 항목의 점수를 반영하여 조회해주는 기능
+    @RequestMapping("findTotalGrade")
+    @ResponseBody
+    public List<totalGradeResponse> findTotalGrade(Long curClassIdx, HttpSession session) {
+        return classService.findTotalGrade(curClassIdx,session);
     }
 }

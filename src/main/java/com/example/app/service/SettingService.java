@@ -119,7 +119,7 @@ public class SettingService {
     @ResponseBody
     //2. 클래스의 과제를 조회하는 기능
     public List<TaskItemInfo> findTask(classRequest classReq) {
-        List<TaskItemInfo> result = taskInfoRepo.findTaskItemInfoBy_class_ClassIdx(classReq.getClassIdx());
+        List<TaskItemInfo> result = taskInfoRepo.findTaskItemInfoByClassIdx(classReq.getClassIdx());
         System.out.println(result);
         return result;
     }

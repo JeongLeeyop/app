@@ -39,8 +39,8 @@
     <definition name="login" extends="nolayout">
         <put-attribute name="content" value="/WEB-INF/views/login.jsp" />
     </definition>
-    <definition name="register" extends="nolayout">
+    <!--<definition name="register" extends="nolayout">
         <put-attribute name="content" value="/WEB-INF/views/register.jsp" />
-    </definition>
+    </definition>-->
 
 </tiles-definitions>

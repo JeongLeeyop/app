@@ -111,7 +111,7 @@ $(function () {
 
     //취소하기
     $(document).on("click", "#cancelClass", function () {
-        if (confirm("Are you sure you want to cancel?")) {
+        if (confirm("Are you sure you want to go Back?")) {
             location.href = 'setting_class_list';
         }
     });
@@ -167,11 +167,16 @@ $(function () {
         var length = $("#multiple-select option").length;
         var Sum = 0;
 
+        var selected = $("#multiple-select option:selected").index();
         for (var i = 2; i < length; i++) {
-            var str = $("#multiple-select option").eq(i).text();
-            array = str.split('|| ');
-            array = array[0].split('%');
-            GradeArray.push(array[0]);
+            if(Type==2 && i == selected){
+                console.log(i + " | " + selected );
+            } else {
+                var str = $("#multiple-select option").eq(i).text();
+                array = str.split('|| ');
+                array = array[0].split('%');
+                GradeArray.push(array[0]);
+            }
         }
         ;
         $.each(GradeArray, function (index, item) {

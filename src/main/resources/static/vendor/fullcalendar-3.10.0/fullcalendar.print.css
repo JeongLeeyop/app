@@ -161,7 +161,9 @@
 .fc-time-grid-container {
   /* */
   overflow: visible !important;
-  height: auto !important; }
+  /*height: fit-content;*/
+  height: auto !important;
+}
 
 /* kill the horizontal border/padding used to compensate for scrollbars */
 .fc-row {

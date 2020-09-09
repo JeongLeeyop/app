@@ -14,7 +14,7 @@ $.ajax({
     success : function(result) {
 
         $.each(result, function(index,item){
-            $("#StudentChart tr").append("<th>"+item.className+"</th>")
+            $("#StudentChart tr").append("<th><div data-id=\""+item.classIdx+"\"/></div>"+item.className+"</th>");
         });
 
     }, //성공했을때
@@ -47,9 +47,13 @@ $.ajax({
     }
 });// 실패했을때
 
+
+
+
+
 //학생 클릭시 상세 페이지로 이동
 $(document).on("click",".studentDetail",function(){
-    alert("under inspection");
+    alert("Developing.");
     // alert("학생의 idx는 "+$(this).children().eq(0).text()+"입니다.");
     // location.href="student_detail";
 });

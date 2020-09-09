@@ -4,6 +4,7 @@ import com.example.app.model.domain.Student;
 import com.example.app.model.dto.response.repository.TaskItemMapping;
 import com.example.app.model.domain.section.Section;
 import com.example.app.model.domain.section.TaskItem;
+import com.example.app.model.dto.response.repository.TotalGradeMapping;
 import com.example.app.model.dto.response.repository.UsedTaskList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -54,4 +55,6 @@ public interface TaskItemRepository extends JpaRepository<TaskItem, Long> {
     @Query("select t from TaskItem t where t.section.sectionIdx = ?1 and t.taskItemInfo.taskItemInfoIdx=?2")
     public List<TaskItem> findSectionItemTask(Long sectionIdx, Long taskItemInfoIdx);
 
+    @Query("select t.taskItemInfo.taskItemInfoIdx as task, t.student.studentIdx as student, count(t.taskScore) as count, sum(t.taskScore) as sum from TaskItem t where t.taskItemInfo.taskItemInfoIdx In (select ti.taskItemInfoIdx from TaskItemInfo ti where ti._class.classIdx = ?1) AND t.student.studentIdx In (select s.studentIdx from Student s where s.account.userIdx = ?2) group by t.taskItemInfo.taskItemInfoIdx,t.student.studentIdx order by t.student.studentIdx,t.taskItemInfo.taskItemInfoIdx")
+    public List<TotalGradeMapping> findTotalGrade(Long curClassIdx, Long curUserIdx);
 }

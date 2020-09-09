@@ -45,6 +45,8 @@
 /*    $(document).ready(function () {});
     $(window).on('load', function () {});*/
 
+    var toggle=0;
+
     $(function () {
 
         ////////////////////////////////////////////////////////////////////
@@ -102,6 +104,21 @@
             $(".menu-sidebar.d-none.d-lg-block").toggleClass('hide');
         });
 
+        //클래스 버튼 아이콘 토글
+        $(".js-arrow").on("click", function(){
+            if(toggle==0){
+                $(this).removeClass("fa-caret-down");
+                $(this).addClass("fa-caret-up");
+                toggle=1;
+                console.log("down");
+            } else if(toggle==1){
+                $(this).removeClass("fa-caret-up");
+                $(this).addClass("fa-caret-down");
+                toggle=0;
+                console.log("up");
+            }
+        });
+
         //좌측 메뉴에 클래스 목록 출력
         $.ajax({
             url: "/findClassList", //서버요청주소
@@ -109,9 +126,6 @@
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
                 $.each(result, function (index, item) {
-                    /*$("#classList").append("<li><a href=\"class?idx=" + item.classIdx + "\">" + item.className + "</a></li>")
-                    $("#classListMobile").append("<li><a href=\"class?idx=" + item.classIdx + "\">" + item.className + "</a></li>")
-*/
                     $("#classList").append("<li><a href=\"class?idx="+item.classIdx+"\">" + item.className + "</a></li>");
                     $("#classListMobile").append("<li><a href=\"class?idx="+item.classIdx+"\">" + item.className + "</a></li>");
                 });

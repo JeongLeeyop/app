@@ -35,12 +35,12 @@
 
     <!-- Main CSS-->
     <link href="/css/theme.css" rel="stylesheet" media="all">
+
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/cookieFunction.js"></script>
     <script>
 
-
-
         function checkValid(){
-
             if($("input[name=email]").val()==""){
                 alert("Check your Email.");
                 $("input[name=email]").focus();
@@ -52,6 +52,7 @@
                 return false;
             }
         }
+
     </script>
 
 </head>
@@ -78,14 +79,14 @@
                                     <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
                                 </div>
 
-                              <%--  <div class="login-checkbox">
+                                <div class="login-checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember">Remember Me
+                                        <input id="idSaveCheck" type="checkbox" name="remember">Remember Me
                                     </label>
-                                    <label>
+                                    <%--<label>
                                         <a href="#">Forgotten Password?</a>
-                                    </label>
-                                </div>--%>
+                                    </label>--%>
+                                </div>
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit" id="signIn">sign in</button>
                                <%-- <div class="social-login-content">
                                     <div class="social-button">
@@ -94,12 +95,12 @@
                                     </div>
                                 </div>--%>
                             </form>
-                            <div class="register-link">
+<%--                            <div class="register-link">
                                 <p>
                                     Don't you have account?
                                     <a href="register">Sign Up Here</a>
                                 </p>
-                            </div>
+                            </div>--%>
                         </div>
                     </div>
                 </div>
