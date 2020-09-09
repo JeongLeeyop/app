@@ -8,5 +8,5 @@ public interface TotalGradeMapping {
      Long getTask();
      Long getStudent();
      Long getCount();
-     Long getSum();
+     Double getSum();
 }

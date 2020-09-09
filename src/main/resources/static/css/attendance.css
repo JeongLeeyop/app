@@ -29,16 +29,16 @@ option {width: 0px;}
     @media (max-width: 991px ) {
 
         .au-card.au-card--bg-blue.au-card-top-countries.m-b-30 {
-            width: 90%;
+            width: 100%;
             min-width: 290px;
-            max-width: 360px;
+            max-width: 395px;
         }
         .m-b-30 {
             padding: 40px;
         }
 
         .col{
-            width : 90.5% !important;
+            width : 98.5% !important;
         }
 
 

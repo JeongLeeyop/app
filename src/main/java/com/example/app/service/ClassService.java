@@ -82,7 +82,7 @@ public class ClassService {
                 finalGrade = (item.getSum().doubleValue() / item.getCount()) * gradeRatio / 10.0;
             }
             System.out.println("1 : " + item.getTask()+" 2 : " + item.getStudent() + " 3 : " + item.getCount()+ " 4 : " + item.getSum() + " 5 : " + grade + " 6 : " + finalGrade);
-          result.add(new totalGradeResponse(item.getStudent(),curTaskIdx,grade,finalGrade) );
+          result.add(new totalGradeResponse(item.getStudent(),curTaskIdx,grade,finalGrade,null) );
         }
 
 /*        for(totalGradeResponse a : result){

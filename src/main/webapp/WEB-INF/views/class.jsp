@@ -11,7 +11,7 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-lg-6" style="flex: 0 0 70%;max-width: 30%;">
+                            <div class="col-lg-6">
                                 <div class="card" style="height: 100%;">
                                     <div class="card-header">
                                         <strong>Section</strong> List
@@ -21,7 +21,7 @@
                                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" style="height: 100%;">
                                             <div class="row form-group" style="height: 87%;">
                                                 <div class="col-12 col-md-9">
-                                                    <select name="multiple-select" id="multiple-select" multiple="" class="form-control" style="height: 100%;width: 130%;">
+                                                    <select name="multiple-select" id="multiple-select" multiple="" class="form-control">
                                                     </select>
                                                 </div>
                                             </div>
@@ -112,8 +112,9 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                        <button type="button" id = "addTaskBtn" class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i></button>
+
                                 </div>
+                                    <button type="button" id = "addTaskBtn" class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i></button>
                                     <button type="button" id="cancel" class="btn btn-secondary" style="float: right;margin-right: 5px;">Go Back</button>
                                     <button type="button" id="clear" class="btn btn-danger" style="float: right;margin-right: 5px;">Clear</button>
                                     <button type="button" id="saveTask" class="btn btn-success" style="float: right;margin-right: 5px;">Save</button>

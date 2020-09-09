@@ -2,6 +2,7 @@ package com.example.app.controller;
 
 import com.example.app.model.domain.Student;
 import com.example.app.model.dto.response.studentChartResponse;
+import com.example.app.model.dto.response.totalGradeResponse;
 import com.example.app.service.AttendanceService;
 import com.example.app.service.SettingService;
 import com.example.app.service.StudentService;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,7 +34,7 @@ public class StudentController {
     //1. 전체 학생의 요약정보를 조회하는 기능
     @RequestMapping("findStudentSummary")
     @ResponseBody
-    public List<studentChartResponse> findStudentSummary(HttpSession session) {
+    public Map<String,Object> findStudentSummary(HttpSession session) {
         return studentService.findStudentSummary(session);
     }
 

@@ -1,0 +1,21 @@
+
+
+.table-earning thead th {
+
+    padding: 22px 12px;
+
+}
+
+.table-earning tbody td {
+    padding: 12px 12px;
+}
+
+.section__content--p30 {
+    padding-left: 30px;
+}
+
+@media (max-width: 991px){
+    .section__content--p30 {
+        padding: 0px;
+    }
+}

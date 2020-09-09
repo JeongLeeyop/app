@@ -2,7 +2,7 @@
          pageEncoding="utf-8"%>
             <!-- MAIN CONTENT-->
             <div class="main-content">
-                <div class="section__content section__content--p30" style="padding-left: 65px;">
+                <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <h3 class="title-3 m-b-20" style="padding-top: 10px;padding-bottom: 5px;">Student Summary</h3>
                         <div class="row">

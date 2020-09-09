@@ -779,3 +779,12 @@ color: #fff;
 position: relative;
 }
 
+.table-data__tool-right{
+    position: relative;
+    right: 3%;
+}
+
+
+@media (min-width: 1660px){
+
+}

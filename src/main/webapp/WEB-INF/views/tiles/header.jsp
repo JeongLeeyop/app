@@ -27,8 +27,7 @@
                 </li>--%>
                 <li>
                     <a href="class_list">
-                        <i class="fas fas fa-table"></i>Class &nbsp; <i class="js-arrow fas fa-caret-down"
-                                                                        style="width: 50px;height: 20px;"></i>
+                        <i class="fas fas fa-table"></i>Class &nbsp; <i class="js-arrow fas fa-caret-down"style="width: 50px;height: 20px;"></i>
                         <ul id="classListMobile" style="padding-top: 10px;"
                             class="list-unstyled navbar__sub-list js-sub-list">
                         </ul>
@@ -116,8 +115,7 @@
                        </li>--%>
                 <li>
                     <a href="class_list">
-                        <i class="fas fas fa-table"></i>Class &nbsp; <i class="js-arrow fas fa-caret-down"
-                                                                        style="width: 50px;height: 20px;"></i>
+                        <i class="fas fas fa-table"></i>Class &nbsp; <i class="js-arrow fas fa-caret-down" style="width: 167px;height: 40px;position: absolute;top: 95px;left: 120px;padding-top: 16px;"></i>
                         <ul id="classList" style="padding-top: 10px;"
                             class="list-unstyled navbar__sub-list js-sub-list">
                         </ul>

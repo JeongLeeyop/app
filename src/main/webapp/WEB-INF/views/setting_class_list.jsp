@@ -8,7 +8,7 @@ moving the class to menus lead to only the menu having the effect -->
 <script src="vendor/jquery-3.2.1.min.js"></script>
 <script>
     $(function () {
-        $('head').append('<link rel="stylesheet" href="css/setting_class_list.css" type="text/css" />');
+        $('head').append('<link rel="stylesheet" href="css/class_list.css" type="text/css" />');
 
         $.ajax({
             url: "/findClassList", //서버요청주소
@@ -86,7 +86,7 @@ moving the class to menus lead to only the menu having the effect -->
     <div class="section__content section__content--p30">
         <div class="container-fluid">
             <div class="centerer">
-                <div style="margin-bottom: 0px;margin-right: 200px;" class="table-data__tool">
+                <div style="margin-bottom: 0px;" class="table-data__tool">
                     <h3 class="title-5 m-b-35" style="white-space: nowrap;margin-bottom: 0px;">Class Setting</h3>
                     <div class="table-data__tool-right">
                         <button type="button" class="btn btn-secondary" style="float: right;height: 40px;" onclick="location.href='setting'">Go back</button>

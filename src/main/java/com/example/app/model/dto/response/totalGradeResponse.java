@@ -12,4 +12,6 @@ public class totalGradeResponse {
     private Long taskItemInfoIdx;
     private Double grade;
     private Double finalGrade;
+
+    private Long classIdx;
 }

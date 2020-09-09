@@ -14,6 +14,4 @@ public class studentChartResponse {
     private Long studentIdx;
     private String studentName;
     private String studentAttendance;
-    private List<String> studentGrade;
-
 }

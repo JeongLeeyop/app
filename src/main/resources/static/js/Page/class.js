@@ -101,7 +101,7 @@ function printTaskChart(curSectionIdx) {
             tkList = result.taskList;
 
             console.log(result);
-            // 섹션 생성
+
             $("#taskChart").empty();
             $("#taskList").empty();
 
@@ -350,10 +350,11 @@ function printTotalGrade() {
 //sectionAjax -> printTaskChart
 
 $(function () {
-
+    //select css 수정
     SectionAjax();
     printGradeChart();
     printTotalGrade();
+
 
     //삭제된 기능
     //초기 과제 항목 테이블 출력 : 학생과 과제 정보만 볼수 있는.
@@ -653,6 +654,12 @@ $(function () {
     //섹션 삭제
     $(document).on("click", "#delSection", function () {
         var curSectionIdx = $("#multiple-select option:checked").val();
+
+        //선택된 섹션이 있는지 확인
+        if (curSectionIdx == undefined) {
+            alert("Please select a section");
+            return false;
+        }
         if (confirm("Are you sure you want to delete the current section?") == true) {
             $.ajax({
                 url: "/delSection", //서버요청주소
@@ -943,6 +950,12 @@ $(function () {
 
     //과제 점수 등록
     $("#saveTask").on('click', function () {
+        //선택된 섹션이 없으면 오류
+        var curSectionIdx = $("#multiple-select option:checked").val();
+        if (curSectionIdx == undefined) {
+            alert("Please select a section");
+            return false;
+        }
 
         var check = 0;
         //선택안된 과제항목 체크

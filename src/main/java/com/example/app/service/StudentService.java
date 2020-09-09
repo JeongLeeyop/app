@@ -4,9 +4,15 @@ import com.example.app.model.domain.Account;
 import com.example.app.model.domain.Attendance;
 import com.example.app.model.domain.Class;
 import com.example.app.model.domain.Student;
+import com.example.app.model.domain.section.TaskItemInfo;
 import com.example.app.model.dto.response.atCountResponse;
+import com.example.app.model.dto.response.repository.TotalGradeMapping;
 import com.example.app.model.dto.response.studentChartResponse;
+import com.example.app.model.dto.response.totalGradeResponse;
+import com.example.app.repository.ClassRepository;
 import com.example.app.repository.StudentRepository;
+import com.example.app.repository.TaskItemInfoRepository;
+import com.example.app.repository.TaskItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +22,21 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StudentService {
 
     @Autowired
     StudentRepository studentRepo;
+    @Autowired
+    ClassRepository classRepo;
+    @Autowired
+    TaskItemRepository taskItemRepo;
+    @Autowired
+    TaskItemInfoRepository taskItemInfoRepo;
 
     @Autowired
     SettingService settingService;
@@ -48,7 +62,9 @@ public class StudentService {
 
     // 학생별 전체 요약
     //1. 전체 학생의 정보를 조회하는 기능
-    public List<studentChartResponse> findStudentSummary(HttpSession session) {
+    public Map<String, Object> findStudentSummary(HttpSession session) {
+
+        Map resultMap = new HashMap();
         session.getAttribute("Account");
 
         //. 전체 클래스명 출력 : 열
@@ -70,12 +86,11 @@ public class StudentService {
         for (int i = 0; i < studentList.size(); i++) {
 
             studentChartResponse studentChartRes = new studentChartResponse();
+
             //성적을 담을 list선언
             List<String> studentGradeList = new ArrayList<String>();
 
-
-
-            String str="null";
+            String str = "null";
             //학생당 출석일 도출하기;
             for (atCountResponse item : atCntResList) {
                 if (studentList.get(i).getStudentIdx().equals(item.getStudentIdx())) {
@@ -90,20 +105,80 @@ public class StudentService {
                     str = present + " | " + (extardy + tardy) + " | " + (absent + exabsent) + " | " + (fleave + eleave) + " | " + perfect.substring(0, 1);
                 }
             }
+
+            //최종 성적 구하기
             for (int j = 0; j < _class.size(); j++) {
                 studentGradeList.add("null");
             }
+
             studentChartRes.setStudentName(studentList.get(i).getStudentName());
             studentChartRes.setStudentIdx(studentList.get(i).getStudentIdx());
             studentChartRes.setStudentAttendance(str);
-            studentChartRes.setStudentGrade(studentGradeList);
             chartList.add(studentChartRes);
         }
 
-        System.out.println(chartList);
+        resultMap.put("Attendance", chartList);
 
+        //최종성적 구하기
+        Account curAccount = (Account) session.getAttribute("Account");
 
-        return chartList;
+        //최종 값을 담을 변수 선언
+        List<totalGradeResponse> result2 = new ArrayList<totalGradeResponse>();
+
+        for (Class curClass : _class) {
+            List<totalGradeResponse> result = new ArrayList<totalGradeResponse>();
+            //클래스의 최종 등급이 들어갈 변수 선언
+            Double tempGrade = 0.0;
+
+            //스코어 차트를 들고 온다.
+            List<TotalGradeMapping> totalGradeList = taskItemRepo.findTotalGrade(curClass.getClassIdx(), curAccount.getUserIdx());
+
+            //등급 비율을 위해 과제정보를 들고 온다.
+            List<TaskItemInfo> taskItemInfo = taskItemInfoRepo.findTaskItemInfoByClassIdx(curClass.getClassIdx());
+
+            //등급 기준을 Map에 저장
+            Map<Long, Long> map = new HashMap<Long, Long>();
+            for (TaskItemInfo item : taskItemInfo) {
+                map.put(item.getTaskItemInfoIdx(), item.getTaskGradeRatio());
+            }
+
+            //과제 최종 성적 구하기
+            for (TotalGradeMapping item : totalGradeList) {
+
+                Long curTaskIdx = item.getTask();
+                Long gradeRatio = map.get(curTaskIdx);
+//            System.out.println("gradeRatio : "+ gradeRatio);
+
+                //성적 매기기
+                if (item.getSum() == null) {
+                    tempGrade = 0.0;
+                } else if (gradeRatio == 0L) {
+                    tempGrade = 0.0;
+                } else {
+                    tempGrade = (item.getSum().doubleValue() / item.getCount()) * gradeRatio / 10.0;
+                }
+                System.out.println(" class : " + curClass.getClassIdx() + " Student : " + item.getStudent() + " TempGrade : " + tempGrade);
+                result.add(new totalGradeResponse(item.getStudent(), curTaskIdx, null, tempGrade, null));
+            }
+
+            //학생 수만큼 추가해준다.
+            for (Student student : studentList) {
+                Double finalGrade = 0.0;
+                //클래스 최종 성적 구하기
+                for (totalGradeResponse item2 : result) {
+                    if (student.getStudentIdx().equals(item2.getStudentIdx())) {
+                        finalGrade = finalGrade + item2.getFinalGrade();
+                    }
+                }
+                result2.add(new totalGradeResponse(student.getStudentIdx(), null, null, finalGrade, curClass.getClassIdx()));
+
+//                System.out.println("studentIdx : " + student.getStudentIdx() + " classIdx :  " + curClass.getClassIdx() + " finalGrade : " + finalGrade);
+            }
+        }
+
+        resultMap.put("FinalGrade", result2);
+
+        return resultMap;
     }
 
     //1. 전체 학생별 클래스별 최종 성적 출력

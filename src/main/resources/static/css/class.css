@@ -37,3 +37,46 @@
         right: 1px;
         position: absolute;
     }
+
+    #multiple-select{
+    height: 100%;
+    width: 130%;
+    }
+
+    .table-data2.table thead th {
+        padding: 15px 12px;
+    }
+
+    .table-data2.table tbody td {
+        padding: 20px 12px;
+    }
+
+    .col-lg-6{
+        flex: 0 0 70%;
+        max-width: 30%;
+    }
+
+    #addTaskBtn{
+        height: 35px;
+        width: 47px;
+        float: right;
+        top: 40px;
+        right: 22px;
+        position: absolute;
+    }
+
+    @media (max-width: 991px){
+        .table-data2.table tbody td {
+            padding: 14px 12px;
+        }
+
+        .col-lg-6{
+            flex: 0 0 100%;
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+
+        #multiple-select{
+            width: 100%;
+        }
+    }
