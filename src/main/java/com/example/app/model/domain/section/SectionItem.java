@@ -1,6 +1,7 @@
 package com.example.app.model.domain.section;
 import com.example.app.model.domain.Class;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -16,6 +17,9 @@ public class SectionItem {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SectionItem_SEQ_NO")
     @SequenceGenerator(sequenceName = "SectionItem_SEQ_NO", name = "SectionItem_SEQ_NO", allocationSize = 1)
     private long sectionItemIdx;
+
+    @ColumnDefault("10")
+    private Double MaxScore;
 
     @ManyToOne
     @JoinColumn(name = "sectionIdx")

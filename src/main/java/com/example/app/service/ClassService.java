@@ -39,6 +39,8 @@ public class ClassService {
     @Autowired
     StudentService studentService;
 
+
+
     //0.전체 클래스를 조회하는 기능
     public List<Class> findClassList(HttpSession session) {
         return classRepo.findClassByAccount((Account) session.getAttribute("Account"));
@@ -50,8 +52,8 @@ public class ClassService {
     }
 
     //1. 전체 학생 목록을 출력하여 등급 항목에 과제 항목의 점수를 반영하여 조회해주는 기능
-    public List<totalGradeResponse> findTotalGrade(Long curClassIdx,HttpSession session) {
-        Account curAccount = (Account)session.getAttribute("Account");
+    public List<totalGradeResponse> findTotalGrade(Long curClassIdx, HttpSession session) {
+        Account curAccount = (Account) session.getAttribute("Account");
 //        System.out.println(curClassIdx);
         List<TotalGradeMapping> totalGradeList = taskItemRepo.findTotalGrade(curClassIdx, curAccount.getUserIdx());
         List<totalGradeResponse> result = new ArrayList<totalGradeResponse>();
@@ -59,30 +61,30 @@ public class ClassService {
         List<TaskItemInfo> taskItemInfo = taskItemInfoRepo.findTaskItemInfoByClassIdx(curClassIdx);
 
         //등급 기준을 저장하기 위한 map
-        Map<Long,Long> map = new HashMap<Long,Long>();
-        for(TaskItemInfo item : taskItemInfo){
+        Map<Long, Long> map = new HashMap<Long, Long>();
+        for (TaskItemInfo item : taskItemInfo) {
 //            System.out.println(item);
-            map.put(item.getTaskItemInfoIdx(),item.getTaskGradeRatio());
+            map.put(item.getTaskItemInfoIdx(), item.getTaskGradeRatio());
         }
 
-        for(TotalGradeMapping item : totalGradeList){
+        for (TotalGradeMapping item : totalGradeList) {
             Double grade;
-            Double finalGrade=0.0;
+            Double finalGrade = 0.0;
             Long curTaskIdx = item.getTask();
             Long gradeRatio = map.get(curTaskIdx);
 //            System.out.println("gradeRatio : "+ gradeRatio);
 
             //성적 매기기
-            if(item.getSum()==null){
+            if (item.getSum() == null) {
                 grade = null;
-            } else if(gradeRatio==0L){
+            } else if (gradeRatio == 0L) {
                 grade = null;
             } else {
-                grade =  item.getSum().doubleValue() / item.getCount();
+                grade = item.getSum().doubleValue() / item.getCount() * 10;
                 finalGrade = (item.getSum().doubleValue() / item.getCount()) * gradeRatio / 10.0;
             }
-            System.out.println("1 : " + item.getTask()+" 2 : " + item.getStudent() + " 3 : " + item.getCount()+ " 4 : " + item.getSum() + " 5 : " + grade + " 6 : " + finalGrade);
-          result.add(new totalGradeResponse(item.getStudent(),curTaskIdx,grade,finalGrade,null) );
+            System.out.println("1 : " + item.getTask() + " 2 : " + item.getStudent() + " 3 : " + item.getCount() + " 4 : " + item.getSum() + " 5 : " + grade + " 6 : " + finalGrade);
+            result.add(new totalGradeResponse(item.getStudent(), curTaskIdx, grade, finalGrade, null));
         }
 
 /*        for(totalGradeResponse a : result){
@@ -126,6 +128,7 @@ public class ClassService {
         Section result = sectionRepo.save(section);
 
 
+
         if (curSectionIdx == null) {
             for (SectionItem item : sectionItemList) {
                 SectionItem sectionItem = new SectionItem();
@@ -147,6 +150,9 @@ public class ClassService {
 
         return result;
     }
+
+
+
 
     @Transactional
     @Modifying
@@ -338,7 +344,7 @@ public class ClassService {
             //점수가 있으면 넣고 없으면 null값 대입
             if (object.has("score")) {
                 String str = object.get("score").getAsString();
-                score =  new BigDecimal(str);
+                score = new BigDecimal(str);
 
                 System.out.println("score | " + score);
             } else {

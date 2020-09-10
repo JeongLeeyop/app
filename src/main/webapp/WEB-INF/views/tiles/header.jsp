@@ -38,9 +38,8 @@
                         <i class="fas fa-chart-bar"></i>Student</a>
                 </li>
 
-                <li>
-                    <a href="setting">
-                        <i class="fa fa-cog"></i>Setting</a>
+                <li>4
+                    <a href="setting"><i class="fa fa-cog"></i>Setting</a>
                 </li>
                 <li>
                     <a href="reportcard">

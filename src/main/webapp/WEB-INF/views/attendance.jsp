@@ -3,7 +3,9 @@
       it leads to odd behaviors like loading 'undefined'
       moving the class to menus lead to only the menu having the effect -->
             <!-- MAIN CONTENT-->
-
+<%--selectbox--%>
+<%--background: #befdc259;--%>
+<%--border-radius: 0.35rem;--%>
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
@@ -23,8 +25,8 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="au-card-inner" style="width: 100%;height: 10%;">
-                                            <div class="table-responsive" style="position: relative;top: 50%;">
+                                    <div class="au-card-inner" style="width: 100%;">
+                                            <div class="table-responsive" style="position: absolute;/* top: 50%; */bottom: 22px;width: 75%;max-width: 290px;">
                                         <button type="button" id="addAt" class="btn btn-success btn-sm" >Save<div hidden id="curDate"></div></button>
                                         <button type="button" id="delAt" class="btn btn-danger btn-sm">Delete</button>
 

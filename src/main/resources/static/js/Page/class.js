@@ -334,7 +334,7 @@ function printTotalGrade() {
                 });
                 //소수점 자리 맞추기
                 FinalGrade = Math.floor(FinalGrade * 100) / 100;
-                $(item2).parent().parent().append("<td>" + FinalGrade + "</td>");
+                $(item2).parent().parent().append("<td>" + FinalGrade + "%</td>");
 
                 // console.log(list);
                 // console.log(result[stIdx]);
