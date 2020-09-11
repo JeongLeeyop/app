@@ -109,7 +109,7 @@ function printTaskChart(curSectionIdx) {
             //모든 과제 목록 가져오기
 
             // Head - Tr 생성
-            var str = "<tr id=\"taskListTr\"><th style=\"border-top: none;font-size: 0.38cm;padding-bottom: 21.5px;padding-right: 40px;\">Name</th></tr>";
+            var str = "<tr id=\"taskListTr\"><th style=\"border-top: none;font-size: 0.38cm;padding-bottom: 30.5px;padding-right: 40px;\">Name</th></tr>";
             $("#taskList").append(str).trigger("create");
 
             $.each(result.usedList, function (index, item) {
@@ -146,6 +146,7 @@ function printTaskChart(curSectionIdx) {
                 });
                 str3 = str3 + "<option class=\"option\" value=\"del\">Delete</option>";
                 $("#taskListTr th:last div select").append(str3).trigger("create");
+                $("#taskListTr th:last").append("<input type=\"text\" placeholder=\"\" class=\"form-control\">").trigger("create");
             });
 
             //css 적용
@@ -367,6 +368,9 @@ $(function () {
             dataType : "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success : function(result){
                 console.log(result);
+
+
+
                 // 섹션 생성
                 $("#taskChart").empty();
                 $("#taskList").empty();
