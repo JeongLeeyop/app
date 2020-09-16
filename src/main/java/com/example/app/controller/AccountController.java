@@ -53,7 +53,7 @@ public class AccountController {
         } else {
             response.setContentType("text/html; charset=UTF-8");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('Login failed.'); location.href='login';</script>");
+            out.println("<script>alert('Login failed. Please check your Email or password.'); location.href='login';</script>");
             out.flush();
         }
         return null;
