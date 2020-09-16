@@ -395,8 +395,6 @@ $(function () {
 
         //이미 수행중이면 종료
         if(isRun == true) { return; }
-        //상태를 수행중으로 표시
-        isRun = true;
 
         //날짜
         // 학생idx,
@@ -437,7 +435,8 @@ $(function () {
             return false;
         }
 
-
+        //상태를 수행중으로 표시
+        isRun = true;
 
         $.ajax({
             url: "/updateAt", //서버요청주소

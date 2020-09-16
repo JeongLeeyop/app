@@ -961,8 +961,6 @@ $(function () {
     $("#saveTask").on('click', function () {
         //이미 수행중이면 종료
         if(isRun == true) { return; }
-        //상태를 수행중으로 표시
-        isRun = true;
 
         //선택된 섹션이 없으면 오류
         var curSectionIdx = $("#multiple-select option:checked").val();
@@ -1065,6 +1063,9 @@ $(function () {
             sectionItemList.push(sectionItem);
         });
 
+        //상태를 수행중으로 표시
+        isRun = true;
+
         //저장 Ajax
         $.ajax({
             url: "/saveTaskScore", //서버요청주소
@@ -1081,6 +1082,7 @@ $(function () {
             }, //성공했을때
             error: function (request) {
                 alert("Failed to save. Please check the input value.");
+                isRun  = false;
                 console.log(request.responseText);
             }// 실패했을때
         });
