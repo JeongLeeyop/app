@@ -21,5 +21,10 @@ public interface TaskItemInfoRepository extends CrudRepository<TaskItemInfo, Lon
     @Query("select t from TaskItemInfo t where t._class.classIdx = ?1 Order By t.taskItemInfoIdx")
     public List<TaskItemInfo> findTaskItemInfoByClassIdx(Long curClassIdx);
 
+    @Transactional
+    @Modifying
+    @Query("update TaskItemInfo t set t.maxScore = ?2 where t.taskItemInfoIdx=?1")
+    public void updateMaxScore(Long taskItemInfoIdx,Double maxScore);
+
 
 }

@@ -1,6 +1,7 @@
 package com.example.app.model.domain.section;
 import com.example.app.model.domain.Class;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -20,6 +21,9 @@ public class TaskItemInfo {
     private String taskItemName;
     @Column
     private long taskGradeRatio;
+    @Column
+    @ColumnDefault("10")
+    private Double maxScore;
 
     @ManyToOne
     @JoinColumn(name = "classIdx")

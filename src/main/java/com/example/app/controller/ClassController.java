@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -89,8 +90,8 @@ public class ClassController {
     //8. 과제 점수를 입력, 수정하는 기능
     @RequestMapping("saveTaskScore")
     @ResponseBody
-    public ModelAndView saveTaskScore(@RequestParam String taskChart, Long curSectionIdx) throws Exception{
-        classService.saveTaskScore(taskChart,curSectionIdx);
+    public ModelAndView saveTaskScore(@RequestParam String taskChart, Long curSectionIdx, @RequestParam String sectionItemList) throws Exception{
+        classService.saveTaskScore(taskChart,curSectionIdx,sectionItemList);
         return null;
     }
 

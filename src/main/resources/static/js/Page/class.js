@@ -146,7 +146,8 @@ function printTaskChart(curSectionIdx) {
                 });
                 str3 = str3 + "<option class=\"option\" value=\"del\">Delete</option>";
                 $("#taskListTr th:last div select").append(str3).trigger("create");
-                $("#taskListTr th:last").append("<input type=\"text\" placeholder=\"\" class=\"form-control\">").trigger("create");
+                $("#taskListTr th:last").append("<input type=\"text\" placeholder=\"\" class=\"form-control maxScore\">").trigger("create");
+                $("#taskListTr th:last input").val(item.maxScore);
             });
 
             //css 적용
@@ -236,6 +237,7 @@ function printGradeChart() {
         url: "/findTaskItemInfoList", //서버요청주소
         type: "post",//요청방식 (get,post,patch,delete,put)
         data: "curClassIdx=" + curClassIdx,
+        async: false,
         dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
         success: function (result) {
             // console.log(result);
@@ -969,9 +971,18 @@ $(function () {
                 check = 1;
             }
         });
+
+        //maxScore 체크
+        $.each($(".maxScore"),function(index, item){
+           if($(item).val() <= 0 ){
+               alert(" Please check the Task MaxScore.");
+               check = 1;
+           }
+        });
         if (check == 1) {
             return false;
         }
+
 
         //데이터 전송을 위한 배열 만들기
         var taskChart = new Array();
@@ -993,10 +1004,13 @@ $(function () {
                 //점수
                 var score = curRow.find("td:eq(" + Number(j + 2) + ")").children().val();
 
+                //maxScore
+                var maxScore = $(".maxScore:eq(" + j + ")").val();
+
                 //점수 체크
-                //10이상인지 체크
-                if (score > 10) {
-                    alert("Scores cannot exceed 10");
+                //maxScore이상인지 체크
+                if (Number(score) > Number(maxScore)) {
+                    alert("Scores cannot exceed " +Number(maxScore));
                     curRow.find("td:eq(" + Number(j + 2) + ")").children().focus();
                     return false;
                 } else if (score < 0) {
@@ -1032,11 +1046,22 @@ $(function () {
             }
         }
 
+        //sectionItem : maxScore 저장
+        var sectionItemList = new Array();
+        $.each($(".maxScore"),function(index, item){
+            var sectionItem = new Object();
+            var maxScore = $(item).val();
+            var sectionItemIdx = $(item).parent().find("div").children().data('id');
+            sectionItem.sectionItemIdx = sectionItemIdx;
+            sectionItem.maxScore = maxScore;
+            sectionItemList.push(sectionItem);
+        });
+
         //저장 Ajax
         $.ajax({
             url: "/saveTaskScore", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
-            data: "taskChart=" + JSON.stringify(taskChart) + "&curSectionIdx=" + curSectionIdx,
+            data: "taskChart=" + JSON.stringify(taskChart) + "&curSectionIdx=" + curSectionIdx+"&sectionItemList="+JSON.stringify(sectionItemList),
             dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
                 alert("Saved successfully.");

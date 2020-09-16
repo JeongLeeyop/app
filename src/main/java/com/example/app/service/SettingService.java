@@ -100,7 +100,6 @@ public class SettingService {
         taskInfo.set_class(_class);
         taskInfo.setTaskGradeRatio(taskInfoReq.getGradeRatio());
         taskInfo.setTaskItemName(taskInfoReq.getTaskName());
-
         if(taskInfoReq.getTaskIdx()!=null) {
             taskInfo.setTaskItemInfoIdx(taskInfoReq.getTaskIdx());
         }

@@ -2,6 +2,7 @@ package com.example.app.model.domain.section;
 import com.example.app.model.domain.Class;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
@@ -19,9 +20,10 @@ public class SectionItem {
     private long sectionItemIdx;
 
     @ColumnDefault("10")
-    private Double MaxScore;
+    private Double maxScore;
 
     @ManyToOne
+
     @JoinColumn(name = "sectionIdx")
     private Section section;
 

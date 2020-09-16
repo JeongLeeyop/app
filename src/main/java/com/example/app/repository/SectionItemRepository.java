@@ -30,6 +30,11 @@ public interface SectionItemRepository extends CrudRepository<SectionItem, Long>
     @Query("DELETE FROM SectionItem s where s.section.sectionIdx in (select ss.sectionIdx from Section ss where ss._class.classIdx = ?1)")
     public void DelSectionItemByClassIdx(Long classIdx);
 
+    @Transactional
+    @Modifying
+    @Query("update SectionItem s set s.maxScore = ?2 where s.sectionItemIdx=?1")
+    public void updateMaxScore(Long sectionItemIdx,Double maxScore);
+
     @Query("select si from SectionItem si where si.section.sectionIdx In (select max(s.sectionIdx) from Section s where s._class.classIdx = ?1)")
     public List<SectionItem> findLastSectionItem(Long classIdx);
 }

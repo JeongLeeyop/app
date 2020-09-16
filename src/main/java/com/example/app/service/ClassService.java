@@ -80,8 +80,8 @@ public class ClassService {
             } else if (gradeRatio == 0L) {
                 grade = null;
             } else {
-                grade = item.getSum().doubleValue() / item.getCount() * 10;
-                finalGrade = (item.getSum().doubleValue() / item.getCount()) * gradeRatio / 10.0;
+                grade = item.getSum().doubleValue() / item.getCount();
+                finalGrade = (item.getSum().doubleValue() / item.getCount()) * gradeRatio / 100;
             }
             System.out.println("1 : " + item.getTask() + " 2 : " + item.getStudent() + " 3 : " + item.getCount() + " 4 : " + item.getSum() + " 5 : " + grade + " 6 : " + finalGrade);
             result.add(new totalGradeResponse(item.getStudent(), curTaskIdx, grade, finalGrade, null));
@@ -119,7 +119,7 @@ public class ClassService {
         Section section = new Section();
         section.set_class(curClass);
         section.setSectionName(sectionName);
-        //매개변수에 섹션 아이디값이 존재하면 신규 섹션에 삽입
+        //매개변수에 섹션 아이디값이 존재하면 삽입
         if (curSectionIdx != null) {
             section.setSectionIdx(curSectionIdx);
         }
@@ -127,13 +127,13 @@ public class ClassService {
         System.out.println(section);
         Section result = sectionRepo.save(section);
 
-
-
+        //신규섹션
         if (curSectionIdx == null) {
             for (SectionItem item : sectionItemList) {
                 SectionItem sectionItem = new SectionItem();
                 sectionItem.setSection(result);
                 sectionItem.setTaskItemInfo(item.getTaskItemInfo());
+                sectionItem.setMaxScore(item.getMaxScore());
                 sectionItemRepo.save(sectionItem);
             }
         }
@@ -287,7 +287,7 @@ public class ClassService {
     //10. 과제 점수를 입력, 수정하는 기능
     @Transactional
     @Modifying
-    public int saveTaskScore(String taskChart, Long curSectionIdx) {
+    public int saveTaskScore(String taskChart, Long curSectionIdx,String sectionItem) {
 
         // 가져온 데이터 출력
         //        System.out.println(taskChart);
@@ -295,9 +295,27 @@ public class ClassService {
         //현재 세션 가져오기
         Section curSection = sectionRepo.findById(curSectionIdx).get();
 
+
         //json 파싱
         JsonParser parser = new JsonParser();
-        JsonArray jsonArray = (JsonArray) parser.parse(taskChart);
+        JsonArray jsonArray = (JsonArray) parser.parse(sectionItem);
+
+        //SectionItem에 maxScore 저장
+        for (int i = 0; i < jsonArray.size(); i++) {
+            //sectionItemIdx, maxScore 파싱
+            JsonObject object = (JsonObject) jsonArray.get(i);
+            Long sectionItemIdx = object.get("sectionItemIdx").getAsLong();
+            Double maxScore = object.get("maxScore").getAsDouble();
+
+            sectionItemRepo.updateMaxScore(sectionItemIdx,maxScore);
+
+/*            //Task의 maxScore수정 : 최근 사용된 maxScore값을 기억
+            Long taskItemInfoIdx = sectionItemRepo.findById(sectionItemIdx).get().getTaskItemInfo().getTaskItemInfoIdx();
+            taskItemInfoRepo.updateMaxScore(taskItemInfoIdx, maxScore);*/
+        }
+
+        //json 파싱
+        jsonArray = (JsonArray) parser.parse(taskChart);
         //가지고온 데이터 개수 출력
         System.out.println("add record size : " + jsonArray.size());
 
