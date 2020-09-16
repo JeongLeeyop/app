@@ -16,6 +16,9 @@ var stList;
 //과제 리스트를 저장하기 위한 변수
 var tkList;
 
+//중복실행 방지코드
+var isRun = false;
+
 //섹션 추가
 function SectionAdd() {
     var sectionName = $("#sectionName").val();
@@ -956,6 +959,11 @@ $(function () {
 
     //과제 점수 등록
     $("#saveTask").on('click', function () {
+        //이미 수행중이면 종료
+        if(isRun == true) { return; }
+        //상태를 수행중으로 표시
+        isRun = true;
+
         //선택된 섹션이 없으면 오류
         var curSectionIdx = $("#multiple-select option:checked").val();
         if (curSectionIdx == undefined) {
@@ -1069,6 +1077,7 @@ $(function () {
                 printTotalGrade();
                 // location.reload();
                 $("#multiple-select").focus();
+                isRun  = false;
             }, //성공했을때
             error: function (request) {
                 alert("Failed to save. Please check the input value.");

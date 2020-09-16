@@ -155,7 +155,7 @@ public class StudentService {
                 } else if (gradeRatio == 0L) {
                     tempGrade = 0.0;
                 } else {
-                    tempGrade = (item.getSum().doubleValue() / item.getCount()) * gradeRatio / 10.0;
+                    tempGrade = (item.getSum().doubleValue() / item.getCount()) * gradeRatio / 100;
                 }
                 System.out.println(" class : " + curClass.getClassIdx() + " Student : " + item.getStudent() + " TempGrade : " + tempGrade);
                 result.add(new totalGradeResponse(item.getStudent(), curTaskIdx, null, tempGrade, null));

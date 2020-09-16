@@ -5,6 +5,9 @@
 ////////////////////////////////////////////////////////////////////
 $(function () {
 
+    //중복실행 방지코드
+    var isRun = false;
+
 //FullCalendar 설정
 
 //Css 동적 추가
@@ -59,92 +62,92 @@ $(function () {
         return year + "-" + month + "-" + date;
     }
 
-   /* function AtSummary() {
+    /* function AtSummary() {
 
 
-        var strDate = jQuery("#calendar").fullCalendar('getDate');
-        console.log("현재 날짜는 " + strDate.format());
+         var strDate = jQuery("#calendar").fullCalendar('getDate');
+         console.log("현재 날짜는 " + strDate.format());
 
-        $.ajax({
-            url: "/findTotalAtSummary", //서버요청주소
-            type: "post",//요청방식 (get,post,patch,delete,put)
-            data: "strDate=" + strDate.format(),
-            dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
-            success: function (result) {
-                var trivia_nights = []
+         $.ajax({
+             url: "/findTotalAtSummary", //서버요청주소
+             type: "post",//요청방식 (get,post,patch,delete,put)
+             data: "strDate=" + strDate.format(),
+             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+             success: function (result) {
+                 var trivia_nights = []
 
-                var dateCnt = result.useDateCnt;
-                var list = result.list;
-                console.log("이달에 입력된 츨석의 개수는 " + dateCnt.length + "개입니다.");
+                 var dateCnt = result.useDateCnt;
+                 var list = result.list;
+                 console.log("이달에 입력된 츨석의 개수는 " + dateCnt.length + "개입니다.");
 
-                $.each(dateCnt, function (index, item) {
-
-
-                    var title = "";
-                    var present = 0;
-                    var tardy = 0;
-                    var absent = 0;
-                    var leave = 0;
-
-                    var date = date_to_str(new Date(item));
-
-                    $.each(list, function (index2, item2) {
-                        var date2 = date_to_str(new Date(item2.atDate));
-
-                        if (date == date2) {
-                            console.log(date + " == " + date2);
-
-                            //present
-                            if (item2.atState == 0) {
-                                present += item2.count;
-
-                                //ex.tardy
-                            } else if (item2.atState == 1) {
-                                tardy += item2.count;
-
-                                //tardy
-                            } else if (item2.atState == 2) {
-                                tardy += item2.count;
-
-                                //family leave
-                            } else if (item2.atState == 3) {
-                                leave += item2.count;
-
-                                //ex.absent
-                            } else if (item2.atState == 4) {
-                                absent += item2.count;
-
-                                //absent
-                            } else if (item2.atState == 5) {
-                                absent += item2.count;
-
-                                //early leave
-                            } else if (item2.atState == 6) {
-                                leave += item2.count;
-
-                            }
-                        }
-
-                    });
-
-                    title = present + " | " + tardy + " | " + absent + " | " + leave;
-                    console.log("title은 : " + title);
-
-                    var event = {title: title, start: moment().format(date)};
-                    $('#calendar').fullCalendar('renderEvent', event, true);
+                 $.each(dateCnt, function (index, item) {
 
 
-                });
+                     var title = "";
+                     var present = 0;
+                     var tardy = 0;
+                     var absent = 0;
+                     var leave = 0;
+
+                     var date = date_to_str(new Date(item));
+
+                     $.each(list, function (index2, item2) {
+                         var date2 = date_to_str(new Date(item2.atDate));
+
+                         if (date == date2) {
+                             console.log(date + " == " + date2);
+
+                             //present
+                             if (item2.atState == 0) {
+                                 present += item2.count;
+
+                                 //ex.tardy
+                             } else if (item2.atState == 1) {
+                                 tardy += item2.count;
+
+                                 //tardy
+                             } else if (item2.atState == 2) {
+                                 tardy += item2.count;
+
+                                 //family leave
+                             } else if (item2.atState == 3) {
+                                 leave += item2.count;
+
+                                 //ex.absent
+                             } else if (item2.atState == 4) {
+                                 absent += item2.count;
+
+                                 //absent
+                             } else if (item2.atState == 5) {
+                                 absent += item2.count;
+
+                                 //early leave
+                             } else if (item2.atState == 6) {
+                                 leave += item2.count;
+
+                             }
+                         }
+
+                     });
+
+                     title = present + " | " + tardy + " | " + absent + " | " + leave;
+                     console.log("title은 : " + title);
+
+                     var event = {title: title, start: moment().format(date)};
+                     $('#calendar').fullCalendar('renderEvent', event, true);
 
 
-                // events: events.concat(trivia_nights),
+                 });
 
-            }, //성공했을때
-            error: function (request) {
-                alert(request.responseText);
-            }
-        });// 실패했을때
-    }*/
+
+                 // events: events.concat(trivia_nights),
+
+             }, //성공했을때
+             error: function (request) {
+                 alert(request.responseText);
+             }
+         });// 실패했을때
+     }*/
     function AtSummary2() {
 
         $.ajax({
@@ -390,6 +393,11 @@ $(function () {
 //데이터 저장
     $("#addAt").on('click', function () {
 
+        //이미 수행중이면 종료
+        if(isRun == true) { return; }
+        //상태를 수행중으로 표시
+        isRun = true;
+
         //날짜
         // 학생idx,
         // 출석여부
@@ -430,6 +438,7 @@ $(function () {
         }
 
 
+
         $.ajax({
             url: "/updateAt", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
@@ -438,6 +447,7 @@ $(function () {
             async: false,
             success: function (result) {
                 alert("Saved successfully.");
+                isRun  = false;
                 location.reload();
 
             }, //성공했을때
