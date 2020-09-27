@@ -49,7 +49,7 @@
                                             <thead id = "taskList">
                                                 <tr id = "taskListTr">
                                                     <th style="border-top: none;font-size: 0.38cm;padding-bottom: 21.5px;">
-                                                        Name
+                                                        <div>Name</div>
                                                     </th>
                                                     <th style="border-top: none;" >
                                                         <div class="rs-select2--light rs-select2--sm">

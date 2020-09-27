@@ -112,7 +112,7 @@ function printTaskChart(curSectionIdx) {
             //모든 과제 목록 가져오기
 
             // Head - Tr 생성
-            var str = "<tr id=\"taskListTr\"><th style=\"border-top: none;font-size: 0.38cm;padding-bottom: 30.5px;padding-right: 40px;\">Name</th></tr>";
+            var str = "<tr id=\"taskListTr\"><th style=\"border-top: none;font-size: 0.38cm;padding-bottom: 19.5px;padding-right: 40px;\"><div>Name</div><div style=\"white-space: nowrap;font-size: 9px;padding-top:15px\">Total Point</div></th></tr>";
             $("#taskList").append(str).trigger("create");
 
             $.each(result.usedList, function (index, item) {
