@@ -38,13 +38,13 @@ public class MainViewController {
     }
 
     //2. 회원 가입 화면
-    /*@RequestMapping("/register")
+    @RequestMapping("/register")
     public ModelAndView register(HttpServletRequest req) {
         String email = req.getParameter("username");
 //        log.debug("register");
         ModelAndView view = new ModelAndView("register");
         return view;
-    }*/
+    }
 
     //4. 출석 화면
     @RequestMapping("/attendance")
