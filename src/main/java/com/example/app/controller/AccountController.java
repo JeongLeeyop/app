@@ -78,7 +78,7 @@ public class AccountController {
             System.out.println("이메일 중복!!");
             throw new Exception();
         }*/
-        System.out.println(account.getPassword());
+//        System.out.println(account.getPassword());
         String hashPw = account.getPassword();
         //2. 해쉬화
         String pwHash = pwUtil.Encryption(hashPw);
