@@ -69,16 +69,8 @@ public class AccountController {
     }
 
     //2.회원가입 버튼
-    @RequestMapping("/signUp")
+/*    @RequestMapping("/signUp")
     public String signUp(accountRequest account, HttpServletRequest req,HttpServletResponse response) throws Exception{
-        //1. 이메일 중복 확인
-       /* Account result = accountService.emailCheck(account.getEmail());
-
-        if(result!=null){
-            System.out.println("이메일 중복!!");
-            throw new Exception();
-        }*/
-//        System.out.println(account.getPassword());
         String hashPw = account.getPassword();
         //2. 해쉬화
         String pwHash = pwUtil.Encryption(hashPw);
@@ -97,7 +89,7 @@ public class AccountController {
             out.flush();
         }
             return null;
-    }
+    }*/
 
     //2.이메일 중복확인 Ajax
     @RequestMapping("/emailCheck")

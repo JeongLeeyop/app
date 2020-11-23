@@ -1,3 +1,4 @@
+<%--
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -131,11 +132,11 @@
                                 <label>Password Check</label>
                                 <input class="au-input au-input--full" type="password" name="password2" id="password2" placeholder="Password">
                             </div>
-                            <%--<div class="login-checkbox">
+                            &lt;%&ndash;<div class="login-checkbox">
                                 <label>
                                     <input type="checkbox" name="agree">Agree the terms and policy
                                 </label>
-                            </div>--%>
+                            </div>&ndash;%&gt;
                             <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
                         </form>
                         <div class="register-link">
@@ -180,3 +181,4 @@
 
 </html>
 <!-- end document-->
+--%>
