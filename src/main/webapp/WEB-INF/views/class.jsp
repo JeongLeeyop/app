@@ -11,6 +11,8 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
+                            
+
                             <div class="col-lg-6">
                                 <div class="card" style="height: 100%;">
                                     <div class="card-header">
@@ -39,6 +41,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
                             <div class="col-lg-8">
                                 <!-- TOP CAMPAIGN-->
                                 <div class="top-campaign" style="margin-bottom: 0px;">

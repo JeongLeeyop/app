@@ -87,7 +87,7 @@ function SectionAjax() {
     });
 }
 
-//과제 차트 출력
+//과제 차트 - 점수 출력
 function printTaskChart(curSectionIdx) {
 
     $.ajax({
@@ -178,18 +178,19 @@ function printTaskChart(curSectionIdx) {
 
             //학생 목록 출력
             var str = "<tr>";
+            var tabindex = 1;
             $.each(result.studentList, function (index, item) {
 
                 //과제 점수 입력 창
                 str = str + "<td>" + item.studentName + "</td><td hidden class=\"studentIdx\" data-id=\"" + item.studentIdx + "\">" + item.studentIdx + "</td>"
                 $.each(result.usedList, function (index2, item2) {
-                    str = str + "<td><input type=\"text\" placeholder=\"\" class=\"form-control\"></td>";
+                    str = str + "<td><input tabindex=\" "+tabindex+"\" type=\"text\" placeholder=\"\" class=\"form-control\"></td>";
+                    tabindex += result.studentList.length;
                 });
                 str = str + "</tr>";
                 $("#taskChart").append(str).trigger("create");
                 str = "<tr>";
-
-
+                tabindex = tabindex - (result.studentList.length * result.usedList.length) + 1;
             });
 
             //빈칸에 과제idx 넣기???
@@ -356,6 +357,8 @@ function printTotalGrade() {
 //sectionAjax -> printTaskChart
 
 $(function () {
+
+
     //select css 수정
     SectionAjax();
     printGradeChart();
@@ -761,9 +764,7 @@ $(function () {
             } else {
                 $(this).val(prev_val);
             }
-        }
-        ;
-
+        };
 
         // $(this).find("option:selected").attr("selected",false);
         // $(this).attr('selected',true);
