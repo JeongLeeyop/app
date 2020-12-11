@@ -11,7 +11,45 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
-                            
+                            <%--
+작업중
+<div class="col-lg-6">
+    <div class="card"style="height: 100%;">
+        <div class="card-header">
+            <strong>Section</strong> List
+            <h3 class="title-3"style="padding-top: 10px;padding-bottom: 5px;">${curClass.className}</h3>
+        </div>
+        <div class="card-body">
+
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="false">Home</a>
+                <a class="nav-link active show" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Menu 1</a>
+                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Menu 2</a>
+                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Menu 3</a>
+            </div>
+
+            <div class="row form-group" style="height: 87%;">
+                <div class="col-12 col-md-9">
+                    <select name="multiple-select" id="multiple-select" multiple="" class="form-control">
+                    </select>
+                </div>
+            </div>
+            <div id="alert2" class="col-12 col-md-9" style="height: 10%;max-width: 120%;flex: 0 0 100%;">
+                <button data-toggle="modal" data-target="#smallmodal2" id ="addSection" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-dot-circle-o">Add</i>
+                </button>
+                <button id ="editSection" type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-dot-circle-o">Edit</i>
+                </button>
+                <button id ="delSection" type="button" class="btn btn-danger btn-sm">
+                    <i class="fa fa-ban">Delete</i>
+                </button>
+            </div>
+
+
+        </div>
+    </div>
+</div>--%>
 
                             <div class="col-lg-6">
                                 <div class="card" style="height: 100%;">
