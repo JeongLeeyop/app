@@ -29,7 +29,9 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "userIdx", nullable = false)
     private Account account;
-
+    @ManyToOne
+    @JoinColumn(name = "seasonIdx")
+    private Season season;
 
 
 }

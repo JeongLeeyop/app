@@ -1,6 +1,7 @@
 package com.example.app.model.domain;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -32,4 +33,10 @@ public class Account {
     @Column(nullable = false)
     private Timestamp createDate;
 
+    @Column
+    private int authority;
+
+    @ManyToOne
+    @JoinColumn(name = "schoolIdx")
+    private School school;
 }

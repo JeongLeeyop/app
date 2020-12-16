@@ -42,7 +42,7 @@
                     <i class="fa fa-dot-circle-o">Edit</i>
                 </button>
                 <button id ="delSection" type="button" class="btn btn-danger btn-sm">
-                    <i class="fa fa-ban">Delete</i>
+                    <i class="fa fa-ban">Delet~e</i>
                 </button>
             </div>
 

@@ -26,4 +26,8 @@ public class Class {
     @JoinColumn(name = "userIdx")
     private Account account;
 
+    @ManyToOne
+    @JoinColumn(name = "seasonIdx")
+    private Season season;
+
 }

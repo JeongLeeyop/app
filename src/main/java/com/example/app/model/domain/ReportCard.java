@@ -19,6 +19,4 @@ public class ReportCard {
     @Column
     private String repocardChecklist;
 
-
-
 }
