@@ -3,8 +3,7 @@ package com.example.app.service;
 import com.example.app.model.domain.*;
 import com.example.app.model.domain.Class;
 import com.example.app.model.domain.section.*;
-import com.example.app.model.dto.response.atCountResponse;
-import com.example.app.model.dto.response.repository.TaskItemMapping;
+import com.example.app.model.dto.response.repository.ScoreMapping;
 import com.example.app.model.dto.response.repository.TotalGradeMapping;
 import com.example.app.model.dto.response.totalGradeResponse;
 import com.example.app.repository.*;
@@ -26,16 +25,13 @@ public class ClassService {
     @Autowired
     SectionRepository sectionRepo;
     @Autowired
-    TaskItemRepository taskItemRepo;
+    ScoreRepository scoreRepo;
     @Autowired
-    TaskItemInfoRepository taskItemInfoRepo;
+    TaskRepository taskRepo;
     @Autowired
     StudentRepository studentRepo;
     @Autowired
-    SectionItemRepository sectionItemRepo;
-    @Autowired
-    ClassDefaultTaskRepository classDefaultTaskRepo;
-
+    SectionTasksRepository sectionTasksRepo;
     @Autowired
     StudentService studentService;
 
@@ -55,16 +51,16 @@ public class ClassService {
     public List<totalGradeResponse> findTotalGrade(Long curClassIdx, HttpSession session) {
         Account curAccount = (Account) session.getAttribute("Account");
 //        System.out.println(curClassIdx);
-        List<TotalGradeMapping> totalGradeList = taskItemRepo.findTotalGrade(curClassIdx, curAccount.getUserIdx());
+        List<TotalGradeMapping> totalGradeList = scoreRepo.findTotalGrade(curClassIdx, curAccount.getUserIdx());
         List<totalGradeResponse> result = new ArrayList<totalGradeResponse>();
 
-        List<TaskItemInfo> taskItemInfo = taskItemInfoRepo.findTaskItemInfoByClassIdx(curClassIdx);
+        List<Task> task = taskRepo.findTaskByClassIdx(curClassIdx);
 
         //등급 기준을 저장하기 위한 map
         Map<Long, Long> map = new HashMap<Long, Long>();
-        for (TaskItemInfo item : taskItemInfo) {
+        for (Task item : task) {
 //            System.out.println(item);
-            map.put(item.getTaskItemInfoIdx(), item.getTaskGradeRatio());
+            map.put(item.getTaskIdx(), item.getTaskGradeRatio());
         }
 
         for (TotalGradeMapping item : totalGradeList) {
@@ -112,8 +108,8 @@ public class ClassService {
         Class curClass = classRepo.findById(curClassIdx).get();
 
         //현재 클래스의 가장 마지막 섹션에 있는 과제 항목 들고오기
-        List<SectionItem> sectionItemList = sectionItemRepo.findLastSectionItem(curClassIdx);
-        System.out.println("--------------------------------------->" + sectionItemList);
+        List<SectionTasks> sectionTasksList = sectionTasksRepo.findLastSectionTasks(curClassIdx);
+        System.out.println("--------------------------------------->" + sectionTasksList);
 
         //신규 섹션 생성
         Section section = new Section();
@@ -129,12 +125,12 @@ public class ClassService {
 
         //신규섹션
         if (curSectionIdx == null) {
-            for (SectionItem item : sectionItemList) {
-                SectionItem sectionItem = new SectionItem();
-                sectionItem.setSection(result);
-                sectionItem.setTaskItemInfo(item.getTaskItemInfo());
-                sectionItem.setMaxScore(item.getMaxScore());
-                sectionItemRepo.save(sectionItem);
+            for (SectionTasks item : sectionTasksList) {
+                SectionTasks sectionTasks = new SectionTasks();
+                sectionTasks.setSection(result);
+                sectionTasks.setTask(item.getTask());
+                sectionTasks.setMaxScore(item.getMaxScore());
+                sectionTasksRepo.save(sectionTasks);
             }
         }
 
@@ -142,10 +138,10 @@ public class ClassService {
 //        List<ClassDefaultTask> list = classDefaultTaskRepo.findDefaultTaskByClassId(curClassIdx);
 
         /*for (ClassDefaultTask item : list) {
-            SectionItem sectionItem = new SectionItem();
+            SectionTasks sectionItem = new SectionTasks();
             sectionItem.setSection(result);
             sectionItem.setTaskItemInfo(item.getTaskItemInfo());
-            sectionItemRepo.save(sectionItem);
+            sectionTasksRepo.save(sectionItem);
         }*/
 
         return result;
@@ -160,10 +156,10 @@ public class ClassService {
     public void delSection(Long curSectionIdx) {
 
         //섹션의 과제 항목 데이터를 삭제
-        taskItemRepo.DelTaskItemBySectionIdx(curSectionIdx);
+        scoreRepo.DelScoreBySectionIdx(curSectionIdx);
 
         //섹션의 섹션아이템을 삭제
-        sectionItemRepo.DelSectionItemBySectionIdx(curSectionIdx);
+        sectionTasksRepo.DelSectionTasksIdxBySectionIdx(curSectionIdx);
 
         //섹션 삭제
         sectionRepo.deleteSectionBySectionIdx(curSectionIdx);
@@ -178,14 +174,14 @@ public class ClassService {
     public Map findTaskChart(Long curSectionIdx, Long curClassIdx, HttpSession session) {
 
         //차트 데이터 불러오기
-        List<TaskItemMapping> classChart = taskItemRepo.findAllBySectionOrderByStudent(sectionRepo.findById(curSectionIdx).get());
+        List<ScoreMapping> classChart = scoreRepo.findAllBySectionOrderByStudent(sectionRepo.findById(curSectionIdx).get());
 
         //사용중인 과제 항목 불러오기
-//        List<SectionItem> usedList = taskItemRepo.findDistinctBySection(sectionRepo.findById(curSectionIdx).get());
-        List<SectionItem> usedList = sectionItemRepo.findSectionItemBySectionIdx(curSectionIdx);
+//        List<SectionTasks> usedList = scoreRepo.findDistinctBySection(sectionRepo.findById(curSectionIdx).get());
+        List<SectionTasks> usedList = sectionTasksRepo.findSectionTasksBySectionIdx(curSectionIdx);
 
         //모든 과제 리스트 불러오기
-        List<TaskItemInfo> taskList = taskItemInfoRepo.findTaskItemInfoByClassIdx(curClassIdx);
+        List<Task> taskList = taskRepo.findTaskByClassIdx(curClassIdx);
 
         //모든 학생 리스트 불러오기
         List<Student> studentList = studentService.findStudentList(session);
@@ -200,85 +196,85 @@ public class ClassService {
     }
 
     //6. 섹션의 기본 템플릿 제공
-    public Map findTaskTemplate(Long curClassIdx, HttpSession session) {
+    /*public Map findTaskTemplate(Long curClassIdx, HttpSession session) {
 
-        /*List<TaskItemInfo> DefaultTaskList = new ArrayList<TaskItemInfo>();
+        *//*List<TaskItemInfo> DefaultTaskList = new ArrayList<TaskItemInfo>();
         List<ClassDefaultTask> DefaultTaskItem = classDefaultTaskRepo.findDefaultTaskByClassId(curClassIdx);
         for (ClassDefaultTask classDefaultTask : DefaultTaskItem) {
             DefaultTaskList.add(classDefaultTask.getTaskItemInfo());
-        }*/
+        }*//*
 
         //현재 클래스의 가장 마지막 섹션에 있는 과제 항목 들고오기
-        List<SectionItem> sectionItemList = sectionItemRepo.findLastSectionItem(curClassIdx);
+        List<SectionTasks> sectionTasksList = sectionTasksRepo.findLastSectionTasks(curClassIdx);
 
         //모든 과제 리스트 불러오기
-        List<TaskItemInfo> taskList = taskItemInfoRepo.findTaskItemInfoByClassIdx(curClassIdx);
+        List<Task> taskList = taskRepo.findTaskByClassIdx(curClassIdx);
 
         //모든 학생 리스트 불러오기
         List<Student> studentList = studentService.findStudentList(session);
 
         Map<String, Object> map = new HashMap<>();
-        map.put("sectionItemList", sectionItemList);
+        map.put("sectionItemList", sectionTasksList);
         map.put("taskList", taskList);
         map.put("studentList", studentList);
 
         return map;
-    }
+    }*/
 
     //7. 섹션의 과제 항목을 추가하는 기능
     public Map<String, Object> addTask(Long curClassIdx, Long curSectionIdx) {
 
         Map<String, Object> map = new HashMap<>();
 
-        SectionItem sectionItem = new SectionItem();
-        sectionItem.setSection(sectionRepo.findById(curSectionIdx).get());
-        SectionItem result = sectionItemRepo.save(sectionItem);
-        List<TaskItemInfo> taskItemInfo = taskItemInfoRepo.findTaskItemInfoByClassIdx(curClassIdx);
+        SectionTasks sectionTasks = new SectionTasks();
+        sectionTasks.setSection(sectionRepo.findById(curSectionIdx).get());
+        SectionTasks result = sectionTasksRepo.save(sectionTasks);
+        List<Task> task = taskRepo.findTaskByClassIdx(curClassIdx);
 
-        map.put("sectionItem", result);
-        map.put("taskItemInfo", taskItemInfo);
+        map.put("sectionTasks", result);
+        map.put("task", task);
         return map;
     }
 
     //8. 섹션의 과제 항목을 삭제하는 기능
     @Transactional
     @Modifying
-    public int delTask(Long sectionItemIdx) {
+    public int delTask(Long sectionTasksIdx) {
 
-        SectionItem sectionItem = sectionItemRepo.findById(sectionItemIdx).get();
+        SectionTasks sectionTasks = sectionTasksRepo.findById(sectionTasksIdx).get();
 
         //taskiteminfo Null여부 체크 : 새로 추가된 Task이므로 TaskItem이 없음
-        if (sectionItem.getTaskItemInfo() != null) {
+        if (sectionTasks.getTask() != null) {
             //섹션내부 데이터 삭제
-            taskItemRepo.delTask(sectionItem.getSection().getSectionIdx(), sectionItem.getTaskItemInfo().getTaskItemInfoIdx());
+            scoreRepo.delTask(sectionTasks.getSection().getSectionIdx(), sectionTasks.getTask().getTaskIdx());
         }
         //섹션항목 삭제
-        sectionItemRepo.deleteById(sectionItemIdx);
+        sectionTasksRepo.deleteById(sectionTasksIdx);
         return 0;
     }
 
     //9. 섹션의 과제 항목을 이름을 수정하는 기능
     @Transactional
     @Modifying
-    public int changeTask(Long sectionItemIdx, Long targetTaskIdx) {
+    public int changeTask(Long sectionTasksIdx, Long targetTaskIdx) {
         //구조가 변경되야함
         //TaskItem에 SectionIdx와 TaskItemInfoIdx를 SectionItem으로 해결할 수 있다.
 
-        SectionItem sectionItem = sectionItemRepo.findById(sectionItemIdx).get();
+        SectionTasks sectionTasks = sectionTasksRepo.findById(sectionTasksIdx).get();
 
         //taskiteminfo Null여부 체크 : 새로 추가된 Task이므로 TaskItem이 없음
-        if (sectionItem.getTaskItemInfo() != null) {
+        if (sectionTasks.getTask() != null) {
             //taskitem의 taskiteminfo를 전부 수정
-            List<TaskItem> taskItemList = taskItemRepo.findSectionItemTask(sectionItem.getSection().getSectionIdx(), sectionItem.getTaskItemInfo().getTaskItemInfoIdx());
-            for (TaskItem taskItem : taskItemList) {
-                taskItem.setTaskItemInfo(taskItemInfoRepo.findById(targetTaskIdx).get());
-                taskItemRepo.save(taskItem);
+            List<Score> scoreList = scoreRepo.findScoreBySectionAndTask(sectionTasks.getSection().getSectionIdx(), sectionTasks.getTask().getTaskIdx());
+            for (Score score : scoreList) {
+                score.setTask(taskRepo.findById(targetTaskIdx).get());
+                scoreRepo.save(score);
             }
         }
 
         //sectionitem의 taskiteminfo를 수정
-        sectionItem.setTaskItemInfo(taskItemInfoRepo.findById(targetTaskIdx).get());
-        sectionItemRepo.save(sectionItem);
+        sectionTasks.setTask(taskRepo.findById(targetTaskIdx).get());
+        sectionTasksRepo.save(sectionTasks);
 
 
         return 0;
@@ -287,7 +283,7 @@ public class ClassService {
     //10. 과제 점수를 입력, 수정하는 기능
     @Transactional
     @Modifying
-    public int saveTaskScore(String taskChart, Long curSectionIdx,String sectionItem) {
+    public int saveTaskScore(String taskChart, Long curSectionIdx,String sectionTasksList) {
 
         // 가져온 데이터 출력
         //        System.out.println(taskChart);
@@ -298,20 +294,20 @@ public class ClassService {
 
         //json 파싱
         JsonParser parser = new JsonParser();
-        JsonArray jsonArray = (JsonArray) parser.parse(sectionItem);
+        JsonArray jsonArray = (JsonArray) parser.parse(sectionTasksList);
 
         //SectionItem에 maxScore 저장
         for (int i = 0; i < jsonArray.size(); i++) {
-            //sectionItemIdx, maxScore 파싱
+            //sectionTasksIdx, maxScore 파싱
             JsonObject object = (JsonObject) jsonArray.get(i);
-            Long sectionItemIdx = object.get("sectionItemIdx").getAsLong();
+            Long sectionTasksIdx = object.get("sectionTasksIdx").getAsLong();
             Double maxScore = object.get("maxScore").getAsDouble();
 
-            sectionItemRepo.updateMaxScore(sectionItemIdx,maxScore);
+            sectionTasksRepo.updateMaxScore(sectionTasksIdx,maxScore);
 
 /*            //Task의 maxScore수정 : 최근 사용된 maxScore값을 기억
-            Long taskItemInfoIdx = sectionItemRepo.findById(sectionItemIdx).get().getTaskItemInfo().getTaskItemInfoIdx();
-            taskItemInfoRepo.updateMaxScore(taskItemInfoIdx, maxScore);*/
+            Long taskItemInfoIdx = sectionTasksRepo.findById(sectionTasksIdx).get().getTaskItemInfo().getTaskItemInfoIdx();
+            taskRepo.updateMaxScore(taskItemInfoIdx, maxScore);*/
         }
 
         //json 파싱
@@ -320,42 +316,42 @@ public class ClassService {
         System.out.println("add record size : " + jsonArray.size());
 
         //파싱을 위한 변수 출력
-        List<TaskItem> taskItemList = new ArrayList<>();
+        List<Score> scoreList = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.size(); i++) {
             //스트링에 ""을 제거하기 위한 작업이었는데.. 필요가 없었다..
 //            Long studentIdx =Long.parseLong(object.get("studentIdx").getAsString().replace("\"", ""));
-//            Long taskInfoIdx = Long.parseLong(object.get("taskInfoIdx").getAsString().replace("\"", ""));
+//            Long taskIdx = Long.parseLong(object.get("taskIdx").getAsString().replace("\"", ""));
 
-            //studentIdx, taskinfoIdx 파싱
+            //studentIdx, taskIdx 파싱
             JsonObject object = (JsonObject) jsonArray.get(i);
             Long studentIdx = object.get("studentIdx").getAsLong();
-            Long taskInfoIdx = object.get("taskInfoIdx").getAsLong();
+            Long taskIdx = object.get("taskIdx").getAsLong();
 
             //뒤에서 사용될 변수
-            Long taskItemIdx;
+            Long scoreIdx;
             BigDecimal score;
 
             //student, taskinfo 가져오기
             Student curStudent = studentRepo.findById(studentIdx).get();
-            TaskItemInfo curTaskItemInfo = taskItemInfoRepo.findById(taskInfoIdx).get();
+            Task curTask = taskRepo.findById(taskIdx).get();
             //결과 출력
-            System.out.println("Student idx " + studentIdx + " | TaskInfo idx " + taskInfoIdx);
+            System.out.println("Student idx " + studentIdx + " | TaskInfo idx " + taskIdx);
 
             //DTO 생성
-            TaskItem taskItem = new TaskItem();
+            Score _score = new Score();
 
             //생성된 DTO에 가져온 객체 입력
-            taskItem.setStudent(curStudent);
-            taskItem.setTaskItemInfo(curTaskItemInfo);
-            taskItem.setSection(curSection);
+            _score.setStudent(curStudent);
+            _score.setTask(curTask);
+            _score.setSection(curSection);
 
             //아이디가 이미 있으면 입력해 주기
-            if (object.has("taskItemIdx")) {
-                taskItemIdx = object.get("taskItemIdx").getAsLong();
-                taskItem.setTaskItemIdx(taskItemIdx);
+            if (object.has("scoreIdx")) {
+                scoreIdx = object.get("scoreIdx").getAsLong();
+                _score.setScoreIdx(scoreIdx);
                 //아이디 출력
-                System.out.println("TaskItemidx | " + taskItemIdx);
+                System.out.println("scoreIdx | " + scoreIdx);
             }
 
 
@@ -368,20 +364,20 @@ public class ClassService {
             } else {
                 score = null;
             }
-            taskItem.setTaskScore(score);
-            TaskItem result = taskItemRepo.save(taskItem);
-            System.out.println(taskItem);
+            _score.setScore(score);
+            Score result = scoreRepo.save(_score);
+            System.out.println(_score);
 
 
-//            taskItemRepo.updateScore(score, result.getTaskItemIdx());
-//          taskItem.setTaskScore(score);
+//            scoreRepo.updateScore(score, result.getTaskItemIdx());
+//          score.setTaskScore(score);
 
         }
         return 0;
     }
 
     //11. 과제 정보를 출력해주는 기능 : 성적비율
-    public List<TaskItemInfo> findTaskItemInfoList(Long curClassIdx) {
-        return taskItemInfoRepo.findTaskItemInfoByClassIdx(curClassIdx);
+    public List<Task> findTaskList(Long curClassIdx) {
+        return taskRepo.findTaskByClassIdx(curClassIdx);
     }
 }

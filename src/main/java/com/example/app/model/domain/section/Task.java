@@ -11,12 +11,12 @@ import javax.persistence.*;
 @Setter
 @Getter
 @ToString
-public class TaskItemInfo {
+public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "TaskItemName_SEQ_NO")
-    @SequenceGenerator(sequenceName = "TaskItemName_SEQ_NO", name = "TaskItemName_SEQ_NO", allocationSize = 1)
-    private long taskItemInfoIdx;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "Task_SEQ_NO")
+    @SequenceGenerator(sequenceName = "Task_SEQ_NO", name = "Task_SEQ_NO", allocationSize = 1)
+    private long taskIdx;
     @Column(nullable = false)
     private String taskItemName;
     @Column
@@ -28,5 +28,4 @@ public class TaskItemInfo {
     @ManyToOne
     @JoinColumn(name = "classIdx")
     private Class _class;
-
 }

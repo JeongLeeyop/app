@@ -120,7 +120,7 @@ function printTaskChart(curSectionIdx) {
                 var str3 = "";
 
                 str2 = str2 + "<th><div class=\"col-12 col-md-9\">\n" +
-                    "<select data-id=\"" + item.sectionItemIdx + "\" name=\"select\" class=\"form-control\">\n" +
+                    "<select data-id=\"" + item.sectionTasksIdx + "\" name=\"select\" class=\"form-control\">\n" +
                     "\n" +
                     "</select>\n" +
                     "</div></td>\n";
@@ -128,23 +128,23 @@ function printTaskChart(curSectionIdx) {
                 //Head - Tr 추가하기
                 $("#taskListTr").append(str2).trigger("create");
 
-                if (item.taskItemInfo == null) {
+                if (item.task == null) {
                     $("#taskListTr th:last div select").append("<option class=\"option\" value=\"select\">Please Select</option>").trigger("create");
                 }
 
                 //Head - Td 추가하기
                 $.each(result.taskList, function (index2, item2) {
 
-                    if (item.taskItemInfo == null) {
-                        str3 = str3 + "<option class=\"option\" value=\"" + item2.taskItemInfoIdx + "\">" + item2.taskItemName + "</option>";
+                    if (item.task == null) {
+                        str3 = str3 + "<option class=\"option\" value=\"" + item2.taskIdx + "\">" + item2.taskItemName + "</option>";
                         return true;
                     }
 
-                    if (item2.taskItemInfoIdx == item.taskItemInfo.taskItemInfoIdx) {
-                        str3 = str3 + "<option class=\"option\" selected=\"selected\" value=\"" + item2.taskItemInfoIdx + "\">" + item2.taskItemName + "</option>";
+                    if (item2.taskIdx == item.task.taskIdx) {
+                        str3 = str3 + "<option class=\"option\" selected=\"selected\" value=\"" + item2.taskIdx + "\">" + item2.taskItemName + "</option>";
 
                     } else {
-                        str3 = str3 + "<option class=\"option\" value=\"" + item2.taskItemInfoIdx + "\">" + item2.taskItemName + "</option>";
+                        str3 = str3 + "<option class=\"option\" value=\"" + item2.taskIdx + "\">" + item2.taskItemName + "</option>";
                     }
                 });
                 str3 = str3 + "<option class=\"option\" value=\"del\">Delete</option>";
@@ -208,9 +208,9 @@ function printTaskChart(curSectionIdx) {
 
                     //select에 selected되어있는 option의 value값을 가지고 온다.
                     curTaskIdx = $("select[name=select]:eq(" + i + ")").val();
-                    if (item.taskItemInfoTaskItemInfoIdx == curTaskIdx) {
-                        curStudentTd.parent().children("td:eq(" + Number(i + 2) + ")").children().val(item.taskScore);
-                        curStudentTd.parent().children("td:eq(" + Number(i + 2) + ")").children().attr('data-id', item.taskItemIdx);
+                    if (item.taskTaskIdx == curTaskIdx) {
+                        curStudentTd.parent().children("td:eq(" + Number(i + 2) + ")").children().val(item.score);
+                        curStudentTd.parent().children("td:eq(" + Number(i + 2) + ")").children().attr('data-id', item.scoreIdx);
                     }
                 }
             });
@@ -238,7 +238,7 @@ function getParameterByName(name) {
 function printGradeChart() {
 
     $.ajax({
-        url: "/findTaskItemInfoList", //서버요청주소
+        url: "/findTaskList", //서버요청주소
         type: "post",//요청방식 (get,post,patch,delete,put)
         data: "curClassIdx=" + curClassIdx,
         async: false,
@@ -258,7 +258,7 @@ function printGradeChart() {
 
             //학생 종합 성적 타이틀 출력
             $.each(result, function (index, item) {
-                $("#GradeList tr").append("<th><div hidden>" + item.taskItemInfoIdx + "</div>" + item.taskItemName + "</th>")
+                $("#GradeList tr").append("<th><div hidden>" + item.taskIdx + "</div>" + item.taskItemName + "</th>")
             });
             $("#GradeList tr").append("<th>Final Grade</th>");
 
@@ -318,7 +318,7 @@ function printTotalGrade() {
                         if (stIdx == item.studentIdx) {
                             //과제idx와 매칭
                             if (index3 != 0 && index3 != $("#GradeList tr th").length - 1) {
-                                if (taskIdx == item.taskItemInfoIdx) {
+                                if (taskIdx == item.taskIdx) {
                                     //null값 치환
                                     if (item.grade == null) {
                                         // list[Number(index3) - 1] = "<td> </td>";
@@ -700,12 +700,12 @@ $(function () {
         //삭제하기를 선택
         if ($(this).val() == "del") {
             if (confirm("Are you sure you want to delete the task item?")) {
-                var sectionItemIdx = $(this).attr('data-id');
+                var sectionTasksIdx = $(this).attr('data-id');
                 // alert(sectionItemIdx);
                 $.ajax({
                     url: "/class_delTask", //서버요청주소
                     type: "post",//요청방식 (get,post,patch,delete,put)
-                    data: "sectionItemIdx=" + sectionItemIdx,
+                    data: "sectionTasksIdx=" + sectionTasksIdx,
                     dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
                     success: function (result) {
                         alert("Delete completed");
@@ -745,13 +745,13 @@ $(function () {
 
             if (checked == 0) {
 
-                var sectionItemIdx = $(this).attr('data-id');
+                var sectionTasksIdx = $(this).attr('data-id');
                 var targetTaskIdx = $(this).val();
                 // alert(targetTaskIdx);
                 $.ajax({
                     url: "/class_changeTask", //서버요청주소
                     type: "post",//요청방식 (get,post,patch,delete,put)
-                    data: "sectionItemIdx=" + sectionItemIdx + "&targetTaskIdx=" + targetTaskIdx,
+                    data: "sectionTasksIdx=" + sectionTasksIdx + "&targetTaskIdx=" + targetTaskIdx,
                     dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
                     success: function (result) {
                         printTotalGrade();
@@ -1006,7 +1006,7 @@ $(function () {
                 var studentIdx = $(".studentIdx").eq(i).text();
 
                 //과제항목id
-                var taskInfoIdx = $("select[name=select]:eq(" + j + ")").val();
+                var taskIdx = $("select[name=select]:eq(" + j + ")").val();
 
                 //점수
                 var score = curRow.find("td:eq(" + Number(j + 2) + ")").children().val();
@@ -1036,32 +1036,32 @@ $(function () {
                 }
 
                 //과제id (있을경우)
-                var taskItemIdx = curRow.find("td:eq(" + Number(j + 2) + ")").children().attr("data-id");
+                var scoreIdx = curRow.find("td:eq(" + Number(j + 2) + ")").children().attr("data-id");
 
-                console.log("idx : " + taskItemIdx + "현재 학생 Idx : " + studentIdx + " || 현재 과제 Idx : " + taskInfoIdx);
+                console.log("idx : " + scoreIdx + "현재 학생 Idx : " + studentIdx + " || 현재 과제 Idx : " + taskIdx);
                 var data = new Object();
                 if (score != "") {
                     data.score = score;
                     console.log("현재 점수:" + score);
                 }
 
-                data.taskItemIdx = taskItemIdx;
+                data.scoreIdx = scoreIdx;
                 data.studentIdx = studentIdx;
-                data.taskInfoIdx = taskInfoIdx;
+                data.taskIdx = taskIdx;
 
                 taskChart.push(data);
             }
         }
 
         //sectionItem : maxScore 저장
-        var sectionItemList = new Array();
+        var sectionTasksList = new Array();
         $.each($(".maxScore"),function(index, item){
-            var sectionItem = new Object();
+            var sectionTasks = new Object();
             var maxScore = $(item).val();
-            var sectionItemIdx = $(item).parent().find("div").children().data('id');
-            sectionItem.sectionItemIdx = sectionItemIdx;
-            sectionItem.maxScore = maxScore;
-            sectionItemList.push(sectionItem);
+            var sectionTasksIdx = $(item).parent().find("div").children().data('id');
+            sectionTasks.sectionTasksIdx = sectionTasksIdx;
+            sectionTasks.maxScore = maxScore;
+            sectionTasksList.push(sectionTasks);
         });
 
         //상태를 수행중으로 표시
@@ -1071,7 +1071,7 @@ $(function () {
         $.ajax({
             url: "/saveTaskScore", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
-            data: "taskChart=" + JSON.stringify(taskChart) + "&curSectionIdx=" + curSectionIdx+"&sectionItemList="+JSON.stringify(sectionItemList),
+            data: "taskChart=" + JSON.stringify(taskChart) + "&curSectionIdx=" + curSectionIdx+"&sectionTasksList="+JSON.stringify(sectionTasksList),
             dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
                 alert("Saved successfully.");

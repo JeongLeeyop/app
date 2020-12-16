@@ -1,10 +1,8 @@
  package com.example.app.controller;
 
-    import com.example.app.model.domain.Account;
     import com.example.app.model.domain.Class;
     import com.example.app.model.domain.Student;
-    import com.example.app.model.domain.section.ClassDefaultTask;
-    import com.example.app.model.domain.section.TaskItemInfo;
+    import com.example.app.model.domain.section.Task;
     import com.example.app.model.dto.request.classRequest;
     import com.example.app.model.dto.request.studentRequest;
     import com.example.app.model.dto.request.taskInfoRequest;
@@ -13,13 +11,10 @@
     import com.example.app.service.StudentService;
     import lombok.RequiredArgsConstructor;
     import org.springframework.beans.factory.annotation.Autowired;
-    import org.springframework.data.jpa.repository.Modifying;
     import org.springframework.stereotype.Controller;
     import org.springframework.web.bind.annotation.*;
-    import org.springframework.web.servlet.ModelAndView;
-    import javax.servlet.http.HttpServletRequest;
+
     import javax.servlet.http.HttpSession;
-    import javax.transaction.Transactional;
     import java.util.List;
     import java.util.Optional;
 
@@ -100,37 +95,26 @@
             }
 
      }
-
-         //4. 과제 항목을 조회하는 기능
-         @RequestMapping("findTask")
-         @ResponseBody
-         public List<TaskItemInfo> findTask(classRequest classReq) {
-             List<TaskItemInfo> result = settingService.findTask(classReq);
-             System.out.println("findTask 결과");
-             System.out.println(result);
-             return result;
-         }
-
      //4. 과제 항목을 조회하는 기능
-     @RequestMapping("findTaskItemInfo")
+     @RequestMapping("findTask")
      @ResponseBody
-     public TaskItemInfo findTaskItemInfo(Long taskIdx) {
-         TaskItemInfo result = settingService.findTaskItemInfo(taskIdx);
+     public Task findTask(Long taskIdx) {
+         Task result = settingService.findTask(taskIdx);
          System.out.println(result);
          return result;
      }
 
-         //4. Default 과제 항목을 조회하는 기능
-         @RequestMapping("findDfTask")
-         @ResponseBody
-         public List<ClassDefaultTask> findDfTask(classRequest classReq) {
+     //4. 과제 항목 목록을 조회하는 기능
+     @RequestMapping("findTaskListByClassId")
+     @ResponseBody
+     public List<Task> findTaskListByClassId(classRequest classReq) {
+         List<Task> result = settingService.findTaskListByClassId(classReq);
+         System.out.println("findTaskListByClassId 결과");
+         System.out.println(result);
+         return result;
+     }
 
-             List<ClassDefaultTask> result = settingService.findDfTask(classReq);
-             System.out.println("findDfTask 결과");
-             System.out.println(result);
 
-             return result;
-         }
 
 
         //4. 학생의 리스트를 조회하는 기능

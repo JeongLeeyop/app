@@ -1,25 +1,20 @@
 package com.example.app.service;
 
 import com.example.app.model.domain.Account;
-import com.example.app.model.domain.Attendance;
 import com.example.app.model.domain.Class;
 import com.example.app.model.domain.Student;
-import com.example.app.model.domain.section.TaskItemInfo;
+import com.example.app.model.domain.section.Task;
 import com.example.app.model.dto.response.atCountResponse;
 import com.example.app.model.dto.response.repository.TotalGradeMapping;
 import com.example.app.model.dto.response.studentChartResponse;
 import com.example.app.model.dto.response.totalGradeResponse;
 import com.example.app.repository.ClassRepository;
 import com.example.app.repository.StudentRepository;
-import com.example.app.repository.TaskItemInfoRepository;
-import com.example.app.repository.TaskItemRepository;
+import com.example.app.repository.TaskRepository;
+import com.example.app.repository.ScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +29,9 @@ public class StudentService {
     @Autowired
     ClassRepository classRepo;
     @Autowired
-    TaskItemRepository taskItemRepo;
+    ScoreRepository scoreRepo;
     @Autowired
-    TaskItemInfoRepository taskItemInfoRepo;
+    TaskRepository taskRepo;
 
     @Autowired
     SettingService settingService;
@@ -131,15 +126,15 @@ public class StudentService {
             Double tempGrade = 0.0;
 
             //스코어 차트를 들고 온다.
-            List<TotalGradeMapping> totalGradeList = taskItemRepo.findTotalGrade(curClass.getClassIdx(), curAccount.getUserIdx());
+            List<TotalGradeMapping> totalGradeList = scoreRepo.findTotalGrade(curClass.getClassIdx(), curAccount.getUserIdx());
 
             //등급 비율을 위해 과제정보를 들고 온다.
-            List<TaskItemInfo> taskItemInfo = taskItemInfoRepo.findTaskItemInfoByClassIdx(curClass.getClassIdx());
+            List<Task> task = taskRepo.findTaskByClassIdx(curClass.getClassIdx());
 
             //등급 기준을 Map에 저장
             Map<Long, Long> map = new HashMap<Long, Long>();
-            for (TaskItemInfo item : taskItemInfo) {
-                map.put(item.getTaskItemInfoIdx(), item.getTaskGradeRatio());
+            for (Task item : task) {
+                map.put(item.getTaskIdx(), item.getTaskGradeRatio());
             }
 
             //과제 최종 성적 구하기

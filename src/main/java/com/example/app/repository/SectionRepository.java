@@ -1,8 +1,6 @@
 package com.example.app.repository;
 
 import com.example.app.model.domain.section.Section;
-import com.example.app.model.domain.section.TaskItem;
-import com.example.app.model.domain.section.TaskItemInfo;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

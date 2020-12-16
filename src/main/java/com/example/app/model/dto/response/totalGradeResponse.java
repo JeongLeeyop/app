@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class totalGradeResponse {
     private Long studentIdx;
-    private Long taskItemInfoIdx;
+    private Long taskIdx;
     private Double grade;
     private Double finalGrade;
 

@@ -69,7 +69,7 @@ public class AccountController {
     }
 
     //2.회원가입 버튼
-/*    @RequestMapping("/signUp")
+    @RequestMapping("/signUp")
     public String signUp(accountRequest account, HttpServletRequest req,HttpServletResponse response) throws Exception{
         String hashPw = account.getPassword();
         //2. 해쉬화
@@ -89,7 +89,7 @@ public class AccountController {
             out.flush();
         }
             return null;
-    }*/
+    }
 
     //2.이메일 중복확인 Ajax
     @RequestMapping("/emailCheck")

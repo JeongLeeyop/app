@@ -4,25 +4,19 @@ import com.example.app.common.GenderCode;
 import com.example.app.model.domain.Account;
 import com.example.app.model.domain.Class;
 import com.example.app.model.domain.Student;
-import com.example.app.model.domain.section.ClassDefaultTask;
-import com.example.app.model.domain.section.TaskItemInfo;
+import com.example.app.model.domain.section.Task;
 import com.example.app.model.dto.request.classRequest;
 import com.example.app.model.dto.request.studentRequest;
 import com.example.app.model.dto.request.taskInfoRequest;
 import com.example.app.repository.*;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SettingService {
@@ -34,15 +28,13 @@ public class SettingService {
     @Autowired
     ClassRepository classRepo;
     @Autowired
-    TaskItemInfoRepository taskInfoRepo;
+    TaskRepository taskRepo;
     @Autowired
-    ClassDefaultTaskRepository classDfRepo;
-    @Autowired
-    TaskItemRepository taskItemRepo;
+    ScoreRepository scoreRepo;
     @Autowired
     SectionRepository sectionRepo;
     @Autowired
-    SectionItemRepository sectionItemRepo;
+    SectionTasksRepository sectionTasksRepo;
     @Autowired
     AttendanceRepository attendanceRepo;
 
@@ -56,17 +48,12 @@ public class SettingService {
 
         System.out.println("서비스 delClass 진입");
 
-
-        //Default 과제 항목 삭제
-        classDfRepo.ClassDefaultTaskByClassIdx(ClassIdx);
-        System.out.println("Default과제삭제");
-
-        //SectionItem 삭제
-        sectionItemRepo.DelSectionItemByClassIdx(ClassIdx);
+        //SectionTasks 삭제
+        sectionTasksRepo.DelSectionTasksByClassIdx(ClassIdx);
         System.out.println("섹션항목 삭제");
 
         //과제 항목 데이터 삭제
-        taskItemRepo.DelTaskItemByClassIdx(ClassIdx);
+        scoreRepo.DelScoreByClassIdx(ClassIdx);
         System.out.println("과제항목데이터삭제");
 
         //섹션 삭제
@@ -74,7 +61,7 @@ public class SettingService {
         System.out.println("섹션 삭제");
 
         //과제 항목 삭제
-        taskInfoRepo.DelTaskInfoByClassIdx(ClassIdx);
+        taskRepo.DelTaskByClassIdx(ClassIdx);
         System.out.println("과제항목삭제");
 
         //클래스 삭제
@@ -93,50 +80,35 @@ public class SettingService {
         Class _class = classRepo.findById(classIdx).get();
 
         //과제항목의 정보
-        TaskItemInfo taskInfo = new TaskItemInfo();
-        ClassDefaultTask classDfTask = new ClassDefaultTask();
-
+        Task task = new Task();
         //과제항목 도메인 세팅
-        taskInfo.set_class(_class);
-        taskInfo.setTaskGradeRatio(taskInfoReq.getGradeRatio());
-        taskInfo.setTaskItemName(taskInfoReq.getTaskName());
+        task.set_class(_class);
+        task.setTaskGradeRatio(taskInfoReq.getGradeRatio());
+        task.setTaskItemName(taskInfoReq.getTaskName());
         if(taskInfoReq.getTaskIdx()!=null) {
-            taskInfo.setTaskItemInfoIdx(taskInfoReq.getTaskIdx());
+            task.setTaskIdx(taskInfoReq.getTaskIdx());
         }
 
         //과제항목정보 입력, 객체 반환
-        TaskItemInfo result = taskInfoRepo.save(taskInfo);
+        Task result = taskRepo.save(task);
 
-        //Default가 체크 되있는 경우 Default과제 설정
-        if(taskInfoReq.getCkDefault()==1) {
-            classDfTask.set_class(_class);
-            classDfTask.setTaskItemInfo(result);
-            classDfRepo.save(classDfTask);
-        }
     }
 
     @ResponseBody
     //2. 클래스의 과제를 조회하는 기능
-    public List<TaskItemInfo> findTask(classRequest classReq) {
-        List<TaskItemInfo> result = taskInfoRepo.findTaskItemInfoByClassIdx(classReq.getClassIdx());
+    public List<Task> findTaskListByClassId(classRequest classReq) {
+        List<Task> result = taskRepo.findTaskByClassIdx(classReq.getClassIdx());
         System.out.println(result);
         return result;
     }
 
     @ResponseBody
     //2. 클래스의 과제를 조회하는 기능
-    public TaskItemInfo findTaskItemInfo(Long taskIdx) {
-        TaskItemInfo result = taskInfoRepo.findById(taskIdx).get();
+    public Task findTask(Long taskIdx) {
+        Task result = taskRepo.findById(taskIdx).get();
         return result;
     }
 
-    @ResponseBody
-    //2. 클래스의 Default 과제를 조회하는 기능
-    public List<ClassDefaultTask> findDfTask(classRequest classReq) {
-        List<ClassDefaultTask> result = classDfRepo.findClassDefaultTaskBy_class_ClassIdx(classReq.getClassIdx());
-        System.out.println(result);
-        return result;
-    }
 
     @ResponseBody
     //2. 클래스의 과제를 수정하는 기능
@@ -151,16 +123,13 @@ public class SettingService {
     public void delTask(Long taskIdx) throws Exception {
         System.out.println("서비스 deltask 진입");
         //과제 항목 데이터 삭제
-        taskItemRepo.DelTaskItemByTaskItemInfoIdx(taskIdx);
+        scoreRepo.DelScoreByTaskIdx(taskIdx);
         System.out.println("과제항목데이터삭제");
-        //Default 과제 삭제
-        classDfRepo.deleteClassDefaultTaskByTaskItemInfoIdx(taskIdx);
-        System.out.println("Default과제삭제");
         //sectionitem 과제 삭제
-        sectionItemRepo.DelSectionItemByTaskIdx(taskIdx);
+        sectionTasksRepo.DelSectionTasksByTaskIdx(taskIdx);
 
         //과제 항목 삭제
-        taskInfoRepo.deleteById(taskIdx);
+        taskRepo.deleteById(taskIdx);
         System.out.println("과제항목삭제");
         System.out.println("서비스 deltask 끝");
     }
@@ -216,7 +185,7 @@ public class SettingService {
 
         attendanceRepo.deleteByStudent(student);
 
-        taskItemRepo.deleteByStudent(student);
+        scoreRepo.deleteByStudent(student);
 
         settingRepo.deleteById(studentIdx);
         //에러제어가 없다

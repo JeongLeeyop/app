@@ -1,7 +1,7 @@
 package com.example.app.controller;
 
 import com.example.app.model.domain.section.Section;
-import com.example.app.model.domain.section.TaskItemInfo;
+import com.example.app.model.domain.section.Task;
 import com.example.app.model.dto.response.totalGradeResponse;
 import com.example.app.service.ClassService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,12 +58,12 @@ public class ClassController {
         return classService.findTaskChart(curSectionIdx,curClassIdx,session);
     }
 
-    //4. 섹션의 기본 템플릿 제공
+   /* //4. 섹션의 기본 템플릿 제공
     @RequestMapping("findTaskTemplate")
     @ResponseBody
     public Map findTaskTemplate(Long curClassIdx, HttpSession session) {
         return classService.findTaskTemplate(curClassIdx,session);
-    }
+    }*/
 
     //5. 섹션의 과제 항목을 추가하는 기능
     @RequestMapping("addTask")
@@ -75,31 +74,31 @@ public class ClassController {
 
     //6. 섹션의 과제 항목을 삭제하는 기능
     @RequestMapping("class_delTask")
-    public ModelAndView delTask(Long sectionItemIdx) {
-        classService.delTask(sectionItemIdx);
+    public ModelAndView delTask(Long sectionTasksIdx) {
+        classService.delTask(sectionTasksIdx);
         return null;
     }
 
     //7. 섹션의 과제 항목을 수정하는 기능
     @RequestMapping("class_changeTask")
-    public ModelAndView taskName(Long sectionItemIdx,Long targetTaskIdx) {
-        classService.changeTask(sectionItemIdx,targetTaskIdx);
+    public ModelAndView taskName(Long sectionTasksIdx, Long targetTaskIdx) {
+        classService.changeTask(sectionTasksIdx,targetTaskIdx);
         return null;
     }
 
     //8. 과제 점수를 입력, 수정하는 기능
     @RequestMapping("saveTaskScore")
     @ResponseBody
-    public ModelAndView saveTaskScore(@RequestParam String taskChart, Long curSectionIdx, @RequestParam String sectionItemList) throws Exception{
-        classService.saveTaskScore(taskChart,curSectionIdx,sectionItemList);
+    public ModelAndView saveTaskScore(@RequestParam String taskChart, Long curSectionIdx, @RequestParam String sectionTasksList) throws Exception{
+        classService.saveTaskScore(taskChart,curSectionIdx, sectionTasksList);
         return null;
     }
 
     //9. 과제 정보를 출력해주는 기능 : 성적비율
-    @RequestMapping("findTaskItemInfoList")
+    @RequestMapping("findTaskList")
     @ResponseBody
-    public List<TaskItemInfo> findTaskItemInfoList(Long curClassIdx) throws Exception{
-        return classService.findTaskItemInfoList(curClassIdx);
+    public List<Task> findTaskList(Long curClassIdx) throws Exception{
+        return classService.findTaskList(curClassIdx);
     }
 
     //10. 전체 학생 목록을 출력하여 등급 항목에 과제 항목의 점수를 반영하여 조회해주는 기능

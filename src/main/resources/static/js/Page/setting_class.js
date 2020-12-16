@@ -258,7 +258,7 @@ $(function () {
         } else {
             var taskIdx = $("#taskIdx").text();
             $.ajax({
-                url: "/findTaskItemInfo", //서버요청주소
+                url: "/findTask", //서버요청주소
                 type: "post",//요청방식 (get,post,patch,delete,put)
                 data: "taskIdx=" + taskIdx,
                 dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
@@ -266,7 +266,7 @@ $(function () {
                     $('#mediumModal2').modal("show"); //열기
                     $("#taskName2").val(result.taskItemName);
                     $("#gradeRatio2").val(result.taskGradeRatio);
-                    $("#modalTaskIdx").text(result.taskItemInfoIdx);
+                    $("#modalTaskIdx").text(result.taskIdx);
                 }, //성공했을때
                 error: function (request) {
                     alert(request.responseText);
@@ -302,7 +302,7 @@ $(function () {
 
         //클래스의 과제항목을 검색하는 ajax
         $.ajax({
-            url: "/findTask", //서버요청주소
+            url: "/findTaskListByClassId", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             data: "classIdx=" + classIdx,
@@ -310,7 +310,7 @@ $(function () {
 
                 $.each(result, function (index, item) {
 
-                    var taskIdx = item.taskItemInfoIdx;
+                    var taskIdx = item.taskIdx;
                     var taskName = item.taskItemName;
                     var gradeRatio = item.taskGradeRatio;
                     var space = "";
