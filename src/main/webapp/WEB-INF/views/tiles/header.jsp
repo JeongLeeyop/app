@@ -38,7 +38,7 @@
                         <i class="fas fa-chart-bar"></i>Student</a>
                 </li>
 
-                <li>4
+                <li>
                     <a href="setting"><i class="fa fa-cog"></i>Setting</a>
                 </li>
                 <li>
@@ -107,16 +107,9 @@
                         <i class="fas fa-calendar"></i>Attendance</a>
                 </li>
                 <li>
-
-                    <%--   <li>
-                           <a href="class">
-                               <i class="fas fa-tags"></i>Class</a>
-                       </li>--%>
-                <li>
                     <a href="class_list">
-                        <i class="fas fas fa-table"></i>Class &nbsp; <i class="js-arrow fas fa-caret-down" style="width: 167px;height: 40px;position: absolute;top: 95px;left: 120px;padding-top: 16px;"></i>
-                        <ul id="classList" style="padding-top: 10px;"
-                            class="list-unstyled navbar__sub-list js-sub-list">
+                        <i class="fas fas fa-table"></i>Class<i class="js-arrow fas fa-caret-down" style="width: 167px;height: 40px;position: absolute;top: 95px;left: 120px;padding-top: 16px;"></i>
+                        <ul id="classList" style="padding-top: 10px;"class="list-unstyled navbar__sub-list js-sub-list">
                         </ul>
                     </a>
                 </li>
@@ -152,6 +145,7 @@
                 </div>
 
                 <div class="header-wrap">
+
                     <form class="form-header" action="" method="POST">
                     </form>
                     <div class="header-button">
@@ -178,6 +172,10 @@
                                             </h5>
                                             <span class="email">${Account.userEmail}</span>
                                         </div>
+                                        <select style="margin-top: 15px;" name="selectSm" id="SeasonSelect" class="form-control-sm form-control">
+                                            <option value="0">Select Season</option>
+                                            <option value="1">Option #1</option>
+                                        </select>
                                     </div>
                                     <div class="account-dropdown__footer">
                                         <a id="logout"><i class="zmdi zmdi-power"></i>Logout</a>

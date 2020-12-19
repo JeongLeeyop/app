@@ -11,6 +11,7 @@ import java.util.List;
 @ToString
 public class atCountResponse {
 
+    //authStudentIdx
     private Long studentIdx;
     private String studentName;
     private Long presentCnt;

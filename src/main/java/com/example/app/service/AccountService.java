@@ -1,8 +1,10 @@
 package com.example.app.service;
 
 import com.example.app.model.domain.Account;
+import com.example.app.model.domain.School;
 import com.example.app.model.dto.request.accountRequest;
 import com.example.app.repository.AccountRepository;
+import com.example.app.repository.SeasonRepository;
 import com.example.app.util.DateTimeHelper;
 import com.example.app.util.PwUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ public class AccountService {
 
     @Autowired
     AccountRepository accountRepo;
+    @Autowired
+    SeasonRepository seasonRepo;
 
     PwUtil pwUtil;
 
@@ -68,4 +72,5 @@ public class AccountService {
         System.out.println("SignUp 결과값 : " + result);
         return result;
     }
+
 }

@@ -55,6 +55,6 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
     @Query("select t from Score t where t.section.sectionIdx = ?1 and t.task.taskIdx=?2")
     public List<Score> findScoreBySectionAndTask(Long sectionIdx, Long taskIdx);
 
-    @Query("select t.task.taskIdx as task, t.student.studentIdx as student, count(t.score) as count, sum(t.score/s.maxScore*100) as sum from Score t left outer join SectionTasks s ON t.section.sectionIdx = s.section.sectionIdx AND t.task.taskIdx = s.task.taskIdx where t.task.taskIdx In (select ti.taskIdx from Task ti where ti._class.classIdx = ?1) AND t.student.studentIdx In (select s.studentIdx from Student s where s.account.userIdx = ?2) group by t.task.taskIdx,t.student.studentIdx order by t.student.studentIdx,t.task.taskIdx")
+    @Query("select t.task.taskIdx as task, t.authStudent.authStudentIdx as student, count(t.score) as count, sum(t.score/s.maxScore*100) as sum from Score t left outer join SectionTasks s ON t.section.sectionIdx = s.section.sectionIdx AND t.task.taskIdx = s.task.taskIdx where t.task.taskIdx In (select ti.taskIdx from Task ti where ti.authClass.authClassIdx = ?1) AND t.authStudent.authStudentIdx In (select s.authStudentIdx from AuthStudent s where s.account.userIdx = ?2) group by t.task.taskIdx,t.authStudent.authStudentIdx order by t.authStudent.authStudentIdx,t.task.taskIdx")
     public List<TotalGradeMapping> findTotalGrade(Long curClassIdx, Long curUserIdx);
 }

@@ -7,34 +7,44 @@ moving the class to menus lead to only the menu having the effect -->
 <!-- MAIN CONTENT-->
 <script src="vendor/jquery-3.2.1.min.js"></script>
 <script>
+
+    //선택된 auth클래스 id를 가지고 class로 넘어가기
+
+    function ClassPage2(classId){
+        var authClassIdx = classId;
+
+        document.write('<form action="class" id="smb_form" method="post"><input type="hidden" id="authClassIdx" name="authClassIdx" value="'+ authClassIdx +'"></form>');
+        document.getElementById("smb_form").submit();
+    }
+
     $(function () {
         $('head').append('<link rel="stylesheet" href="css/class_list.css" type="text/css" />');
 
         $.ajax({
-            url: "/findClassList", //서버요청주소
+            url: "/findAuthClassList", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
+            data : "curSeasonIdx="+sessionStorage.getItem("curSeasonIdx"),
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
+                console.log(result);
                 $.each(result, function (index, item) {
                     var number = index + 1;
                     if(number > 8){
                         number = number - 8;
                     }
-
                     var str = "<div class=\"col-sm-6 col-lg-4 mb-4 mb-lg-0\">\n" +
                         "                            <div class=\"categories_post\">\n" +
                         "                                <img class=\"card-img rounded-0\" src=\"images/cat-post/"+number+".jpg\" alt=\"post\">\n" +
-                        "                                <div onclick=\"location.href=\'class?idx="+item.classIdx+"\'\" class=\"categories_details\">\n" +
+                        "                                <div href=\"#\" onclick=\"ClassPage2("+item.authclass+");\" class=\"categories_details\">\n" +
                         "                                    <div class=\"categories_text\">\n" +
                         "                                        <a>\n" +
-                        "                                            <h5>"+item.className+"</h5>\n" +
+                        "                                            <h5>"+item.classname+"</h5>\n" +
                         "                                        </a>\n" +
                         "                                        <div class=\"border_line\"></div>\n" +
                         "                                    </div>\n" +
                         "                                </div>\n" +
                         "                            </div>\n" +
                         "                        </div>";
-
                     $(".wrap .row").append(str).trigger("create");
 
                 });

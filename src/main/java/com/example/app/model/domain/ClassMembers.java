@@ -17,7 +17,7 @@ public class ClassMembers {
     private long classMembersIdx;
 
     @ManyToOne
-    @JoinColumn(name = "authClassIdx")
+    @JoinColumn(name = "curClassIdx")
     private AuthClass authClass;
 
     @ManyToOne

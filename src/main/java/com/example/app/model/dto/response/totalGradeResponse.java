@@ -12,6 +12,6 @@ public class totalGradeResponse {
     private Long taskIdx;
     private Double grade;
     private Double finalGrade;
-
+// 필요있나?
     private Long classIdx;
 }

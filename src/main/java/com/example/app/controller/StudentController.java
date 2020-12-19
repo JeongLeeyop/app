@@ -34,8 +34,8 @@ public class StudentController {
     //1. 전체 학생의 요약정보를 조회하는 기능
     @RequestMapping("findStudentSummary")
     @ResponseBody
-    public Map<String,Object> findStudentSummary(HttpSession session) {
-        return studentService.findStudentSummary(session);
+    public Map<String,Object> findStudentSummary(Long curSeasonIdx,HttpSession session) {
+        return studentService.findStudentSummary(curSeasonIdx,session);
     }
 
     //1. 특정학생의 상세정보를 조회하는 기능

@@ -1,4 +1,5 @@
 package com.example.app.model.domain.section;
+import com.example.app.model.domain.AuthClass;
 import com.example.app.model.domain.Class;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -28,4 +29,8 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "classIdx")
     private Class _class;
+
+    @ManyToOne
+    @JoinColumn(name = "authClassIdx")
+    private AuthClass authClass;
 }

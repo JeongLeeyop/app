@@ -6,6 +6,7 @@ public interface TotalGradeMapping {
 
 
      Long getTask();
+     //authStudentIdx
      Long getStudent();
      Long getCount();
      Double getSum();

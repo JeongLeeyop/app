@@ -1,17 +1,14 @@
 package com.example.app.service;
 
-import com.example.app.model.domain.Account;
+import com.example.app.model.domain.*;
 import com.example.app.model.domain.Class;
-import com.example.app.model.domain.Student;
 import com.example.app.model.domain.section.Task;
 import com.example.app.model.dto.response.atCountResponse;
+import com.example.app.model.dto.response.repository.AuthClassMapping;
 import com.example.app.model.dto.response.repository.TotalGradeMapping;
 import com.example.app.model.dto.response.studentChartResponse;
 import com.example.app.model.dto.response.totalGradeResponse;
-import com.example.app.repository.ClassRepository;
-import com.example.app.repository.StudentRepository;
-import com.example.app.repository.TaskRepository;
-import com.example.app.repository.ScoreRepository;
+import com.example.app.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +29,10 @@ public class StudentService {
     ScoreRepository scoreRepo;
     @Autowired
     TaskRepository taskRepo;
+    @Autowired
+    AuthStudentRepository authstudentRepo;
+    @Autowired
+    SeasonRepository seasonRepo;
 
     @Autowired
     SettingService settingService;
@@ -49,36 +50,41 @@ public class StudentService {
         return studentRepo.findById(stIdx).get();
     }
 
-    //5. 전체 학생을 조회하는 기능
+    //2. 관리자 계정의 전체 학생을 조회하는 기능
     public List<Student> findStudentList(HttpSession session) {
         List<Student> student = studentRepo.findStudentByAccount((Account) session.getAttribute("Account"));
         return student;
     }
 
+    //3. 일반 계정의 권한 부여된 학생목록을 조회하는 기능
+    public List<AuthStudent> findAuthStudentList(Long curSeasonIdx, HttpSession session) {
+        List<AuthStudent> student = authstudentRepo.findAuthStudentBySeason_SeasonIdxAndAccount(curSeasonIdx,(Account) session.getAttribute("Account"));
+        return student;
+    }
+
     // 학생별 전체 요약
     //1. 전체 학생의 정보를 조회하는 기능
-    public Map<String, Object> findStudentSummary(HttpSession session) {
+    public Map<String, Object> findStudentSummary(Long curSeasonIdx, HttpSession session) {
 
         Map resultMap = new HashMap();
         session.getAttribute("Account");
 
         //. 전체 클래스명 출력 : 열
         System.out.println("전체 클래스명 출력");
-        List<Class> _class = classService.findClassList(session);
-        System.out.println("=========> " + _class);
+        List<AuthClassMapping> authClassList = classService.findAuthClassList(session,curSeasonIdx);
 
         //. 전체 학생명 출력 : 행
         System.out.println("전체 학생명 출력");
-        List<Student> studentList = this.findStudentList(session);
-        System.out.println("=========> " + studentList);
+        List<AuthStudent> authStudentList = this.findAuthStudentList(curSeasonIdx,session);
+        System.out.println("=========> " + authStudentList);
 
         //. 전체 학생 출결일 출력
         System.out.println("전체 학생 출결일 출력");
-        List<atCountResponse> atCntResList = attendanceService.findTotalAt(session);
+        List<atCountResponse> atCntResList = attendanceService.findTotalAt(curSeasonIdx,session);
 
 
         List<studentChartResponse> chartList = new ArrayList<studentChartResponse>();
-        for (int i = 0; i < studentList.size(); i++) {
+        for (int i = 0; i < authStudentList.size(); i++) {
 
             studentChartResponse studentChartRes = new studentChartResponse();
 
@@ -88,7 +94,7 @@ public class StudentService {
             String str = "null";
             //학생당 출석일 도출하기;
             for (atCountResponse item : atCntResList) {
-                if (studentList.get(i).getStudentIdx().equals(item.getStudentIdx())) {
+                if (authStudentList.get(i).getAuthStudentIdx()==item.getStudentIdx()) {
                     Long extardy = item.getExTardyCnt();
                     Long tardy = item.getTardyCnt();
                     Long absent = item.getAbsentCnt();
@@ -102,12 +108,12 @@ public class StudentService {
             }
 
             //최종 성적 구하기
-            for (int j = 0; j < _class.size(); j++) {
+            for (int j = 0; j < authClassList.size(); j++) {
                 studentGradeList.add("null");
             }
 
-            studentChartRes.setStudentName(studentList.get(i).getStudentName());
-            studentChartRes.setStudentIdx(studentList.get(i).getStudentIdx());
+            studentChartRes.setStudentName(authStudentList.get(i).getStudent().getStudentName());
+            studentChartRes.setStudentIdx(authStudentList.get(i).getAuthStudentIdx());
             studentChartRes.setStudentAttendance(str);
             chartList.add(studentChartRes);
         }
@@ -120,16 +126,16 @@ public class StudentService {
         //최종 값을 담을 변수 선언
         List<totalGradeResponse> result2 = new ArrayList<totalGradeResponse>();
 
-        for (Class curClass : _class) {
+        for (AuthClassMapping curClassMapping : authClassList) {
             List<totalGradeResponse> result = new ArrayList<totalGradeResponse>();
             //클래스의 최종 등급이 들어갈 변수 선언
             Double tempGrade = 0.0;
 
             //스코어 차트를 들고 온다.
-            List<TotalGradeMapping> totalGradeList = scoreRepo.findTotalGrade(curClass.getClassIdx(), curAccount.getUserIdx());
+            List<TotalGradeMapping> totalGradeList = scoreRepo.findTotalGrade(curClassMapping.getAuthclass(), curAccount.getUserIdx());
 
             //등급 비율을 위해 과제정보를 들고 온다.
-            List<Task> task = taskRepo.findTaskByClassIdx(curClass.getClassIdx());
+            List<Task> task = taskRepo.findTaskByClassIdx(curClassMapping.getAuthclass());
 
             //등급 기준을 Map에 저장
             Map<Long, Long> map = new HashMap<Long, Long>();
@@ -152,22 +158,22 @@ public class StudentService {
                 } else {
                     tempGrade = (item.getSum().doubleValue() / item.getCount()) * gradeRatio / 100;
                 }
-                System.out.println(" class : " + curClass.getClassIdx() + " Student : " + item.getStudent() + " TempGrade : " + tempGrade);
+                System.out.println(" class : " + curClassMapping.getAuthclass() + " Student : " + item.getStudent() + " TempGrade : " + tempGrade);
                 result.add(new totalGradeResponse(item.getStudent(), curTaskIdx, null, tempGrade, null));
             }
 
             //학생 수만큼 추가해준다.
-            for (Student student : studentList) {
+            for (AuthStudent authStudent : authStudentList) {
                 Double finalGrade = 0.0;
                 //클래스 최종 성적 구하기
                 for (totalGradeResponse item2 : result) {
-                    if (student.getStudentIdx().equals(item2.getStudentIdx())) {
+                    if (authStudent.getAuthStudentIdx()==item2.getStudentIdx()) {
                         finalGrade = finalGrade + item2.getFinalGrade();
                     }
                 }
-                result2.add(new totalGradeResponse(student.getStudentIdx(), null, null, finalGrade, curClass.getClassIdx()));
+                result2.add(new totalGradeResponse(authStudent.getAuthStudentIdx(), null, null, finalGrade, curClassMapping.getAuthclass()));
 
-//                System.out.println("studentIdx : " + student.getStudentIdx() + " classIdx :  " + curClass.getClassIdx() + " finalGrade : " + finalGrade);
+//                System.out.println("studentIdx : " + authStudent.getStudentIdx() + " classIdx :  " + curClassMapping.getClassIdx() + " finalGrade : " + finalGrade);
             }
         }
 

@@ -1,5 +1,6 @@
  package com.example.app.controller;
 
+    import com.example.app.model.domain.AuthStudent;
     import com.example.app.model.domain.Class;
     import com.example.app.model.domain.Student;
     import com.example.app.model.domain.section.Task;
@@ -34,7 +35,6 @@
         @ResponseBody
         public List<Class> findClassList(HttpSession session) {
             List<Class> result = classService.findClassList(session);
-            System.out.println("컨트롤러" + result);
             //에러제어 필요
             return result;
         }
@@ -114,14 +114,12 @@
          return result;
      }
 
-
-
-
-        //4. 학생의 리스트를 조회하는 기능
-        @RequestMapping("findStudent")
+        //4. 권한이 허가된 학생의 리스트를 조회하는 기능
+        @RequestMapping("findAuthStudent")
         @ResponseBody
-        public List<Student> findStudent(HttpSession session)  {
-            List<Student> result = studentService.findStudentList(session);
+        public List<AuthStudent> findAuthStudent(Long curSeasonIdx, HttpSession session)  {
+            System.out.println("null일까..? " + curSeasonIdx);
+            List<AuthStudent> result = studentService.findAuthStudentList(curSeasonIdx,session);
             return result;
         }
 

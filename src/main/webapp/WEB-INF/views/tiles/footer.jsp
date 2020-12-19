@@ -42,10 +42,19 @@
 
 <script type="text/javascript">
     $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
-/*    $(document).ready(function () {});
-    $(window).on('load', function () {});*/
+    /*    $(document).ready(function () {});
+        $(window).on('load', function () {});*/
 
-    var toggle=0;
+
+    var toggle = 0;
+
+    //선택된 auth클래스 id를 가지고 class로 넘어가기
+    function ClassPage(classId){
+        var authClassIdx = $(classId).data('id');
+
+        document.write('<form action="class" id="smb_form" method="post"><input type="hidden" id="authClassIdx" name="authClassIdx" value="'+ authClassIdx +'"></form>');
+        document.getElementById("smb_form").submit();
+    }
 
     $(function () {
 
@@ -83,67 +92,138 @@
             alert("You are logged out.");
             /*
 
+
             <%
-                        response.setHeader("cache-control","no-cache");
-                        response.setHeader("expires","0");
-                        response.setHeader("pragma","no-cache");
-                        %>*/
+                                    response.setHeader("cache-control","no-cache");
+                                    response.setHeader("expires","0");
+                                    response.setHeader("pragma","no-cache");
+                                    %>*/
+            sessionStorage.clear();
             location.href = "logout";
         });
 
+
         ////////////////////////////////////////////////////////////////////
         //                                                                //
-        //                           클래스 메뉴                           //
+        //                           시즌 메뉴                             //
         //                                                                //
         ////////////////////////////////////////////////////////////////////
 
 
-        //메뉴버튼 클릭시 패딩 삭제
-        $(".zmdi.zmdi-menu").on("click",function(){
-           $(".page-container").toggleClass('hide');
-            $(".menu-sidebar.d-none.d-lg-block").toggleClass('hide');
+        //시즌을 선택했을때 선택된 시즌id를 세션에 저장
+        $("#SeasonSelect").on('change',function(){
+            sessionStorage.setItem("curSeasonIdx", $(this).find('option:selected').data('id'));
+            location.href="attendance";
         });
 
-        //클래스 버튼 아이콘 토글
-        $(".js-arrow").on("click", function(){
-            if(toggle==0){
-                $(this).removeClass("fa-caret-down");
-                $(this).addClass("fa-caret-up");
-                toggle=1;
-                console.log("down");
-            } else if(toggle==1){
-                $(this).removeClass("fa-caret-up");
-                $(this).addClass("fa-caret-down");
-                toggle=0;
-                console.log("up");
-            }
-        });
-
-        //좌측 메뉴에 클래스 목록 출력
+        //프로필 메뉴에 시즌 목록 출력
         $.ajax({
-            url: "/findClassList", //서버요청주소
+            url: "/findSeasonList", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
+                // sessionStorage.clear();
+                //기본 폼을 비우고
+                $("#SeasonSelect").empty();
+
+                //시즌 목록을 출력
                 $.each(result, function (index, item) {
-                    $("#classList").append("<li><a href=\"class?idx="+item.classIdx+"\">" + item.className + "</a></li>");
-                    $("#classListMobile").append("<li><a href=\"class?idx="+item.classIdx+"\">" + item.className + "</a></li>");
+                    $("#SeasonSelect").append("<option data-id=\"" + item.seasonIdx + "\" value=\"" + index + "\">" + item.seasonName + "</option>");
                 });
+
+                //시즌 선택을 한번도 하지 않은 경우 제일 최근 시즌의 id를 저장
+                if (sessionStorage.getItem("curSeasonIdx") == null) {
+                    $.ajax({
+                        url: "/SeasonInit", //서버요청주소
+                        type: "post",//요청방식 (get,post,patch,delete,put)
+                        //왜 여기를 동기방식으로 바꾸면 될까?
+                        //이 ajax가 끝난 뒤에 다음 코드가 실행되기 떄문!
+                        async: false,
+                        dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+                        success: function (result2) {
+                            sessionStorage.setItem("curSeasonIdx",result2);
+                        }, //성공했을때
+                        error: function (request) {
+                            alert(request.responseText);
+                        }// 실패했을때
+                    });
+                    // sessionStorage.setItem('curSeasonIdx',result[0].seasonIdx);
+
+                    //시즌을 선택할 경우 선택된 시즌의 id를 저장
+                } else {
+                    $("#SeasonSelect").find("option[data-id=\'"+sessionStorage.getItem("curSeasonIdx")+"\']").prop("selected",true);
+                    // console.log(sessionStorage.getItem("curSeasonIdx"));
+                }
+
+                //현재 선택된 시즌 출력
+                // console.log($("#SeasonSelect").find('option:selected').data('id'));
+
+                ////////////////////////////////////////////////////////////////////
+                //                                                                //
+                //                           클래스 메뉴                           //
+                //                                                                //
+                ////////////////////////////////////////////////////////////////////
+
+                //좌측 메뉴에 클래스 목록 출력
+                $.ajax({
+                    url: "/findAuthClassList", //서버요청주소
+                    type: "post",//요청방식 (get,post,patch,delete,put)
+                    data : "curSeasonIdx="+sessionStorage.getItem("curSeasonIdx"),
+                    dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+                    success: function (result) {
+                        $.each(result, function (index, item) {
+                            console.log(item);
+                            $("#classList").append("<li><a href=\"#\"; onclick=\"ClassPage(this);\" data-id=\""+item.authclass+"\">" + item.classname + "</a></li>");
+                            $("#classListMobile").append("<li><a href=\"#\"; onclick=\"ClassPage(this);\" data-id=\""+item.authclass+"\">" + item.classname + "</a></li>");
+                        });
+
+
+
+                        //클래스가 없으면 없다고 출력
+                    }, //성공했을때
+                    error: function (request) {
+                        // alert(request.responseText);
+                    }
+                });// 실패했을때
+                /*
+                        $(document).on('click', '#classList', function () {
+                            // alert("We're under inspection.");
+                        });
+
+                        $(document).on('click', '#classListMobile', function () {
+                            // alert("We're under inspection.");
+                        });*/
+
+
             }, //성공했을때
             error: function (request) {
                 alert(request.responseText);
             }
         });// 실패했을때
-/*
-        $(document).on('click', '#classList', function () {
-            // alert("We're under inspection.");
+
+
+        //메뉴버튼 클릭시 패딩 삭제
+        $(".zmdi.zmdi-menu").on("click", function () {
+            $(".page-container").toggleClass('hide');
+            $(".menu-sidebar.d-none.d-lg-block").toggleClass('hide');
         });
 
-        $(document).on('click', '#classListMobile', function () {
-            // alert("We're under inspection.");
-        });*/
-
-
+        //클래스 버튼 아이콘 토글
+        $(".js-arrow").on("click", function () {
+            if (toggle == 0) {
+                $(this).removeClass("fa-caret-down");
+                $(this).addClass("fa-caret-up");
+                toggle = 1;
+                console.log("down");
+            } else if (toggle == 1) {
+                $(this).removeClass("fa-caret-up");
+                $(this).addClass("fa-caret-down");
+                toggle = 0;
+                console.log("up");
+            }
+        });
 
     });
+
+
 </script>

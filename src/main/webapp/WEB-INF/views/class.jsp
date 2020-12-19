@@ -1,7 +1,6 @@
 
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
-
 <!-- animsition overrides all click events on clickable things like a,
       since calendar doesn't add href's be default,
       it leads to odd behaviors like loading 'undefined'
@@ -11,6 +10,7 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
+
                             <%--
 작업중
 <div class="col-lg-6">
@@ -55,7 +55,7 @@
                                 <div class="card" style="height: 100%;">
                                     <div class="card-header">
                                         <strong>Section</strong> List
-                                        <h3 class="title-3"style="padding-top: 10px;padding-bottom: 5px;">${curClass.className}</h3>
+                                        <h3 data-id="${authClassIdx}"class="title-3"style="padding-top: 10px;padding-bottom: 5px;">${curClass.className}</h3>
                                     </div>
                                     <div class="card-body card-block" style="height: 431px;" >
                                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" style="height: 100%;">

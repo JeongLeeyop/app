@@ -4,6 +4,8 @@
 //                                                                //
 ////////////////////////////////////////////////////////////////////
 //css 적용
+var curSeasonIdx =  sessionStorage.getItem("curSeasonIdx");
+
 $('head').append('<link rel="stylesheet" href="css/student.css" type="text/css" />');
 //학생 차트에 타이틀 출력
 $.ajax({
@@ -20,6 +22,7 @@ $.ajax({
         //학생 차트에 데이터 출력
         $.ajax({
             url: "/findStudentSummary", //서버요청주소
+            data: "curSeasonIdx=" + curSeasonIdx,
             type: "post",//요청방식 (get,post,patch,delete,put)
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {

@@ -172,7 +172,7 @@ $(document).on("click", "#student-add2", function () {
 function StudentAjax() {
 
     $.ajax({
-        url: "/findStudent", //서버요청주소
+        url: "/findAuthStudent", //서버요청주소
         type: "post",//요청방식 (get,post,patch,delete,put)
         dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
         success: function (result) {

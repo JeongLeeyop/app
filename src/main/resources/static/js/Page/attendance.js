@@ -4,9 +4,25 @@
 //                                                                //
 ////////////////////////////////////////////////////////////////////
 $(function () {
-
     //중복실행 방지코드
     var isRun = false;
+    var curSeasonIdx =  sessionStorage.getItem("curSeasonIdx");
+
+    //최초 Season 설정
+    if(curSeasonIdx==null) {
+        $.ajax({
+            url: "/SeasonInit", //서버요청주소
+            type: "post",//요청방식 (get,post,patch,delete,put)
+            async: false,
+            dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+            success: function (result) {
+                curSeasonIdx=result;
+            }, //성공했을때
+            error: function (request) {
+                alert(request.responseText);
+            }// 실패했을때
+        });
+    }
 
 //FullCalendar 설정
 
@@ -14,18 +30,24 @@ $(function () {
     $('head').append('<link rel="stylesheet" href="css/fullcalendar.css" type="text/css" />');
 
     printAtAjax();
+
     $('head').append('<link rel="stylesheet" href="css/attendance.css" type="text/css" />');
 //출석 학생 목록 출력 Ajax
     function printAtAjax() {
         $("#studentList").empty();
+
+        //흠.. 여기가 문제군 ㅠㅜ footer.jsp에서 ajax의 결과값이 저장된 이후에만 curSeasonIdx를 받아올 수 있다.
+        // alert(sessionStorage.getItem("curSeasonIdx"));
+
         $.ajax({
-            url: "/findStudent", //서버요청주소
+            url: "/findAuthStudent", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
+            data: "curSeasonIdx=" + curSeasonIdx,
+            async: false,
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
                 $.each(result, function (index, item) {
-                    // studentSize = result.length;
-                    var str = "<tr class=\"studentDetail\"><td id=\"" + item.studentIdx + "\"style=\"vertical-align: middle;\">" + item.studentName + "</td><td>" +
+                    var str = "<tr class=\"studentDetail\"><td id=\"" + item.authStudentIdx + "\"style=\"vertical-align: middle;\">" + item.student.studentName + "</td><td>" +
                         "<div data-id=\"none\" class=\"noselect\">\n" +
                         "                    <select style=\"position: relative;\"class=\"js-select\" name=\"time\">\n" +
                         "                    <option data-id=\"0\" value=\"\">Present</option>\n" +
@@ -47,7 +69,9 @@ $(function () {
             error: function (request) {
                 alert(request.responseText);
             }// 실패했을때
+
         });
+
     };
 
 //모든 날짜 요약
@@ -149,13 +173,14 @@ $(function () {
          });// 실패했을때
      }*/
     function AtSummary2() {
-
         $.ajax({
             url: "/findTotalAtSummary2", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
+            async: false,
+            data: "curSeasonIdx="+curSeasonIdx,
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
-                console.log(result);
+                // console.log(result);
 
                 var atList = [];
                 var at = [];
@@ -172,7 +197,7 @@ $(function () {
 
                 inputAtList(atList, result.leave, "leave");
 
-                console.log(atList);
+                // console.log(atList);
 
                 $.each(atList, function(index, item){
                     var event = {title: item[1], start: moment().format(item[0])};
@@ -185,6 +210,7 @@ $(function () {
         });// 실패했을때
     }
 
+    //캘린더에 일일 출결현황 출력
     function inputAtList(atList, atType, str) {
 
         var at = [];
@@ -302,10 +328,10 @@ $(function () {
             $.ajax({
                 url: "/findAtByDate", //서버요청주소
                 type: "post",//요청방식 (get,post,patch,delete,put)
-                data: "strDate=" + date.format(),
+                data: "strDate=" + date.format()+"&curSeasonIdx="+curSeasonIdx,
                 dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
                 success: function (result) {
-                    console.log(result);
+                    console.log("findAtByDate : ",result);
 
 
                     //우측 항목 날짜 표시
@@ -326,7 +352,7 @@ $(function () {
                         $.each(result, function (index, item) {
                             //일치 학생 검색
 
-                            var select = $(".studentDetail #" + item.student.studentIdx + "").parent().children().last().children().children().first();
+                            var select = $(".studentDetail #" + item.authStudent.authStudentIdx + "").parent().children().last().children().children().first();
                             // var select = $(".studentDetail td div:contains(\"" + item.student.studentIdx + "\"").parent().parent().children().last().children().children();
 
                             select.children("option[data-id=\"none\"]").remove();
@@ -481,6 +507,7 @@ $(function () {
 
         $.ajax({
             url: "/findTotalAt", //서버요청주소
+            data: "curSeasonIdx="+curSeasonIdx,
             type: "post",//요청방식 (get,post,patch,delete,put)
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
@@ -567,7 +594,7 @@ $(function () {
             $.ajax({
                 url: "/deleteAt", //서버요청주소
                 type: "post",//요청방식 (get,post,patch,delete,put)
-                data: "curDate=" + curDate,
+                data: "curDate=" + curDate + "&curSeasonIdx="+curSeasonIdx,
                 dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
                 success: function (result) {
                     alert(result + " : data has been successfully deleted..");

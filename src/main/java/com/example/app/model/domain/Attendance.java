@@ -28,7 +28,9 @@ public class Attendance {
     @JoinColumn(name = "studentIdx")
     private Student student;
 
-
+    @ManyToOne
+    @JoinColumn(name = "authStudentIdx")
+    private AuthStudent authStudent;
 
 
 }

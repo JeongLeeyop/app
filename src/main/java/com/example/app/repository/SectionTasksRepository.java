@@ -34,6 +34,6 @@ public interface SectionTasksRepository extends CrudRepository<SectionTasks, Lon
     @Query("update SectionTasks s set s.maxScore = ?2 where s.sectionTasksIdx=?1")
     public void updateMaxScore(Long sectionTasksIdx, Double maxScore);
 
-    @Query("select si from SectionTasks si where si.section.sectionIdx In (select max(s.sectionIdx) from Section s where s._class.classIdx = ?1) order by si.sectionTasksIdx")
-    public List<SectionTasks> findLastSectionTasks(Long classIdx);
+    @Query("select si from SectionTasks si where si.section.sectionIdx In (select max(s.sectionIdx) from Section s where s.authClass.authClassIdx = ?1) order by si.sectionTasksIdx")
+    public List<SectionTasks> findLastSectionTasks(Long curClassIdx);
 }

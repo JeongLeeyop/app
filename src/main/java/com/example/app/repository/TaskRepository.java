@@ -16,7 +16,8 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
     @Modifying
     public void DelTaskByClassIdx(Long ClassIdx);
 
-    @Query("select t from Task t where t._class.classIdx = ?1 Order By t.taskIdx")
+//   권한이 부여된 클래스의 과제목록 출력
+    @Query("select t from Task t where t.authClass.authClassIdx = ?1 Order By t.taskIdx")
     public List<Task> findTaskByClassIdx(Long curClassIdx);
 
     @Transactional

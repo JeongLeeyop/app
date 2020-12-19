@@ -1,16 +1,17 @@
 package com.example.app.controller;
 
-import com.example.app.model.domain.AuthClass;
-import com.example.app.model.domain.Class;
+import com.example.app.model.domain.Season;
 import com.example.app.model.domain.section.Section;
 import com.example.app.model.domain.section.Task;
-import com.example.app.model.dto.response.repository.AuthClassMapping;
 import com.example.app.model.dto.response.totalGradeResponse;
+import com.example.app.service.AdminService;
 import com.example.app.service.ClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,25 +21,20 @@ import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
-public class ClassController {
+public class AdminController {
 
     @Autowired
     ClassService classService;
-
-    //0. 권한이 있는 클래스 목록을 조회하는 기능
-    @RequestMapping("findAuthClassList")
-    @ResponseBody
-    public List<AuthClassMapping> findAuthClassList(HttpSession session, Long curSeasonIdx) {
-        return classService.findAuthClassList(session,curSeasonIdx);
-    }
+    @Autowired
+    AdminService adminService;
 
     //1. 클래스의 섹션을 조회하는 기능
-    @RequestMapping("findSectionList")
+    @RequestMapping("findSeasonList")
     @ResponseBody
-    public List<Section> findSectionList(Long curClassIdx) {
-        return classService.findSectionList(curClassIdx);
+    public List<Season> findSeasonList(HttpSession session) {
+        return adminService.findSeasonList(session);
     }
-
+/*
     //1. 클래스의 섹션을 추가하는 기능
     @RequestMapping("addSection")
     @ResponseBody
@@ -51,6 +47,7 @@ public class ClassController {
     @ResponseBody
     public void delSection(Long curSectionIdx) {
         classService.delSection(curSectionIdx);
+
     }
 
     //3. 클래스의 섹션의 이름을 수정하는 기능
@@ -63,16 +60,16 @@ public class ClassController {
     //4. 섹션의 과제 항목과 점수를 조회하는 기능
     @RequestMapping("findTaskChart")
     @ResponseBody
-    public Map findTaskChart(Long curSectionIdx, Long curClassIdx, HttpSession session,Long curSeasonIdx) {
-        return classService.findTaskChart(curSectionIdx,curClassIdx,session,curSeasonIdx);
+    public Map findTaskChart(Long curSectionIdx, Long curClassIdx, HttpSession session) {
+        return classService.findTaskChart(curSectionIdx,curClassIdx,session);
     }
 
-   /* //4. 섹션의 기본 템플릿 제공
+   *//* //4. 섹션의 기본 템플릿 제공
     @RequestMapping("findTaskTemplate")
     @ResponseBody
     public Map findTaskTemplate(Long curClassIdx, HttpSession session) {
         return classService.findTaskTemplate(curClassIdx,session);
-    }*/
+    }*//*
 
     //5. 섹션의 과제 항목을 추가하는 기능
     @RequestMapping("addTask")
@@ -116,4 +113,6 @@ public class ClassController {
     public List<totalGradeResponse> findTotalGrade(Long curClassIdx, HttpSession session) {
         return classService.findTotalGrade(curClassIdx,session);
     }
+
+    */
 }

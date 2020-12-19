@@ -6,7 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -79,13 +81,17 @@ public class MainViewController {
     }
 
     //5. 클래스 화면
-    @RequestMapping("/class")
-    public ModelAndView _class(@RequestParam(value = "idx") Long Idx) {
+    @RequestMapping(value="/class",method=RequestMethod.POST)
+    public ModelAndView _class(Long authClassIdx) {
+        System.out.println(authClassIdx);
 //        log.debug("class");
-        Class _class = classService.findClass(Idx).get();
+//        Class _class = classService.findClass(curClassIdx).get();
         ModelAndView view = new ModelAndView("class");
-        view.addObject("curClassIdx",_class.getClassIdx());
-        view.addObject("curClass",_class);
+
+//        필요없어보인다
+//        view.addObject("curClassIdx",_class.getClassIdx());
+//        view.addObject("curClass",_class);
+        view.addObject("authClassIdx",authClassIdx);
         return view;
     }
 

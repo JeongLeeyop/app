@@ -1,4 +1,6 @@
 package com.example.app.model.domain.section;
+import com.example.app.model.domain.AuthClass;
+import com.example.app.model.domain.AuthStudent;
 import com.example.app.model.domain.Student;
 import lombok.*;
 
@@ -23,6 +25,7 @@ public class Score {
     @Column(nullable=true)
     private BigDecimal score;
 
+    //클래스의 섹션을 삭제하는 기능에서 사용
     @ManyToOne
     @JoinColumn(name = "sectionIdx")
     private Section section;
@@ -34,4 +37,8 @@ public class Score {
     @ManyToOne
     @JoinColumn(name = "taskIdx")
     private Task task;
+
+    @ManyToOne
+    @JoinColumn(name = "authStudentIdx")
+    private AuthStudent authStudent;
 }
