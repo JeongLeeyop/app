@@ -1,5 +1,6 @@
 package com.example.app.controller;
 
+import com.example.app.common.AuthorityCode;
 import com.example.app.model.domain.Account;
 import com.example.app.model.dto.request.accountRequest;
 import com.example.app.repository.AccountRepository;
@@ -49,6 +50,13 @@ public class AccountController {
 
         if(result!=null){
             session.setAttribute("Account",result);
+            //관리자상태로 재로그인시 오류제어
+            session.removeAttribute("Authority");
+
+            if(result.getAuthority()==AuthorityCode.Admin.getValue()){
+                session.setAttribute("Authority", AuthorityCode.Admin.getValue());
+                return "redirect:admin";
+            }
             return "redirect:attendance";
         } else {
             response.setContentType("text/html; charset=UTF-8");
@@ -63,8 +71,9 @@ public class AccountController {
 
     //2.로그아웃
     @RequestMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, HttpServletResponse response) {
         session.removeAttribute("Account");
+        session.removeAttribute("Authority");
         return "redirect:login";
     }
 

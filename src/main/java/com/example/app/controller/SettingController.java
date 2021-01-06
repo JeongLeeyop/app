@@ -2,11 +2,13 @@
 
     import com.example.app.model.domain.AuthStudent;
     import com.example.app.model.domain.Class;
+    import com.example.app.model.domain.Season;
     import com.example.app.model.domain.Student;
     import com.example.app.model.domain.section.Task;
     import com.example.app.model.dto.request.classRequest;
     import com.example.app.model.dto.request.studentRequest;
     import com.example.app.model.dto.request.taskInfoRequest;
+    import com.example.app.service.AdminService;
     import com.example.app.service.ClassService;
     import com.example.app.service.SettingService;
     import com.example.app.service.StudentService;
@@ -29,6 +31,8 @@
         ClassService classService;
         @Autowired
         StudentService studentService;
+        @Autowired
+        AdminService adminService;
 
         //0. 클래스 목록을 조회하는 기능
         @RequestMapping("findClassList")
@@ -118,7 +122,6 @@
         @RequestMapping("findAuthStudent")
         @ResponseBody
         public List<AuthStudent> findAuthStudent(Long curSeasonIdx, HttpSession session)  {
-//            System.out.println("null일까..? " + curSeasonIdx);
             List<AuthStudent> result = studentService.findAuthStudentList(curSeasonIdx,session);
             return result;
         }
@@ -143,12 +146,19 @@
         @ResponseBody
         @RequestMapping("delStudent")
         public void delStudent(Long studentIdx) throws Exception{
-            System.out.println("컨트롤러 delStudent() 진입");
+//            System.out.println("컨트롤러 delStudent() 진입");
             settingService.delStudent(studentIdx);
-            System.out.println("컨트롤러 delStudent() 끝");
+//            System.out.println("컨트롤러 delStudent() 끝");
         }
 
         //6. 새 학생을 수정하는 기능 (예정)
+
+     //1. 클래스의 섹션을 조회하는 기능
+     @RequestMapping("findSeasonList")
+     @ResponseBody
+     public List<Season> findSeasonList(HttpSession session) {
+         return adminService.findSeasonList(session);
+     }
 
     }
 

@@ -70,7 +70,11 @@
                 $("#password").focus();
                 return false;
             }
-
+            if($("#schoolCode").val()==""){
+                alert("Please enter your school Code.");
+                $("#schoolCode").focus();
+                return false;
+            }
         }
 
         $(function() {
@@ -130,6 +134,11 @@
                             <div class="form-group">
                                 <label>Password Check</label>
                                 <input class="au-input au-input--full" type="password" name="password2" id="password2" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label>School Code</label>
+                                <input class="au-input au-input--full" type="text" name="schoolCode" id="schoolCode" placeholder="School Code">
+                                <%--<span id="span2">""</span>--%>
                             </div>
                <%--             <div class="login-checkbox">
                                 <label>

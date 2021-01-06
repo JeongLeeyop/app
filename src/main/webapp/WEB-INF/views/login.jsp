@@ -40,6 +40,12 @@
     <script type="text/javascript" src="js/cookieFunction.js"></script>
     <script>
 
+       /* history.pushState(null,document.title,location.href);
+        window.addEventListener('popstate',function(event){
+            alert(1);
+            history.pushState(null, document.title,location.href)
+        });*/
+
         function checkValid(){
             if($("input[name=email]").val()==""){
                 alert("Check your Email.");

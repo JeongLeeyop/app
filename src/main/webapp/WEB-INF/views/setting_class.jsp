@@ -43,7 +43,7 @@
                                                     <div id="classIdx" hidden>addClass</div>
                                                 </div>
                                                 <div class="col-12 col-md-9">
-                                                    <input type="text" id="text-input1" name="text-input" placeholder="Text" class="form-control">
+                                                    <input disabled type="text" id="text-input1" name="text-input" placeholder="Text" class="form-control">
                                                 </div>
                                             </div>
 

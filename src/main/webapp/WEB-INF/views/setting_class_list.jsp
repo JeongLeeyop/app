@@ -90,9 +90,9 @@ moving the class to menus lead to only the menu having the effect -->
                     <h3 class="title-5 m-b-35" style="white-space: nowrap;margin-bottom: 0px;">Class Setting</h3>
                     <div class="table-data__tool-right">
                         <button type="button" class="btn btn-secondary" style="float: right;height: 40px;" onclick="location.href='setting'">Go back</button>
-                        <button type="bFutton" class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#mediumModal">
+                        <%--<button type="bFutton" class="au-btn au-btn-icon au-btn--green au-btn--small" data-toggle="modal" data-target="#mediumModal">
                             <i class="zmdi zmdi-plus"></i>add Class
-                        </button>
+                        </button>--%>
 
                     </div>
                 </div>
