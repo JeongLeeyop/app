@@ -51,7 +51,7 @@
     </div>
 </div>--%>
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" style="width: 30%;flex: 0 0 30%;">
                                 <div class="card" style="height: 100%;">
                                     <div class="card-header">
                                         <strong>Section</strong> List

@@ -78,13 +78,13 @@
                                                     <div id="alert" class="col-12 col-md-9" style="margin-top: 5px;">
                                                         <small class="help-block form-text">After class creation, you can register the task.</small>
                                                     <button id ="addTask" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mediumModal">
-                                                        <i class="fa fa-dot-circle-o">Add</i>
+                                                        <i class="fa">Add</i>
                                                     </button>
-                                                    <button id ="editTask" type="button" class="btn btn-primary btn-sm">
-                                                        <i class="fa fa-dot-circle-o">Edit</i>
+                                                    <button id ="editTask" type="button" class="btn btn-success btn-sm">
+                                                        <i class="fa">Edit</i>
                                                     </button>
                                                         <button id ="delTask" type="button" class="btn btn-danger btn-sm">
-                                                            <i class="fa fa-ban">Delete</i>
+                                                            <i class="fa">Delete</i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -92,8 +92,8 @@
                                             </div>
 
                                             <button type="button" id="cancelClass" class="btn btn-secondary" style="float: right;">Go Back</button>
-                                            <button type="button" id="delClass" class="btn btn-danger" style="float: right;margin-right: 5px;">Delete</button>
-                                            <button type="button" id="addClass" class="btn btn-success" style="float: right;margin-right: 5px;">Save</button>
+<%--                                            <button type="button" id="delClass" class="btn btn-danger" style="float: right;margin-right: 5px;">Delete</button>--%>
+<%--                                            <button type="button" id="addClass" class="btn btn-success" style="float: right;margin-right: 5px;">Save</button>--%>
 
                                         </form>
                                         <form name="frm" method="POST">

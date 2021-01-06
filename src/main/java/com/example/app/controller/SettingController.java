@@ -44,8 +44,8 @@
          @ResponseBody
          public Class findClass(Long classIdx) {
              Optional<Class> result = classService.findClass(classIdx);
-             System.out.println("findClass 결과");
-             System.out.println(result.get());
+//             System.out.println("findClass 결과");
+//             System.out.println(result.get());
              //Null일 경우 에러처리
 
              return result.get();
@@ -109,8 +109,8 @@
      @ResponseBody
      public List<Task> findTaskListByClassId(classRequest classReq) {
          List<Task> result = settingService.findTaskListByClassId(classReq);
-         System.out.println("findTaskListByClassId 결과");
-         System.out.println(result);
+//         System.out.println("findTaskListByClassId 결과");
+//         System.out.println(result);
          return result;
      }
 
@@ -118,7 +118,7 @@
         @RequestMapping("findAuthStudent")
         @ResponseBody
         public List<AuthStudent> findAuthStudent(Long curSeasonIdx, HttpSession session)  {
-            System.out.println("null일까..? " + curSeasonIdx);
+//            System.out.println("null일까..? " + curSeasonIdx);
             List<AuthStudent> result = studentService.findAuthStudentList(curSeasonIdx,session);
             return result;
         }
