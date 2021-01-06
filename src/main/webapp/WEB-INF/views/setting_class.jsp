@@ -43,7 +43,7 @@
                                                     <div id="classIdx" hidden>addClass</div>
                                                 </div>
                                                 <div class="col-12 col-md-9">
-                                                    <input type="text" id="text-input1" name="text-input" placeholder="Text" class="form-control">
+                                                    <input disabled type="text" id="text-input1" name="text-input" placeholder="Text" class="form-control">
                                                 </div>
                                             </div>
 
@@ -92,8 +92,8 @@
                                             </div>
 
                                             <button type="button" id="cancelClass" class="btn btn-secondary" style="float: right;">Go Back</button>
-                                            <button type="button" id="delClass" class="btn btn-danger" style="float: right;margin-right: 5px;">Delete</button>
-                                            <button type="button" id="addClass" class="btn btn-success" style="float: right;margin-right: 5px;">Save</button>
+                                            <%--<button type="button" id="delClass" class="btn btn-danger" style="float: right;margin-right: 5px;">Delete</button>
+                                            <button type="button" id="addClass" class="btn btn-success" style="float: right;margin-right: 5px;">Save</button>--%>
 
                                         </form>
                                         <form name="frm" method="POST">

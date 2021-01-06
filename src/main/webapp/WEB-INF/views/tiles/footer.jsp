@@ -78,26 +78,39 @@
           });// 실패했을때*/
 
 
+
+
+
+        //뒤로가기
+        window.onpageshow=function(event){
+                if(event.persisted || ( window.performance && window.performance.navigation.type==2)){
+                    location.reload();
+                }
+            }
+
+        /*$(window).bind('pageshow',function(event){
+            if(event.originalEvent && event.originalEvent.persisted){
+                location.reload();
+            }
+        });*/
+
+
         //로그인 세션 확인
-        var Account = "<%=session.getAttribute("Account")%>";
+        //값 숨기기
+        var Account = <%=session.getAttribute("Account")!=null%>;
+        var Authority = "<%=session.getAttribute("Authority")%>";
 
-
-        if (Account == "null") {
+        if (Account == false) {
             alert("This service requires login.");
             location.href = "login";
+        } else if (Authority == 1){
+            alert("You are not teacher account.");
+            location.href = "admin";
         }
 
         //로그 아웃
         $("#logout").on("click", function () {
             alert("You are logged out.");
-            /*
-
-
-            <%
-                                    response.setHeader("cache-control","no-cache");
-                                    response.setHeader("expires","0");
-                                    response.setHeader("pragma","no-cache");
-                                    %>*/
             sessionStorage.clear();
             location.href = "logout";
         });
@@ -149,7 +162,7 @@
                     });
                     // sessionStorage.setItem('curSeasonIdx',result[0].seasonIdx);
 
-                    //시즌을 선택할 경우 선택된 시즌의 id를 저장
+                //초기 접속 이후 현재 시즌에 맞는 option을 selected 처리해준다.
                 } else {
                     $("#SeasonSelect").find("option[data-id=\'"+sessionStorage.getItem("curSeasonIdx")+"\']").prop("selected",true);
                     // console.log(sessionStorage.getItem("curSeasonIdx"));
@@ -172,7 +185,7 @@
                     dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
                     success: function (result) {
                         $.each(result, function (index, item) {
-                            console.log(item);
+                            // console.log(item);
                             $("#classList").append("<li><a href=\"#\"; onclick=\"ClassPage(this);\" data-id=\""+item.authclass+"\">" + item.classname + "</a></li>");
                             $("#classListMobile").append("<li><a href=\"#\"; onclick=\"ClassPage(this);\" data-id=\""+item.authclass+"\">" + item.classname + "</a></li>");
                         });
@@ -214,12 +227,12 @@
                 $(this).removeClass("fa-caret-down");
                 $(this).addClass("fa-caret-up");
                 toggle = 1;
-                console.log("down");
+                // console.log("down");
             } else if (toggle == 1) {
                 $(this).removeClass("fa-caret-up");
                 $(this).addClass("fa-caret-down");
                 toggle = 0;
-                console.log("up");
+                // console.log("up");
             }
         });
 

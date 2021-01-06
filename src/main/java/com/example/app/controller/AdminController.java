@@ -21,6 +21,7 @@ import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/admin")
 public class AdminController {
 
     @Autowired
@@ -28,12 +29,38 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
-    //1. 클래스의 섹션을 조회하는 기능
+/*    //1. 클래스의 섹션을 조회하는 기능
     @RequestMapping("findSeasonList")
     @ResponseBody
     public List<Season> findSeasonList(HttpSession session) {
         return adminService.findSeasonList(session);
+    }*/
+
+    //4. 관리자 화면
+    @RequestMapping("")
+    public ModelAndView admin() {
+//        log.debug("admin");
+        ModelAndView view = new ModelAndView("/admin/admin");
+        return view;
     }
+
+    //4. 관리자 - 시즌 관리
+    @RequestMapping("/season_setting")
+    public ModelAndView season_setting() {
+//        log.debug("admin/season_setting");
+        ModelAndView view = new ModelAndView("/admin/season_setting");
+        return view;
+    }
+
+    //4. 관리자 - 선생님 관리
+    @RequestMapping("/teacher_setting")
+    public ModelAndView teacher_setting() {
+//        log.debug("admin/teacher_setting");
+        ModelAndView view = new ModelAndView("/admin/teacher_setting");
+        return view;
+    }
+
+
 /*
     //1. 클래스의 섹션을 추가하는 기능
     @RequestMapping("addSection")

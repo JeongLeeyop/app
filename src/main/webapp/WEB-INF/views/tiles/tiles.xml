@@ -17,8 +17,28 @@
         <put-attribute name="content" value="/WEB-INF/views/{1}.jsp" />
     </definition>
 
-    <!-- setting-->
 
+    <!-- admin layout -->
+    <definition name="adminLayout" template="/WEB-INF/views/tiles/layout.jsp">
+        <put-attribute name="link" value="/WEB-INF/views/tiles/link.jsp"/>
+        <put-attribute name="header" value="/WEB-INF/views/tiles/adminHeader.jsp"/>
+        <put-attribute name="content" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/views/tiles/adminFooter.jsp"/>
+    </definition>
+<!--
+    <definition name="/admin/*" extends="adminLayout">
+        <put-attribute name="content" value="/WEB-INF/views/admin/{1}.jsp" />
+    </definition>-->
+
+    <definition name="/admin/*" extends="adminLayout">
+        <put-attribute name="content" value="/WEB-INF/views/admin/{1}.jsp" />
+    </definition>
+
+   <definition name="/admin/admin" extends="adminLayout">
+        <put-attribute name="content" value="/WEB-INF/views/admin/admin.jsp" />
+    </definition>
+    
+    <!-- setting-->
     <definition name="settingHover" template="/WEB-INF/views/tiles/settingHover.jsp">
         <put-attribute name="link" value="/WEB-INF/views/tiles/link.jsp"/>
         <put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"/>
@@ -30,8 +50,8 @@
         <put-attribute name="content" value="/WEB-INF/views/setting.jsp" />
     </definition>
 
-    <!-- nolayout-->
 
+    <!-- nolayout-->
     <definition name="nolayout" template="/WEB-INF/views/tiles/nolayout.jsp">
         <put-attribute name="content" value=""/>
     </definition>
@@ -42,8 +62,5 @@
     <definition name="register" extends="nolayout">
         <put-attribute name="content" value="/WEB-INF/views/register.jsp" />
     </definition>
-    <!--<definition name="register" extends="nolayout">
-        <put-attribute name="content" value="/WEB-INF/views/register.jsp" />
-    </definition>-->
 
 </tiles-definitions>

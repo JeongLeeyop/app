@@ -9,13 +9,14 @@ var curSeasonIdx =  sessionStorage.getItem("curSeasonIdx");
 $('head').append('<link rel="stylesheet" href="css/student.css" type="text/css" />');
 //학생 차트에 타이틀 출력
 $.ajax({
-    url: "/findClassList", //서버요청주소
+    url: "/findAuthClassList", //서버요청주소
+    data: "curSeasonIdx=" + curSeasonIdx,
     type: "post",//요청방식 (get,post,patch,delete,put)
     dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
     success: function (title) {
-
+        console.log(title);
         $.each(title, function (index, item) {
-            $("#StudentChart tr").append("<th><div class=\"class\" data-id=\"" + item.classIdx + "\"/></div>" + item.className + "</th>");
+            $("#StudentChart tr").append("<th><div class=\"class\" data-id=\"" + item.authclass + "\"/></div>" + item.classname + "</th>");
         });
 
 

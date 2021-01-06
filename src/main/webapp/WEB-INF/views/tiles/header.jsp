@@ -41,10 +41,10 @@
                 <li>
                     <a href="setting"><i class="fa fa-cog"></i>Setting</a>
                 </li>
-                <li>
+               <%-- <li>
                     <a href="reportcard">
                         <i class="fas fa-star" style="margin-right: 17px;"></i>Report Card</a>
-                </li>
+                </li>--%>
             </ul>
         </div>
     </nav>
@@ -121,10 +121,10 @@
                     <a href="setting">
                         <i class="fa fa-cog"></i>Setting</a>
                 </li>
-                <li>
+                <%--<li>
                     <a href="reportcard">
                         <i style="margin-right: 17px;" class="fas fa-star"></i>Report Card</a>
-                </li>
+                </li>--%>
             </ul>
         </nav>
     </div>

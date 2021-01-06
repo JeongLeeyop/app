@@ -1,5 +1,6 @@
 package com.example.app.service;
 
+import com.example.app.common.AuthorityCode;
 import com.example.app.model.domain.Account;
 import com.example.app.model.domain.School;
 import com.example.app.model.dto.request.accountRequest;
@@ -66,10 +67,11 @@ public class AccountService {
         account.setUserEmail(accountReq.getEmail());
 //        account.setUserIdx();
         account.setUserName(accountReq.getUsername());
-        System.out.println();
         account.setUserPw(accountReq.getPassword());
+        account.setAuthority(AuthorityCode.Teacher.getValue());
         Account result = accountRepo.save(account);
-        System.out.println("SignUp 결과값 : " + result);
+
+//        System.out.println("SignUp 결과값 : " + result);
         return result;
     }
 
