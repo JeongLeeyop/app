@@ -63,13 +63,14 @@ moving the class to menus lead to only the menu having the effect -->
                                     <td class="multiple-select2-td level1">
                                         <div class="rs-select2--trans rs-select2--sm custom-rs-multiple-select2">
                                             <select class="js-select2" multiple="multiple" name="property">
-                                                <option value="" selected="selected">All</option>
-                                                <option value="">1</option>
+                                                <option value="">All</option>
+                                                <option value="" selected="selected">1</option>
                                                 <option value="">2</option>
                                                 <option value="">3</option>
                                                 <option value="">4</option>
                                                 <option value="">5</option>
                                                 <option value="">6</option>
+                                                <option value="">Any</option>
                                             </select>
                                             <div class="dropDownSelect2"></div>
                                         </div>
@@ -110,6 +111,7 @@ moving the class to menus lead to only the menu having the effect -->
                                                 <option value="">4</option>
                                                 <option value="">5</option>
                                                 <option value="">6</option>
+                                                <option value="">Any</option>
                                             </select>
                                             <div class="dropDownSelect2"></div>
                                         </div>
@@ -132,7 +134,6 @@ moving the class to menus lead to only the menu having the effect -->
 <%--                                    <td>--%>
                                         <div class="rs-select2--trans rs-select2--sm custom-rs-multiple-select2">
                                             <select class="js-select2" multiple="multiple" name="property">
-                                                <option value="">-</option>
                                                 <option value="">All</option>
                                                 <option value="" selected="selected">1</option>
                                                 <option value="">2</option>
@@ -140,6 +141,7 @@ moving the class to menus lead to only the menu having the effect -->
                                                 <option value="">4</option>
                                                 <option value="">5</option>
                                                 <option value="">6</option>
+                                                <option value="">Any</option>
                                             </select>
                                             <div class="dropDownSelect2"></div>
                                         </div>

@@ -109,5 +109,9 @@ $(function () {
         }
     });
 
+    $(document).on('click',"#confirm",function(){
+       var className = $(".")
+    });
+
 
 });
