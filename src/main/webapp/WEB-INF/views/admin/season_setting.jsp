@@ -63,13 +63,14 @@ moving the class to menus lead to only the menu having the effect -->
                                     <td class="multiple-select2-td level1">
                                         <div class="rs-select2--trans rs-select2--sm custom-rs-multiple-select2">
                                             <select class="js-select2" multiple="multiple" name="property">
-                                                <option value="" selected="selected">All</option>
-                                                <option value="">1</option>
+                                                <option value="">All</option>
+                                                <option value="" selected="selected">1</option>
                                                 <option value="">2</option>
                                                 <option value="">3</option>
                                                 <option value="">4</option>
                                                 <option value="">5</option>
                                                 <option value="">6</option>
+                                                <option value="">Any</option>
                                             </select>
                                             <div class="dropDownSelect2"></div>
                                         </div>
@@ -110,6 +111,7 @@ moving the class to menus lead to only the menu having the effect -->
                                                 <option value="">4</option>
                                                 <option value="">5</option>
                                                 <option value="">6</option>
+                                                <option value="">Any</option>
                                             </select>
                                             <div class="dropDownSelect2"></div>
                                         </div>
@@ -132,7 +134,6 @@ moving the class to menus lead to only the menu having the effect -->
 <%--                                    <td>--%>
                                         <div class="rs-select2--trans rs-select2--sm custom-rs-multiple-select2">
                                             <select class="js-select2" multiple="multiple" name="property">
-                                                <option value="">-</option>
                                                 <option value="">All</option>
                                                 <option value="" selected="selected">1</option>
                                                 <option value="">2</option>
@@ -140,6 +141,7 @@ moving the class to menus lead to only the menu having the effect -->
                                                 <option value="">4</option>
                                                 <option value="">5</option>
                                                 <option value="">6</option>
+                                                <option value="">Any</option>
                                             </select>
                                             <div class="dropDownSelect2"></div>
                                         </div>
@@ -149,7 +151,7 @@ moving the class to menus lead to only the menu having the effect -->
                             </table>
                         </div>
                         <div class="user-data__footer">
-                            <button type="button" class="btn btn-success" data-toggle="modal"
+                            <button id="addClass" type="button" class="btn btn-success" data-toggle="modal"
                                     data-target="#mediumModal">
                                 <i class="zmdi zmdi-plus"></i> Add Class
                             </button>
@@ -356,16 +358,16 @@ moving the class to menus lead to only the menu having the effect -->
                         </div>
                         <div class="card-body card-block">
                             <div class="form-group">
-                                <label for="taskName" class=" form-control-label">Class name</label>
-                                <input type="text" id="taskName" placeholder="Enter your Class name"
+                                <label for="className" class=" form-control-label">Class name</label>
+                                <input type="text" id="className" placeholder="Enter your Class name"
                                        class="form-control">
                             </div>
-                            <div class="form-group">
-                                <label for="gradeRatio" class=" form-control-label">Class Grade</label>
-                                <input type="text" id="gradeRatio" placeholder="1" class="form-control">
-                                <%--<small class="help-block form-text">Only numbers can be entered; all proportions must be
-                                    summed up to 100%.</small>--%>
-                            </div>
+                            <%--<div class="form-group">
+                                <label for="classGrade" class=" form-control-label">Class Grade</label>
+                                <input type="text" id="classGrade" placeholder="1" class="form-control">
+                                &lt;%&ndash;<small class="help-block form-text">Only numbers can be entered; all proportions must be
+                                    summed up to 100%.</small>&ndash;%&gt;
+                            </div>--%>
                             <%--<div class="row form-group">
 
                                     <div class="form-check">
