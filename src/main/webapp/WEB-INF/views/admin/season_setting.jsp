@@ -151,7 +151,7 @@ moving the class to menus lead to only the menu having the effect -->
                             </table>
                         </div>
                         <div class="user-data__footer">
-                            <button type="button" class="btn btn-success" data-toggle="modal"
+                            <button id="addClass" type="button" class="btn btn-success" data-toggle="modal"
                                     data-target="#mediumModal">
                                 <i class="zmdi zmdi-plus"></i> Add Class
                             </button>
@@ -358,16 +358,16 @@ moving the class to menus lead to only the menu having the effect -->
                         </div>
                         <div class="card-body card-block">
                             <div class="form-group">
-                                <label for="taskName" class=" form-control-label">Class name</label>
-                                <input type="text" id="taskName" placeholder="Enter your Class name"
+                                <label for="className" class=" form-control-label">Class name</label>
+                                <input type="text" id="className" placeholder="Enter your Class name"
                                        class="form-control">
                             </div>
-                            <div class="form-group">
-                                <label for="gradeRatio" class=" form-control-label">Class Grade</label>
-                                <input type="text" id="gradeRatio" placeholder="1" class="form-control">
-                                <%--<small class="help-block form-text">Only numbers can be entered; all proportions must be
-                                    summed up to 100%.</small>--%>
-                            </div>
+                            <%--<div class="form-group">
+                                <label for="classGrade" class=" form-control-label">Class Grade</label>
+                                <input type="text" id="classGrade" placeholder="1" class="form-control">
+                                &lt;%&ndash;<small class="help-block form-text">Only numbers can be entered; all proportions must be
+                                    summed up to 100%.</small>&ndash;%&gt;
+                            </div>--%>
                             <%--<div class="row form-group">
 
                                     <div class="form-check">

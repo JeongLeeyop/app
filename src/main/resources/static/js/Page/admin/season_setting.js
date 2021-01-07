@@ -74,14 +74,14 @@ $(function () {
 
 
         if ($(this).find('option:selected').length <= 2) {
-            $(this).parent().parent().addClass("level1");
             $(this).parent().parent().removeClass("level2");
+            $(this).parent().parent().addClass("level1");
 
             $(this).parent().find(".select2-selection__choice").removeClass("level2");
 
-        } else if ($(this).find('option:selected').length <= 3) {
-
+        } else if ($(this).find('option:selected').length == 3) {
             $(this).parent().parent().removeClass("level1");
+            $(this).parent().parent().removeClass("level3");
             $(this).parent().parent().addClass("level2");
 
             $(this).parent().find(".select2-selection__choice").removeClass("level3");
@@ -109,9 +109,20 @@ $(function () {
         }
     });
 
-    $(document).on('click',"#confirm",function(){
-       var className = $(".")
+    /*$(document).on('click','#addClass',function(){
+       $("#className").focus();
+    });*/
+    $("#mediumModal").on("shown.bs.modal", function () {
+        $("#className").focus();
     });
 
+    $("#className").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#confirm").click();
+        }
+    });
 
+    $(document).on('click',"#confirm",function(){
+       alert(0);
+    });
 });

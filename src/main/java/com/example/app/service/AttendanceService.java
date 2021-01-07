@@ -186,6 +186,7 @@ public class AttendanceService {
     //최초 시즌 설정
     public Long SeasonInit(HttpSession session) {
         Account account = (Account)session.getAttribute("Account");
+        System.out.println(account);
         Long curSeasonIdx = seasonRepo.findFirstBySchoolOrderBySeasonIdxDesc(account.getSchool()).getSeasonIdx();
         return curSeasonIdx;
     }

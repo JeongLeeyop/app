@@ -70,16 +70,16 @@ public class StudentService {
         session.getAttribute("Account");
 
         //. 전체 클래스명 출력 : 열
-        System.out.println("전체 클래스명 출력");
+//        System.out.println("전체 클래스명 출력");
         List<AuthClassMapping> authClassList = classService.findAuthClassList(session,curSeasonIdx);
 
         //. 전체 학생명 출력 : 행
-        System.out.println("전체 학생명 출력");
+//        System.out.println("전체 학생명 출력");
         List<AuthStudent> authStudentList = this.findAuthStudentList(curSeasonIdx,session);
-        System.out.println("=========> " + authStudentList);
+//        System.out.println("=========> " + authStudentList);
 
         //. 전체 학생 출결일 출력
-        System.out.println("전체 학생 출결일 출력");
+//        System.out.println("전체 학생 출결일 출력");
         List<atCountResponse> atCntResList = attendanceService.findTotalAt(curSeasonIdx,session);
 
 
