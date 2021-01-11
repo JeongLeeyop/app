@@ -4,9 +4,12 @@ import com.example.app.model.domain.Account;
 import com.example.app.model.domain.AuthClass;
 import com.example.app.model.domain.Season;
 import com.example.app.model.dto.response.repository.AuthClassMapping;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface
@@ -20,6 +23,20 @@ group by t.task.taskIdx,t.student.studentIdx order by t.student.studentIdx,t.tas
     public List<AuthClass> findAuthClassByAccountAndSeason(Account account, long seasonIdx);*/
 
     @Query("select a.authClassIdx as authclass, a._class.classIdx as _class, c.className as classname, a.account.userIdx as user, a.season.seasonIdx as season " +
-            "from AuthClass a join Class c on a._class.classIdx = c.classIdx where a.account.userIdx=?1 and c.season.seasonIdx=?2")
+            "from AuthClass a join Class c on a._class.classIdx = c.classIdx where a.account.userIdx=?1 and c.season.seasonIdx=?2 order by a.authClassIdx")
     public List<AuthClassMapping> findAuthClassByAccountAndSeason(Long account, Long season);
+
+    //클래스의 idx로 AuthClass 찾기
+    public List<AuthClass> findAuthClassBy_class_ClassIdx(Long ClassIdx);
+
+    //Auth 클래스 삭제
+    @Query("DELETE FROM AuthClass a where a.authClassIdx = ?1")
+    @Transactional
+    @Modifying
+    public void DelAuthClassByAuthClassIdx(Long AuthClassIdx);
+
+    //account의 authStudent 카운트 세기
+    public int countAllByAccountAndSeason_SeasonIdx(Account account,Long curSeasonIdx);
+
+    public List<AuthClass> findAuthClassBySeason_SeasonIdxAndAccount(Long curSeasonIdx, Account userIdx, Sort sort);
 }

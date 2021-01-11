@@ -1,3 +1,4 @@
+<%@ page import="com.example.app.model.domain.Account" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
 <!-- animsition overrides all click events on clickable things like a,
@@ -7,34 +8,39 @@ moving the class to menus lead to only the menu having the effect -->
 <!-- MAIN CONTENT-->
 <script src="vendor/jquery-3.2.1.min.js"></script>
 <script>
+    function ClassPage2(classId){
+        var authClassIdx = classId;
+
+        document.write('<form action="setting_class" id="smb_form" method="post"><input type="hidden" id="authClassIdx" name="authClassIdx" value="'+ authClassIdx +'"></form>');
+        document.getElementById("smb_form").submit();
+    }
+
     $(function () {
         $('head').append('<link rel="stylesheet" href="css/class_list.css" type="text/css" />');
 
+        //시즌 전역변수 저장
+        var curSeasonIdx = sessionStorage.getItem("curSeasonIdx");
+
+        //클래스 목록 출력
         $.ajax({
-            url: "/findClassList", //서버요청주소
+            url: "/admin/findAuthClassList2", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
+            data: "curSeasonIdx="+curSeasonIdx+"&orderBy="+0,
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
+                console.log(result);
                 $.each(result, function (index, item) {
-                    // $(".wrap").append("<button onclick=\"location.href=\'class?idx=" + item.classIdx + "\'\" class=\"btn-"+ Number(index+1)+"\">" + item.className + "</button>");
-                    /*var index2=index+2;
-                    if(index2==3 || index2==4 || index2==6 || index2==7  || index2==9 || index2==10){
-                        $(".wrap").prepend("<a href=\"class?idx="+ item.classIdx+"\" class=\"btn-"+index2+"\" href=\"#\"><span>"+item.className+"</span></a>").trigger("create");
-                    } else {
-                    $(".wrap").prepend("<a href=\"class?idx="+ item.classIdx+"\" class=\"btn-"+index2+"\" href=\"#\">"+item.className+"</a>").trigger("create");
-                    }*/
                     var number = index + 1;
                     if(number > 8){
                         number = number - 8;
                     }
-
                     var str = "<div class=\"col-sm-6 col-lg-4 mb-4 mb-lg-0\">\n" +
                         "                            <div class=\"categories_post\">\n" +
                         "                                <img class=\"card-img rounded-0\" src=\"images/cat-post/"+number+".jpg\" alt=\"post\">\n" +
-                        "                                <div onclick=\"location.href=\'setting_class?idx="+item.classIdx+"\'\" class=\"categories_details\">\n" +
+                        "                                <div href=\"#\" onclick=\"ClassPage2("+item.authClassIdx+");\" class=\"categories_details\">\n" +
                         "                                    <div class=\"categories_text\">\n" +
                         "                                        <a>\n" +
-                        "                                            <h5>"+item.className+"</h5>\n" +
+                        "                                            <h5>"+item._class.className+"</h5>\n" +
                         "                                        </a>\n" +
                         "                                        <div class=\"border_line\"></div>\n" +
                         "                                    </div>\n" +
@@ -51,6 +57,7 @@ moving the class to menus lead to only the menu having the effect -->
             }
         });// 실패했을때
 
+/*
         //클래스 생성
         $("#class-add").on("click",function () {
 
@@ -78,6 +85,7 @@ moving the class to menus lead to only the menu having the effect -->
             });
 
         });
+*/
 
 
     });

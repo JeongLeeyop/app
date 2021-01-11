@@ -14,7 +14,6 @@ $.ajax({
     type: "post",//요청방식 (get,post,patch,delete,put)
     dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
     success: function (title) {
-        console.log(title);
         $.each(title, function (index, item) {
             $("#StudentChart tr").append("<th><div class=\"class\" data-id=\"" + item.authclass + "\"/></div>" + item.classname + "</th>");
         });
@@ -46,8 +45,8 @@ $.ajax({
                             $.each( $(".student"), function (index4, item4) {
                                 if(item2.studentIdx == $(item4).data("id")){
                                     if(item2.classIdx == $(item3).data("id") ){
-                                        var FinalGrade = Math.floor(item2.finalGrade * 100) / 100;
-                                        $(item4).parent().find("td").eq(index3+2).append(FinalGrade);
+                                        if(item2.finalGrade!=null) $(item4).parent().find("td").eq(index3+2).append(Math.floor(item2.finalGrade * 100) / 100);
+
                                     }
                                 }
                             });

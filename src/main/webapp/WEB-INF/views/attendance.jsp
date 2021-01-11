@@ -1,3 +1,4 @@
+<%@ page import="com.example.app.model.domain.Account" %>
 <!-- animsition overrides all click events on clickable things like a,
       since calendar doesn't add href's be default,
       it leads to odd behaviors like loading 'undefined'

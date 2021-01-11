@@ -27,8 +27,8 @@ public class StudentController {
     //0. 전체 학생의 이름을 조회하는 기능
     @RequestMapping("findStudentList")
     @ResponseBody
-    public List<Student> findStudentList(HttpSession session) {
-        return studentService.findStudentList(session);
+    public List<Student> findStudentList(Long curSeasonIdx, Long orderBy ,HttpSession session) {
+        return studentService.findStudentList(curSeasonIdx,orderBy,session);
     }
 
     //1. 전체 학생의 요약정보를 조회하는 기능

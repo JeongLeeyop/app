@@ -9,6 +9,11 @@
     overflow-y: auto;
 }
 
+.classThead tr td{
+    font-weight: 400 !important;
+    text-transform: none !important;
+}
+
 .custom-table-data thead tr td {
     font-size: 12px;
     font-weight: 600;
@@ -42,7 +47,6 @@
     margin-top: 7px;
     font-size: 14px;
     color: #808080;
-    text-transform: capitalize;
     font-weight: 400;
 }
 
@@ -108,19 +112,19 @@
 .multiple-select2-td.level1{
     padding-top: 14px !important;
     padding-bottom: 14px !important;
-    padding-right: 71px !important;
+    padding-right: 0px !important;
 }
 
 .multiple-select2-td.level2{
     padding-top: 12px !important;
     padding-bottom: 16px !important;
-    padding-right: 71px !important;
+    padding-right: 0px !important;
 }
 
 .multiple-select2-td.level3{
     padding-top: 7px !important;
     padding-bottom: 6px !important;
-    padding-right: 71px !important;
+    padding-right: 0px !important;
 }
 
 /*choice level*/
@@ -188,6 +192,15 @@
     top: 45%;
 }
 
+.arrow-right2{
+    position: relative;
+    top: 39%;
+}
+.arrow-left2{
+    position: relative;
+    top: 45%;
+}
+
 /* teacherSetting 설정부분 타이틀 상단조절*/
 .custom-user-data{
     padding-top: 25px !important;
@@ -196,4 +209,34 @@
 /* teacherSetting Email 가로길이 줄이기*/
 .emailTd{
     width: 300px;
+}
+
+.studentGrade{
+    background: rgb(90, 98, 104);
+    display: inline-block !important;
+    line-height: 30px !important;
+    font-size: 14px !important;
+    color: #fff !important;
+    padding: 0 15px !important;
+    -webkit-border-radius: 3px !important;
+    -moz-border-radius: 3px !important;
+    border-radius: 3px;
+    text-transform: capitalize;
+    min-width: 38.3px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    text-align: center;
+}
+
+.custom-table-data2 .table td {
+    border-top: none !important;
+    border-bottom: 1px solid #f2f2f2 !important;
+    padding-top: 17px !important;
+    padding-bottom: 17px !important;
+    padding-left: 40px !important;
+    padding-right: 10px !important;
+}
+
+.select2-container--default.select2-container--disabled .select2-selection--multiple{
+    background-color: #fff !important;
 }

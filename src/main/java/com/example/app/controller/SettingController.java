@@ -37,8 +37,8 @@
         //0. 클래스 목록을 조회하는 기능
         @RequestMapping("findClassList")
         @ResponseBody
-        public List<Class> findClassList(HttpSession session) {
-            List<Class> result = classService.findClassList(session);
+        public List<Class> findClassList(Long curSeasonIdx,Long orderBy) {
+            List<Class> result = classService.findClassList(curSeasonIdx,orderBy);
             //에러제어 필요
             return result;
         }
@@ -58,31 +58,21 @@
         //2. 클래스를 생성, 수정하는 기능
         @RequestMapping("updateClass")
         @ResponseBody
-        public String updateClass(HttpSession session,  classRequest classReq) throws Exception {
-            Class _class = settingService.updateClass(session, classReq);
+        public Class updateClass(HttpSession session, Long curSeasonIdx,  classRequest classReq) throws Exception {
+            Class _class = settingService.updateClass(session, curSeasonIdx, classReq);
             if(_class!=null) {
-                return "setting";
+                return _class;
             } else {
                 throw new Exception();
             }
         }
 
-        //3. 새 클래스를 삭제하는 기능
-        @RequestMapping("delClass")
-        @ResponseBody
-        public void delClass(classRequest classReq) throws Exception{
-            try {
-                settingService.delClass(classReq);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        }
 
         //4. 과제 항목을 등록하는 기능
         @RequestMapping("updateTask")
         @ResponseBody
-        public void updateTask(taskInfoRequest taskInfoReq, Long classIdx) throws Exception {
-           settingService.updateTask(taskInfoReq,classIdx);
+        public void updateTask(taskInfoRequest taskInfoReq, Long authClassIdx) throws Exception {
+           settingService.updateTask(taskInfoReq,authClassIdx);
         }
 
      //4. 과제 항목을 삭제하는 기능
@@ -104,7 +94,7 @@
      @ResponseBody
      public Task findTask(Long taskIdx) {
          Task result = settingService.findTask(taskIdx);
-         System.out.println(result);
+//         System.out.println(result);
          return result;
      }
 
@@ -112,6 +102,7 @@
      @RequestMapping("findTaskListByClassId")
      @ResponseBody
      public List<Task> findTaskListByClassId(classRequest classReq) {
+            //classReq.. 뭐징 .. settingClass : authClassIdx로 사용
          List<Task> result = settingService.findTaskListByClassId(classReq);
 //         System.out.println("findTaskListByClassId 결과");
 //         System.out.println(result);
@@ -126,12 +117,21 @@
             return result;
         }
 
+
          //4. 학생을 조회하는 기능
          @RequestMapping("findStudentInfo")
          @ResponseBody
          public Student findStudentInfo(Long studentIdx)  {
              Student result = studentService.findStudent(studentIdx);
              return result;
+         }
+
+         //4. 학생을 생성, 수정하는 기능
+         @ResponseBody
+         @RequestMapping("updateStudent")
+         public String updateStudent(studentRequest student, Long curSeasonIdx,HttpSession session)  {
+             Student result = settingService.updateStudent(student,curSeasonIdx,0,session);
+             return null;
          }
 
         //4. 새 학생을 생성하는 기능
@@ -142,14 +142,14 @@
             return null;
 
         }
-        //5. 학생을 삭제하는 기능
+        /*//5. 학생을 삭제하는 기능
         @ResponseBody
         @RequestMapping("delStudent")
         public void delStudent(Long studentIdx) throws Exception{
 //            System.out.println("컨트롤러 delStudent() 진입");
             settingService.delStudent(studentIdx);
 //            System.out.println("컨트롤러 delStudent() 끝");
-        }
+        }*/
 
         //6. 새 학생을 수정하는 기능 (예정)
 

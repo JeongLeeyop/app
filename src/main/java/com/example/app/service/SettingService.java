@@ -2,6 +2,7 @@ package com.example.app.service;
 
 import com.example.app.common.GenderCode;
 import com.example.app.model.domain.Account;
+import com.example.app.model.domain.AuthClass;
 import com.example.app.model.domain.Class;
 import com.example.app.model.domain.Student;
 import com.example.app.model.domain.section.Task;
@@ -34,55 +35,27 @@ public class SettingService {
     @Autowired
     SectionRepository sectionRepo;
     @Autowired
+    SeasonRepository seasonRepo;
+    @Autowired
     SectionTasksRepository sectionTasksRepo;
     @Autowired
     AttendanceRepository attendanceRepo;
+    @Autowired
+    AuthClassRepository authClassRepo;
 
-
-    @Transactional
-    @Modifying
-    @ResponseBody
-    //0.클래스를 삭제하는 기능
-    public void delClass(classRequest classReq) {
-        Long ClassIdx = classReq.getClassIdx();
-
-        System.out.println("서비스 delClass 진입");
-
-        //SectionTasks 삭제
-        sectionTasksRepo.DelSectionTasksByClassIdx(ClassIdx);
-        System.out.println("섹션항목 삭제");
-
-        //과제 항목 데이터 삭제
-        scoreRepo.DelScoreByClassIdx(ClassIdx);
-        System.out.println("과제항목데이터삭제");
-
-        //섹션 삭제
-        sectionRepo.DelSectionByClassIdx(ClassIdx);
-        System.out.println("섹션 삭제");
-
-        //과제 항목 삭제
-        taskRepo.DelTaskByClassIdx(ClassIdx);
-        System.out.println("과제항목삭제");
-
-        //클래스 삭제
-        classRepo.deleteById(ClassIdx);
-        System.out.println("클래스 삭제");
-
-        System.out.println("서비스 delClass 끝");
-    }
 
     @ResponseBody
     @Transactional
     //1. 클래스의 과제를 생성하는 기능
-    public void updateTask(taskInfoRequest taskInfoReq ,Long classIdx) {
+    public void updateTask(taskInfoRequest taskInfoReq ,Long authClassIdx) {
 
         //현재 클래스
-        Class _class = classRepo.findById(classIdx).get();
+        AuthClass authClass = authClassRepo.findById(authClassIdx).get();
 
         //과제항목의 정보
         Task task = new Task();
         //과제항목 도메인 세팅
-        task.set_class(_class);
+        task.setAuthClass(authClass);
         task.setTaskGradeRatio(taskInfoReq.getGradeRatio());
         task.setTaskItemName(taskInfoReq.getTaskName());
         if(taskInfoReq.getTaskIdx()!=null) {
@@ -98,7 +71,7 @@ public class SettingService {
     //2. 클래스의 과제를 조회하는 기능
     public List<Task> findTaskListByClassId(classRequest classReq) {
         List<Task> result = taskRepo.findTaskByClassIdx(classReq.getClassIdx());
-        System.out.println(result);
+//        System.out.println(result);
         return result;
     }
 
@@ -135,17 +108,23 @@ public class SettingService {
     }
 
     //4. 클래스 정보를 입력, 수정하는 기능
-    public Class updateClass(HttpSession session, classRequest classReq){
+    public Class updateClass(HttpSession session, Long curSeasonIdx, classRequest classReq){
         Class _class = new Class();
-        _class.setClassMemo(null);
-        _class.setClassName(classReq.getClassName());
-        _class.setClassSectionName(null);
 
-        _class.setAccount((Account)session.getAttribute("Account"));
-
-        System.out.println("클래스 아이디는 : " + classReq.getClassIdx());
+        //클래스 수정
         if(classReq.getClassIdx() != null){
-            _class.setClassIdx(classReq.getClassIdx());
+            _class = classRepo.findById(classReq.getClassIdx()).get();
+            _class.setClassName(classReq.getClassName());
+        }
+        //클래스 입력
+        else {
+            _class.setClassMemo(null);
+            _class.setClassName(classReq.getClassName());
+            _class.setClassSectionName(null);
+            _class.setSeason(seasonRepo.findById(curSeasonIdx).get());
+            _class.setClassGrade(null);
+
+            _class.setAccount((Account) session.getAttribute("Account"));
         }
         return classRepo.save(_class);
     }
@@ -172,6 +151,51 @@ public class SettingService {
             student.setStudentIdx(studentReq.getStudentIdx());
         }
 
+        return settingRepo.save(student);
+    }
+
+    //5. 새 학생을 생성, 수정하는 기능
+    public Student updateStudent(studentRequest studentReq,Long curSeasonIdx,int Type, HttpSession session) {
+        //0 : create, update
+        //1 : Gender update
+        //2 : Grade update
+
+        Student student = new Student();
+
+        //update
+        if(studentReq.getStudentIdx()!=null){
+           student = studentRepo.findById(studentReq.getStudentIdx()).get();
+        }
+        //create
+        else {
+            student.setSeason(seasonRepo.findById(curSeasonIdx).get());
+            student.setAccount((Account) session.getAttribute("Account"));
+            student.setStudentMemo(null);
+        }
+
+        //Update,Create
+        if(Type==0){
+            //gender를 int타입으로 변형
+            if(studentReq.getStudentGender().equals("Male")){
+                student.setStudentGender(GenderCode.Male.getValue());
+            } else {
+                student.setStudentGender(GenderCode.Female.getValue());
+            }
+            student.setStudentGrade(Integer.parseInt(studentReq.getStudentGrade()));
+            student.setStudentName(studentReq.getStudentName());
+        }
+        //Gender
+        else if(Type==1) {
+            if(studentReq.getStudentGender().equals("Male")){
+                student.setStudentGender(GenderCode.Male.getValue());
+            } else {
+                student.setStudentGender(GenderCode.Female.getValue());
+            }
+        }
+        // Grade
+        else if(Type==2){
+            student.setStudentGrade(Integer.parseInt(studentReq.getStudentGrade()));
+        }
         return settingRepo.save(student);
     }
 

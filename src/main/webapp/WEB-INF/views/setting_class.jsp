@@ -10,25 +10,6 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
-                            <%--<div class="col-lg-6" style="flex: 0 0 70%;max-width: 30%;">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <strong>Class</strong> List
-                                    </div>
-                                    <div class="card-body card-block" style="height: 431px;" >
-                                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" style="height: 100%;">
-                                            <div class="row form-group" style="height: 87%;">
-                                                <div class="col-12 col-md-9">
-                                                    <select name="multiple-select" id="multiple-select2" multiple="" class="form-control" style="height: 110%;width: 130%;">
-
-                                                    </select>
-                                                </div>
-
-                                            </div>
-
-                                    </div>
-                                </div>
-                            </div>--%>
                             <div class="col-lg-6" style="flex: 0 0 70%;max-width: 70%;min-width: 450px;">
                                 <div class="card">
                                     <div class="card-header">
@@ -40,29 +21,12 @@
                                             <div class="row form-group">
                                                 <div class="col col-md-3">
                                                     <label for="text-input1" class=" form-control-label">Class Name</label>
-                                                    <div id="classIdx" hidden>addClass</div>
+                                                    <div id="authClassIdx" data-id="${authClass.authClassIdx}" hidden></div>
                                                 </div>
                                                 <div class="col-12 col-md-9">
-                                                    <input disabled type="text" id="text-input1" name="text-input" placeholder="Text" class="form-control">
+                                                    <input disabled type="text" id="text-input1" name="text-input" placeholder="${authClass._class.className}" class="form-control">
                                                 </div>
                                             </div>
-
-                                           <%-- <div class="row form-group">
-
-                                                <div class="col col-md-3">
-                                                    <label for="select" class=" form-control-label">Section Title</label>
-                                                </div>
-
-                                                <div class="col-12 col-md-9">
-                                                    <select name="select" id="select" class="form-control">
-                                                        <option value="0">Please select</option>
-                                                        <option value="1">Chapter</option>
-                                                        <option value="2">Week</option>
-                                                        <option value="3">Page</option>
-                                                    </select>
-                                                </div>
-
-                                            </div>--%>
 
                                             <div class="row form-group">
                                                 <div class="col col-md-3">
@@ -92,9 +56,6 @@
                                             </div>
 
                                             <button type="button" id="cancelClass" class="btn btn-secondary" style="float: right;">Go Back</button>
-<%--                                            <button type="button" id="delClass" class="btn btn-danger" style="float: right;margin-right: 5px;">Delete</button>--%>
-<%--                                            <button type="button" id="addClass" class="btn btn-success" style="float: right;margin-right: 5px;">Save</button>--%>
-
                                         </form>
                                         <form name="frm" method="POST">
                                             <input type="hidden" name="className" />
@@ -167,7 +128,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="mediumModal2" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="mediumModal2" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true" <%--data-backdrop="static" data-keyboard="false"--%>>
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content" style="width: 50%;">
             <div class="modal-header">

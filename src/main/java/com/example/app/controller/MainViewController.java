@@ -1,6 +1,7 @@
 package com.example.app.controller;
 
 import com.example.app.model.domain.Class;
+import com.example.app.service.AdminService;
 import com.example.app.service.ClassService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class MainViewController {
 
     @Autowired
     ClassService classService;
+    @Autowired
+    AdminService adminService;
 
     //1. 로그인 화면
     @RequestMapping("/login")
@@ -83,15 +86,15 @@ public class MainViewController {
     //5. 클래스 화면
     @RequestMapping(value="/class",method=RequestMethod.POST)
     public ModelAndView _class(Long authClassIdx) {
-        System.out.println(authClassIdx);
+//        System.out.println(authClassIdx);
 //        log.debug("class");
 //        Class _class = classService.findClass(curClassIdx).get();
         ModelAndView view = new ModelAndView("class");
 
 //        필요없어보인다
 //        view.addObject("curClassIdx",_class.getClassIdx());
-//        view.addObject("curClass",_class);
-        view.addObject("authClassIdx",authClassIdx);
+        view.addObject("authClass",adminService.findAuthClassByAuthClassId(authClassIdx));
+
         return view;
     }
 
@@ -112,10 +115,12 @@ public class MainViewController {
     }
 
     //4. 설정 화면_클래스
-    @RequestMapping("/setting_class")
-    public ModelAndView setting_class() {
+    @RequestMapping(value="/setting_class",method=RequestMethod.POST)
+    public ModelAndView setting_class(Long authClassIdx) {
+//        System.out.println(authClassIdx);
 //        log.debug("setting_class");
         ModelAndView view = new ModelAndView("setting_class");
+        view.addObject("authClass",adminService.findAuthClassByAuthClassId(authClassIdx));
         return view;
     }
 

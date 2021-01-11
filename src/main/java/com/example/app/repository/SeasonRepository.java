@@ -15,4 +15,6 @@ SeasonRepository extends CrudRepository<Season, Long> {
     public Season findSeasonBySeasonIdx(Long seasonId);
 
     public Season findFirstBySchoolOrderBySeasonIdxDesc(School school);
+
+    public List<Season> findBySchool(School school);
 }

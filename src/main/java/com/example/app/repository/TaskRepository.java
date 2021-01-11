@@ -11,10 +11,10 @@ import java.util.List;
 public interface TaskRepository extends CrudRepository<Task, Long> {
     public List<Task> findTaskBy_class_ClassIdx(Long classIdx);
 
-    @Query("DELETE FROM Task t where t._class.classIdx = ?1")
+    @Query("DELETE FROM Task t where t.authClass.authClassIdx = ?1")
     @Transactional
     @Modifying
-    public void DelTaskByClassIdx(Long ClassIdx);
+    public void DelTaskByAuthClassIdx(Long authClassIdx);
 
 //   권한이 부여된 클래스의 과제목록 출력
     @Query("select t from Task t where t.authClass.authClassIdx = ?1 Order By t.taskIdx")

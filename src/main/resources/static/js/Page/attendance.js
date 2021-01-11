@@ -4,6 +4,7 @@
 //                                                                //
 ////////////////////////////////////////////////////////////////////
 $(function () {
+
     //중복실행 방지코드
     var isRun = false;
     var curSeasonIdx =  sessionStorage.getItem("curSeasonIdx");
@@ -24,15 +25,15 @@ $(function () {
         });
     }
 
-//FullCalendar 설정
+    //FullCalendar 설정
 
-//Css 동적 추가
+    //Css 동적 추가
     $('head').append('<link rel="stylesheet" href="css/fullcalendar.css" type="text/css" />');
 
     printAtAjax();
 
     $('head').append('<link rel="stylesheet" href="css/attendance.css" type="text/css" />');
-//출석 학생 목록 출력 Ajax
+    //출석 학생 목록 출력 Ajax
     function printAtAjax() {
         $("#studentList").empty();
 
@@ -73,6 +74,7 @@ $(function () {
         });
 
     };
+
 
 //모든 날짜 요약
 // 이벤트 추가
@@ -416,7 +418,68 @@ $(function () {
     AtSummary2();
 
 
-//데이터 저장
+    //현재 선택된 시즌이 가장 최근 시즌인지 확인
+    $.ajax({
+        url: "/findLatelySeason", //서버요청주소
+        type: "post",//요청방식 (get,post,patch,delete,put)
+        dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+        success: function (result) {
+            console.log(result);
+            //현재 선택된 season이 가장 최근 season이면 출력
+            if(curSeasonIdx==result.seasonIdx){
+                //AutoSave 버튼생성
+                var str = "                    <label title=\"Auto Save\" class=\"switch switch-text switch-primary switch-pill\" style=\"top: 5px;\">\n" +
+                    "                      <input type=\"checkbox\" class=\"switch-input\" checked=\"true\">\n" +
+                    "                      <span data-on=\"On\" data-off=\"Off\" class=\"switch-label\"></span>\n" +
+                    "                      <span class=\"switch-handle\"></span>\n" +
+                    "                    </label>\n";
+                $(".fc-right").prepend(str);
+
+                //autoSave
+                $.ajax({
+                    url: "/findAutoSave", //서버요청주소
+                    type: "post",//요청방식 (get,post,patch,delete,put)
+                    data: "curSeasonIdx=" + curSeasonIdx,
+                    async: false,
+                    dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+                    success: function (autoSave) {
+                        if(autoSave==1)  $(".switch-input").prop('checked', true);
+                        else $(".switch-input").prop('checked',false)
+                        //툴팁
+                        $(".fc-right").find("label").tooltip();
+                    }, //성공했을때
+                    error: function (request) {
+                        alert(request.responseText);
+                    }// 실패했을때
+                });
+            }
+        }, //성공했을때
+        error: function (request) {
+            alert(request.responseText);
+        }
+    });// 실패했을때
+
+    //autoSave 클릭
+    $(document).on('click', '.switch-input', function () {
+        var autoSave;
+        if($(".switch-input").prop('checked')==1) autoSave=1;
+        else autoSave=0;
+
+        $.ajax({
+            url: "/updateAutoSave", //서버요청주소
+            data: "autoSave="+autoSave,
+            type: "post",//요청방식 (get,post,patch,delete,put)
+            dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
+            success: function () {
+            }, //성공했을때
+            error: function (request) {
+                alert(request.responseText);
+            }
+        });// 실패했을때
+
+    })
+
+    //데이터 저장
     $("#addAt").on('click', function () {
 
         //이미 수행중이면 종료
@@ -484,8 +547,7 @@ $(function () {
 
     });
 
-
-//list클릭
+    //list클릭
     $(document).on('click', '.fc-right .fc-button-group button:last', function () {
         $('.fc-view-container').empty();
         $('.fc-center h2').text('Overall Student Attendance');
@@ -495,14 +557,14 @@ $(function () {
 
     });
 
-//month클릭
+    //month클릭
     $(document).on('click', '.fc-right .fc-button-group button:first', function () {
         $('.col-md-12.At').empty();
         $('.col').css('width', '70%');
         $('.col-lg-3').css('display', 'block');
     });
 
-//전체 출석 결과 Ajax
+    //전체 출석 결과 Ajax
     function StudentAjax() {
 
         $.ajax({
@@ -579,8 +641,7 @@ $(function () {
 
     }
 
-
-//delete 클릭시
+    //delete 클릭시
     $(document).on('click', '#delAt', function () {
 
         if (confirm("Are you sure you want to delete it?")) {

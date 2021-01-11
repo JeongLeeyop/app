@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequiredArgsConstructor
@@ -83,21 +84,29 @@ public class AccountController {
         String hashPw = account.getPassword();
         //2. 해쉬화
         String pwHash = pwUtil.Encryption(hashPw);
-        System.out.println(pwHash);
+//        System.out.println(pwHash);
         account.setPassword(pwHash);
 
-        //3. 저장
-        Account result = accountService.signUp(account);
-        response.setContentType("text/html; charset=UTF-8");
+        Account result = new Account();
         PrintWriter out = response.getWriter();
-        if(result !=null){
-            out.println("<script>alert('You have successfully registered as a member.'); location.href='login';</script>");
-            out.flush();
-        } else {
-            out.println("<script>alert('Failed to sign up as a membership.'); location.href='register';</script>");
+        try {
+            //3. 저장
+            result = accountService.signUp(account);
+        } catch (NoSuchElementException e){
+            out.println("<script>alert('Wrong School Code'); location.href='register';</script>");
             out.flush();
         }
+            response.setContentType("text/html; charset=UTF-8");
+
+            if (result != null) {
+                out.println("<script>alert('You have successfully registered as a member.'); location.href='login';</script>");
+                out.flush();
+            } else {
+                out.println("<script>alert('Failed to sign up as a membership.'); location.href='register';</script>");
+                out.flush();
+            }
             return null;
+
     }
 
     //2.이메일 중복확인 Ajax

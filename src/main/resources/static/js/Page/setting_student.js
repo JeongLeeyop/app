@@ -7,6 +7,9 @@
 //css추가
 $('head').append('<link rel="stylesheet" href="css/settingStudent.css" type="text/css" />');
 
+//현재 시즌 저장
+var curSeasonIdx = sessionStorage.getItem("curSeasonIdx");
+
 StudentAjax();
 
 //add_student
@@ -174,16 +177,16 @@ function StudentAjax() {
     $.ajax({
         url: "/findAuthStudent", //서버요청주소
         type: "post",//요청방식 (get,post,patch,delete,put)
+        data: "curSeasonIdx="+ curSeasonIdx,
         dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
         success: function (result) {
             $(".tbody").empty();
             $.each(result, function (index, item) {
-
-                var Name = item.studentName;
-                var GenderNum = item.studentGender;
+                var Name = item.student.studentName;
+                var GenderNum = item.student.studentGender;
                 var Gender;
-                var Grade = item.studentGrade;
-                var StudentIdx = item.studentIdx;
+                var Grade = item.student.studentGrade;
+                var authStudentIdx = item.authStudentIdx;
 
                 if (GenderNum == 0) {
                     Gender = "Male";
@@ -193,14 +196,14 @@ function StudentAjax() {
 
                 var str = "<tr class=\"tr-shadow\">\n" +
 
-                    "                                    <td>" + Name + "</td>\n" +
+                    "                                    <td>"+(index+1)+"</td><td>" + Name + "</td>\n" +
                     "                                    <td>\n" +
-                    "                                        <span class=\"block-email\">" + Grade + "</span>\n" +
+                    "                                        <span class=\"block-email studentGrade\">" + Grade + "</span>\n" +
                     "                                    </td>\n" +
                     "                                    <td class=\"desc\">" + Gender + "</td>\n" +
-                    "                                    <td>\n" +
+                   /* "                                    <td>\n" +
                     "                                        <div class=\"table-data-feature\">\n" +
-                    "                                           <a class = \"studentIdx\" hidden>" + StudentIdx + "</a>" +
+                    "                                           <a class = \"studentIdx\" hidden>" + authStudentIdx + "</a>" +
                     "                                            <button name=\"edit\" class=\"item\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\">\n" +
                     "                                                <i class=\"zmdi zmdi-edit\"></i>\n" +
                     "                                            </button>\n" +
@@ -211,11 +214,20 @@ function StudentAjax() {
                     "                                                <i class=\"zmdi zmdi-more\"></i>\n" +
                     "                                            </button>\n" +
                     "                                        </div>\n" +
-                    "                                    </td>\n" +
+                    "                                    </td>\n" +*/
                     "                                </tr>\n" +
                     "                                <tr class=\"spacer\"></tr>"
 
                 $('.tbody').append(str);
+
+                var number = $(".studentList .studentGrade:last").text();
+                if (number == 1) $(".studentList .studentGrade:last").css('background', '#5a6268');
+                else if (number == 2) $(".studentList .studentGrade:last").css('background', '#138496');
+                else if (number == 3) $(".studentList .studentGrade:last").css('background', '#e0a800');
+                else if (number == 4) $(".studentList .studentGrade:last").css('background', '#218838');
+                else if (number == 5) $(".studentList .studentGrade:last").css('background', '#0069d9');
+                else if (number == 6) $(".studentList .studentGrade:last").css('background', '#c82333');
+
 
             });
             // alert("StudentAjax 성공");

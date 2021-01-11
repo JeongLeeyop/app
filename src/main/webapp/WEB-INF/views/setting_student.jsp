@@ -35,7 +35,7 @@ moving the class to menus lead to only the menu having the effect -->
                             <th></th>
                         </tr>
                         </thead>
-                        <tbody class="tbody">
+                        <tbody class="tbody studentList">
                         </tbody>
                     </table>
                 </div>

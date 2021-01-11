@@ -21,6 +21,8 @@ public class Class {
     private String classSectionName;
     @Column
     private String classMemo;
+    @Column
+    private String classGrade;
 
     @ManyToOne
     @JoinColumn(name = "userIdx")

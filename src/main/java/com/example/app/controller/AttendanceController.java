@@ -1,6 +1,7 @@
 package com.example.app.controller;
 
 import com.example.app.model.domain.Attendance;
+import com.example.app.model.domain.Season;
 import com.example.app.model.dto.response.atCountResponse;
 import com.example.app.model.dto.response.repository.AtSummaryResponse;
 import com.example.app.service.AttendanceService;
@@ -73,4 +74,27 @@ public class AttendanceController {
     public Long SeasonInit(HttpSession session) {
         return attendanceService.SeasonInit(session);
     }
+
+    //AutoSave 수정
+    @ResponseBody
+    @RequestMapping("updateAutoSave")
+    public Long updateAutoSave(HttpSession session, int autoSave) {
+        attendanceService.updateAutoSave(session,autoSave);
+        return null;
+    }
+
+    //AutoSave 찾기
+    @ResponseBody
+    @RequestMapping("findAutoSave")
+    public int findAutoSave(HttpSession session) {
+        return attendanceService.findAutoSave(session);
+    }
+
+    //AutoSave 수정
+    @ResponseBody
+    @RequestMapping("findLatelySeason")
+    public Season findLatelySeason(HttpSession session) {
+        return attendanceService.findLatelySeason(session);
+    }
+
 }

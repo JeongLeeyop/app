@@ -51,117 +51,70 @@
     </div>
 </div>--%>
 
-                            <div class="col-lg-6" style="width: 30%;flex: 0 0 30%;">
+                            <div class="col-lg-6 sectionChart" style="width: 30%;flex: 0 0 30%;">
                                 <div class="card" style="height: 100%;">
                                     <div class="card-header">
                                         <strong>Section</strong> List
-                                        <h3 data-id="${authClassIdx}"class="title-3"style="padding-top: 10px;padding-bottom: 5px;">${curClass.className}</h3>
+                                        <h3 data-id="${authClass.authClassIdx}"class="title-3"style="padding-top: 10px;padding-bottom: 5px;">${authClass._class.className}</h3>
                                     </div>
                                     <div class="card-body card-block" style="height: 431px;" >
                                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" style="height: 100%;">
-                                            <div class="row form-group" style="height: 87%;">
+                                            <div class="row form-group" style="height: 92%;">
                                                 <div class="col-12 col-md-9">
                                                     <select name="multiple-select" id="multiple-select" multiple="" class="form-control">
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div id="alert2" class="col-12 col-md-9" style="height: 10%;max-width: 120%;flex: 0 0 100%;">
-                                                <button data-toggle="modal" data-target="#smallmodal2" id ="addSection" type="button" class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-dot-circle-o">Add</i>
-                                                </button>
-                                                <button id ="editSection" type="button" class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-dot-circle-o">Edit</i>
-                                                </button>
-                                                <button id ="delSection" type="button" class="btn btn-danger btn-sm">
-                                                    <i class="fa fa-ban">Delete</i>
-                                                </button>
-                                            </div>
+
+                                    </div>
+                                    <div id="alert2" class="user-data__footer">
+                                        <button data-toggle="modal" data-target="#smallmodal2" id ="addSection" type="button" class="btn btn-primary btn-sm">
+                                            <i class="fa ">Add</i>
+                                        </button>
+                                        <button id ="editSection" type="button" class="btn btn-success btn-sm">
+                                            <i class="fa">Edit</i>
+                                        </button>
+                                        <button id ="delSection" type="button" class="btn btn-danger btn-sm">
+                                            <i class="fa ">Delete</i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
 
 
-                            <div class="col-lg-8">
+                            <div class="col-lg-8 scoreChart">
                                 <!-- TOP CAMPAIGN-->
-                                <div class="top-campaign" style="margin-bottom: 0px;">
-                                    <div class="card-header" style="background-color: #fff;position: relative;bottom: 42px;right: 38px;border-bottom: none;">
+                                <div class="top-campaign">
+                                    <div class="card-header">
                                         <strong>Task</strong> List </div>
-                                    <div class="table-responsive" style="position: relative;bottom: 66px;">
+                                    <div class="table-responsive">
                                         <table overflow : auto class="table table-top-campaign">
                                             <thead id = "taskList">
                                                 <tr id = "taskListTr">
-                                                    <th style="border-top: none;font-size: 0.38cm;padding-bottom: 21.5px;">
+                                                    <th style="border-top: none;font-size: 0.38cm;padding-bottom: 21.5px;padding-right: 12px;">
                                                         <div>Name</div>
                                                     </th>
-                                                    <th style="border-top: none;" >
-                                                        <div class="rs-select2--light rs-select2--sm">
-                                                        <select class="js-select2" name="time">
-                                                            <option selected="selected" value="2">Task 1</option>
-                                                            <option value="">Task 2</option>
-                                                            <option value="">Task 3</option>
-                                                            <option value="">Task 4</option>
-                                                            <option value="">Task 5</option>
-                                                        </select>
-                                                            <div class="dropDownSelect2"></div></div>
-                                                    </th>
-                                                    <th style="border-top: none;">
-                                                        <div class="rs-select2--light rs-select2--sm">
-                                                        <select class="js-select2" name="time">
-                                                            <option selected="selected" value="2">Task 1</option>
-                                                            <option value="">Task 2</option>
-                                                            <option value="">Task 3</option>
-                                                            <option value="">Task 4</option>
-                                                            <option value="">Task 5</option>
-                                                        </select>
-                                                            <div class="dropDownSelect2"></div>
-                                                    </th>
-                                                    <th style="border-top: none;">
-                                                        <div class="rs-select2--light rs-select2--sm">
-                                                            <select class="js-select2" name="time">
-                                                                <option selected="selected" value="2">Task 1</option>
-                                                                <option value="">Task 2</option>
-                                                                <option value="">Task 3</option>
-                                                                <option value="">Task 4</option>
-                                                                <option value="">Task 5</option>
-                                                            </select>
-                                                            <div class="dropDownSelect2"></div>
-                                                        </div>
-                                                    </th>
-                                                    <th style="border-top: none;border-bottom: none"></th>
+
                                                 </tr>
                                             </thead>
                                             <tbody id="taskChart">
-                                            <tr>
-                                                <td>1. sample1</td>
-                                                <td><input type="text" placeholder="" class="form-control"></td>
-                                                <td><input type="text" placeholder="" class="form-control"></td>
-                                                <td><input type="text" placeholder="" class="form-control"></td>
-                                                <td hidden></td>
-                                            </tr>
-                                            <tr>
-                                                <td>2. sample2</td>
-                                                <td><input type="text" placeholder="" class="form-control"></td>
-                                                <td><input type="text" placeholder="" class="form-control"></td>
-                                                <td><input type="text" placeholder="" class="form-control"></td>
-                                                <td hidden></td>
-                                            </tr>
-                                            <tr>
-                                                <td>3. sample3</td>
-                                                <td><input type="text" placeholder="" class="form-control"></td>
-                                                <td><input type="text" placeholder="" class="form-control"></td>
-                                                <td><input type="text" placeholder="" class="form-control"></td>
-                                                <td hidden></td>
-                                            </tr>
+
                                             </tbody>
                                         </table>
 
                                 </div>
-                                    <button type="button" id = "addTaskBtn" class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i></button>
-                                    <button type="button" id="cancel" class="btn btn-secondary" style="float: right;margin-right: 5px;">Go Back</button>
-                                    <button type="button" id="clear" class="btn btn-danger" style="float: right;margin-right: 5px;">Clear</button>
-                                    <button type="button" id="saveTask" class="btn btn-success" style="float: right;margin-right: 5px;">Save</button>
+
+
                                 <!--  END TOP CAMPAIGN-->
                             </div>
+
+                                <button type="button" id = "addTaskBtn" class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i></button>
+                                <div class="user-data__footer class_button">
+                                    <button type="button" id="saveTask" class="btn btn-success" >Save</button>
+                                    <button type="button" id="clear" class="btn btn-danger">Clear</button>
+                                    <button type="button" id="cancel" class="btn btn-secondary" >Go Back</button>
+                                </div>
+
                         </div>
                         <div class="row" style="margin-top: 50px;width: 100%;margin-left: 3px;margin-right: 3%;">
                             <div class="col-md-12">
@@ -243,6 +196,35 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document" style="max-width: 915px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="largeModalLabel">Large Modal</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                    <div class="col-lg-6">
+                                        <div class="au-card m-b-30">
+                                            <div class="au-card-inner">
+                                                <h3 class="title-2 m-b-40">Yearly Sales</h3>
+                                                <canvas id="myChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <%--<button type="button" class="btn btn-primary">Confirm</button>--%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
     <script src="vendor/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/Page/class.js"></script>

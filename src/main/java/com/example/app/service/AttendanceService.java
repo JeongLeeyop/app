@@ -3,13 +3,10 @@ package com.example.app.service;
 import com.example.app.model.domain.Account;
 import com.example.app.model.domain.Attendance;
 import com.example.app.model.domain.AuthStudent;
-import com.example.app.model.domain.Student;
+import com.example.app.model.domain.Season;
 import com.example.app.model.dto.response.atCountResponse;
 import com.example.app.model.dto.response.repository.*;
-import com.example.app.repository.AttendanceRepository;
-import com.example.app.repository.AuthStudentRepository;
-import com.example.app.repository.SeasonRepository;
-import com.example.app.repository.StudentRepository;
+import com.example.app.repository.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -33,6 +30,8 @@ public class AttendanceService {
     SeasonRepository seasonRepo;
     @Autowired
     AuthStudentRepository authStudentRepo;
+    @Autowired
+    AccountRepository accountRepo;
 
     //1.캘린더를 통해 일별로 하루의 총 출석, 지각, 결석, 조퇴 횟수를 간략하게 표시해주는 기능
     public Map<String,Object> findTotalAtSummary(String strDate,HttpSession session) throws Exception {
@@ -44,8 +43,8 @@ public class AttendanceService {
         String endDate = searchDate + "-31";
         Timestamp endTimeStamp = Timestamp.valueOf(endDate + " 00:00:00");
 
-        System.out.println(startDate);
-        System.out.println(endDate);
+//        System.out.println(startDate);
+//        System.out.println(endDate);
 
         List<AtSummaryResponse> list = attendanceRepo.findAtCount(startTimeStamp,endTimeStamp,(Account)session.getAttribute("Account"));
         List<Timestamp> dateCnt = attendanceRepo.useDateCnt(startTimeStamp,endTimeStamp,(Account)session.getAttribute("Account"));
@@ -80,8 +79,8 @@ public class AttendanceService {
         List<Attendance> curDateList = new ArrayList<>();
 
         Account account = (Account)session.getAttribute("Account");
-        List<AuthStudent> stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccount(curSeasonIdx,account);
-//        List<Student> stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccount(account);
+        List<AuthStudent> stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(curSeasonIdx,account);
+//        List<Student> stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(account);
 
         for(AuthStudent authStudent : stList){
             Attendance at = attendanceRepo.findAllByAtDateAndAuthStudent(curDate,authStudent);
@@ -100,7 +99,7 @@ public class AttendanceService {
 
         //현 유저의 모든 학생 불러오기
 //        List<Student> stList = studentRepo.findStudentByAccount( (Account) session.getAttribute("Account") );
-        List<AuthStudent> stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccount(curSeasonIdx,(Account) session.getAttribute("Account"));
+        List<AuthStudent> stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(curSeasonIdx,(Account) session.getAttribute("Account"));
         List<atCountResponse> atCountList = new ArrayList<>();
         for(AuthStudent authStudent : stList) {
             atCountResponse atCountResponse = new atCountResponse();
@@ -138,7 +137,7 @@ public class AttendanceService {
     @Transactional
     @Modifying
     public void updateAt(String dataArray, String strDate) throws Exception {
-        System.out.println(dataArray);
+//        System.out.println(dataArray);
         JsonParser parser = new JsonParser();
         JsonArray jsonArray = (JsonArray) parser.parse(dataArray);
 
@@ -162,7 +161,7 @@ public class AttendanceService {
             attendance.setAuthStudent(authStudentRepo.findById(stIdx).get());
 
             //값 insert 또는 update
-            System.out.println("========" + attendance);
+//            System.out.println("========" + attendance);
             attendanceRepo.save(attendance);
         }
     }
@@ -174,7 +173,7 @@ public class AttendanceService {
 
         Account account = (Account)session.getAttribute("Account");
 
-        List<AuthStudent> stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccount(curSeasonIdx,account);
+        List<AuthStudent> stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(curSeasonIdx,account);
 
         Timestamp curDate = Timestamp.valueOf(strDate + " 00:00:00");
 
@@ -186,8 +185,38 @@ public class AttendanceService {
     //최초 시즌 설정
     public Long SeasonInit(HttpSession session) {
         Account account = (Account)session.getAttribute("Account");
-        System.out.println(account);
+
+
+//        System.out.println(account);
         Long curSeasonIdx = seasonRepo.findFirstBySchoolOrderBySeasonIdxDesc(account.getSchool()).getSeasonIdx();
         return curSeasonIdx;
+    }
+
+
+    //autoSave 업데이트
+    @Transactional
+    @Modifying
+    public Long updateAutoSave(HttpSession session,int autoSave) {
+        Account account = (Account)session.getAttribute("Account");
+//        System.out.println(account);
+        accountRepo.updateAutoSave(account.getUserIdx(),autoSave);
+        return null;
+    }
+
+    //autoSave찾기
+    @Transactional
+    @Modifying
+    public int findAutoSave(HttpSession session) {
+        Account account = (Account)session.getAttribute("Account");
+//        System.out.println(account);
+        return accountRepo.findById(account.getUserIdx()).get().getAutoSave();
+    }
+
+    //최초 시즌 설정
+    @Transactional
+    @Modifying
+    public Season findLatelySeason(HttpSession session) {
+        Account account = (Account)session.getAttribute("Account");
+        return seasonRepo.findFirstBySchoolOrderBySeasonIdxDesc(account.getSchool());
     }
 }

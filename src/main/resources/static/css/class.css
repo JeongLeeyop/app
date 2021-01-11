@@ -14,11 +14,11 @@
         color: #666;
     }
 
-    #cancel, #clearTask, #saveTask{
+/*    #cancel, #clearTask, #saveTask{
         float: right;
         margin-right: 5px;
         position: relative;
-    }
+    }*/
 
     table.table.table-top-campaign {
         width: fit-content;
@@ -93,11 +93,74 @@
         .col-lg-6{
             flex: 0 0 100%;
             max-width: 100%;
-            margin-bottom: 20px;
+            /*margin-bottom: 20px;*/
         }
 
         #multiple-select{
             width: 100%;
         }
+    }
+
+    .class_button{
+        background: #fff;
+        padding: 20px 30px;
+        text-align: right;
+        width: 100%;
+    }
+
+    /*섹션 버튼*/
+    #alert2{
+        padding-top: 5px;
+        padding-bottom: 12px;
+    }
+
+    .scoreChart {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+    .sectionChart{
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+    @media (max-width: 1041px) {
+        .scoreChart {
+            width: 70%;
+        }
+    }
+
+    .scoreChart .top-campaign{
+        padding: 0 25px;padding-bottom: 40px !important;min-height: 555px !important;margin-bottom: 0px;
+    }
+
+    .scoreChart .card-header{
+        background-color: #fff;
+        position: relative;
+        /* bottom: 42px; */
+        right: 25px;
+        /* border-bottom: none; */
+        padding-bottom: 0px;
+        border-bottom:0px;
+    }
+
+    .scoreChart th{
+     border-top:0px;
+    }
+
+    /*최종성적 과제점수 hover*/
+    #TotalGradeChart .taskScore:hover{
+        color: #202020;
+        cursor:pointer;
+    }
+
+    #largeModal .modal-body .col-lg-6{
+        max-width: 1000px;
+        width: 100%;
+        /*width:75%;*/
+        /*margin:0 auto;*/
+    }
+
+    #sales-chart{
+        /*width:80vw;height:50vh*/
     }
 

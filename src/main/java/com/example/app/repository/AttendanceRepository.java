@@ -45,6 +45,14 @@ public interface AttendanceRepository extends JpaRepository <Attendance, Long> {
     @Query(value = "select a.atDate as atDate, Count(a) as leave FROM Attendance a where a.atState in(3,6) AND a.authStudent.authStudentIdx IN (select s.authStudentIdx from AuthStudent s where s.account = ?1 AND s.season.seasonIdx = ?2) group by a.atDate order by a.atDate")
     public List<leave> findLeaveList(Account account,Long curSeasonIdx);
 
+    //현재 선생님의 현재 시즌의 Attendance에 현재 날짜에 데이터가 있는지 검색
+    @Query(value = "select COUNT(a) From Attendance a where a.atDate=?1 And a.authStudent.authStudentIdx in (select aa.authStudentIdx from AuthStudent aa where aa.account.userIdx=?2 And aa.season.seasonIdx=?3)")
+    public int findByCurDate(Timestamp curDate, Long userIdx, Long curSeasonIdx);
+
+    //AuthStudent로 출석 삭제
+    @Transactional
+    @Modifying
+    public void deleteByAuthStudent_AuthStudentIdx(Long authStudentIdx);
 
 }
 

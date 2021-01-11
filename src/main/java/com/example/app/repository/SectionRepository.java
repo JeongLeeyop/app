@@ -11,10 +11,10 @@ import java.util.List;
 
 public interface SectionRepository extends CrudRepository<Section, Long> {
 
-    @Query("delete from Section s where s._class.classIdx = ?1")
+    @Query("delete from Section s where s.authClass.authClassIdx = ?1")
     @Transactional
     @Modifying
-    public void DelSectionByClassIdx(Long classIdx);
+    public void DelSectionByAuthClassIdx(Long authClassIdx);
 
     public void deleteSectionBySectionIdx(Long sectionIdx);
 

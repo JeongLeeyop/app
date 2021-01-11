@@ -1,6 +1,7 @@
 package com.example.app.model.domain.section;
 import com.example.app.model.domain.AuthClass;
 import com.example.app.model.domain.AuthStudent;
+import com.example.app.model.domain.ClassMembers;
 import com.example.app.model.domain.Student;
 import lombok.*;
 
@@ -41,4 +42,8 @@ public class Score {
     @ManyToOne
     @JoinColumn(name = "authStudentIdx")
     private AuthStudent authStudent;
+
+    @ManyToOne
+    @JoinColumn(name = "classMembersIdx")
+    private ClassMembers classMembers;
 }

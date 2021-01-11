@@ -1,3 +1,4 @@
+<%@ page import="com.example.app.model.domain.Account" %>
 <!-- Jquery JS-->
 <script src="vendor/jquery-3.2.1.min.js"></script>
 <!-- Bootstrap JS-->
@@ -97,6 +98,7 @@
 
         //로그인 세션 확인
         //값 숨기기
+
         var Account = <%=session.getAttribute("Account")!=null%>;
         var Authority = "<%=session.getAttribute("Authority")%>";
 
@@ -163,10 +165,10 @@
                     // sessionStorage.setItem('curSeasonIdx',result[0].seasonIdx);
 
                 //초기 접속 이후 현재 시즌에 맞는 option을 selected 처리해준다.
-                } else {
+                }
                     $("#SeasonSelect").find("option[data-id=\'"+sessionStorage.getItem("curSeasonIdx")+"\']").prop("selected",true);
                     // console.log(sessionStorage.getItem("curSeasonIdx"));
-                }
+
 
                 //현재 선택된 시즌 출력
                 // console.log($("#SeasonSelect").find('option:selected').data('id'));

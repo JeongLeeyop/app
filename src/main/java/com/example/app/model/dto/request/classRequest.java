@@ -10,6 +10,5 @@ import lombok.ToString;
 public class classRequest {
 
     private String className;
-    private String sectionName;
     private Long classIdx;
 }

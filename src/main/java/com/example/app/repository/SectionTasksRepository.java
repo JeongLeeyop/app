@@ -24,10 +24,11 @@ public interface SectionTasksRepository extends CrudRepository<SectionTasks, Lon
     @Query("Select s From SectionTasks s where s.section.sectionIdx = ?1 order by s.sectionTasksIdx")
     public List<SectionTasks> findSectionTasksBySectionIdx(Long sectionIdx);
 
+    //AuthClass로 Section을 찾고 해당 SectionTasks을 찾아 전부 삭제
     @Transactional
     @Modifying
-    @Query("DELETE FROM SectionTasks s where s.section.sectionIdx in (select ss.sectionIdx from Section ss where ss._class.classIdx = ?1)")
-    public void DelSectionTasksByClassIdx(Long classIdx);
+    @Query("DELETE FROM SectionTasks s where s.section.sectionIdx in (select ss.sectionIdx from Section ss where ss.authClass.authClassIdx = ?1)")
+    public void DelSectionTasksByAuthClassIdx(Long authClassIdx);
 
     @Transactional
     @Modifying

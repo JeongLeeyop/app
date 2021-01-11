@@ -6,6 +6,7 @@
 
 //현재 클래스 Idx : 주소창에서 가져오기
 // var curClassIdx = getParameterByName("idx");
+
 //curClassIdx 가져오기
 var curClassIdx = $(".title-3").data('id');
 
@@ -98,7 +99,9 @@ function printTaskChart(curSectionIdx) {
         data: "curSectionIdx=" + curSectionIdx + "&curClassIdx=" + curClassIdx+"&curSeasonIdx="+sessionStorage.getItem("curSeasonIdx"),
         async: false,
         dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
-        success: function (result) {
+        success: function (result)
+        {
+            // console.log(result);
 
             //classChart = Score
             //studentList = authStudent
@@ -106,7 +109,7 @@ function printTaskChart(curSectionIdx) {
             //usedList = SectionTasks
 
             //학생목록 전역변수에 저장 : 최종성적 출력에 사용
-            stList = result.studentList;
+            stList = result.classMembers;
             //과제목록 전역변수에 저장 : 최종성적 출력에 사용
             tkList = result.taskList;
 
@@ -120,7 +123,7 @@ function printTaskChart(curSectionIdx) {
             //모든 과제 목록 가져오기
 
             // Head - Tr 생성
-            var str = "<tr id=\"taskListTr\"><th style=\"border-top: none;font-size: 0.38cm;padding-bottom: 19.5px;padding-right: 40px;\"><div>Name</div><div style=\"white-space: nowrap;font-size: 9px;padding-top:15px\">Total Point</div></th></tr>";
+            var str = "<tr id=\"taskListTr\"><th style=\"border-top: none;font-size: 0.38cm;padding-bottom: 19.5px;padding-right: 12px;\"><div>Name</div><div style=\"white-space: nowrap;font-size: 9px;padding-top:15px\">Total Point</div></th></tr>";
             $("#taskList").append(str).trigger("create");
 
             $.each(result.usedList, function (index, item) {
@@ -159,12 +162,12 @@ function printTaskChart(curSectionIdx) {
                 });
                 str3 = str3 + "<option class=\"option\" value=\"del\">Delete</option>";
                 $("#taskListTr th:last div select").append(str3).trigger("create");
-                $("#taskListTr th:last").append("<input type=\"text\" placeholder=\"\" class=\"form-control maxScore\">").trigger("create");
+                $("#taskListTr th:last").append("<input tabindex=\"1\" type=\"text\" placeholder=\"\" class=\"form-control maxScore\">").trigger("create");
                 $("#taskListTr th:last input").val(item.maxScore);
             });
 
             //css 적용
-            $('head').append('<link rel="stylesheet" href="css/class.css" type="text/css" />');
+            // $('head').append('<link rel="stylesheet" href="css/class.css" type="text/css" />');
 
             //select css 수정
             $(".js-select2").each(function () {
@@ -186,18 +189,18 @@ function printTaskChart(curSectionIdx) {
             //학생 목록 출력
             var str = "<tr>";
             var tabindex = 1;
-            $.each(result.studentList, function (index, item) {
+            $.each(result.classMembers, function (index, item) {
 
                 //과제 점수 입력 창
-                str = str + "<td>" + item.student.studentName + "</td><td hidden class=\"studentIdx\" data-id=\"" + item.authStudentIdx + "\">" + item.authStudentIdx + "</td>"
+                str = str + "<td>" + item.authStudent.student.studentName + "</td><td hidden class=\"studentIdx\" data-id=\"" + item.classMembersIdx + "\">" + item.classMembersIdx + "</td>"
                 $.each(result.usedList, function (index2, item2) {
                     str = str + "<td><input tabindex=\" "+tabindex+"\" type=\"text\" placeholder=\"\" class=\"form-control\"></td>";
-                    tabindex += result.studentList.length;
+                    tabindex += result.classMembers.length;
                 });
                 str = str + "</tr>";
                 $("#taskChart").append(str).trigger("create");
                 str = "<tr>";
-                tabindex = tabindex - (result.studentList.length * result.usedList.length) + 1;
+                tabindex = tabindex - (result.classMembers.length * result.usedList.length) + 1;
             });
 
             //빈칸에 과제idx 넣기???
@@ -208,7 +211,7 @@ function printTaskChart(curSectionIdx) {
             //값 입력
             $.each(result.classChart, function (index, item) {
                 //일치 학생 idx 찾기 : tr
-                var curStudentTd = $(".studentIdx[data-id=\"" + item.authStudentAuthStudentIdx + "\"]");
+                var curStudentTd = $(".studentIdx[data-id=\"" + item.classMembersClassMembersIdx + "\"]");
                 //일치 과제 idx 찾고 점수 삽입 : td
                 for (var i = 0; i < roundIndex; i++) {
                     // alert($("#taskList tr th:eq("+i+") div select option").attr('selected','selected').val());
@@ -222,7 +225,7 @@ function printTaskChart(curSectionIdx) {
                 }
             });
             //전역변수에 테이블의 크기를 입력
-            studentSize = result.studentList.length;
+            studentSize = result.classMembers.length;
             usedTaskSize = result.usedList.length;
 
         }, //성공했을때
@@ -258,7 +261,7 @@ function printGradeChart() {
             $.each(result, function (index, item) {
                 var str = "<tr>\n" +
                     "                            <td>" + item.taskItemName + "</td>\n" +
-                    "                            <td>" + item.taskGradeRatio + "%</td>\n" +
+                    "                            <td data-id=\""+item.taskIdx+"\">" + item.taskGradeRatio + "%</td>\n" +
                     "                        </tr>";
 
                 $("#gradeChart tbody").append(str);
@@ -266,7 +269,7 @@ function printGradeChart() {
 
             //학생 종합 성적 타이틀 출력
             $.each(result, function (index, item) {
-                $("#GradeList tr").append("<th><div hidden>" + item.taskIdx + "</div>" + item.taskItemName + "</th>")
+                $("#GradeList tr").append("<th><div hidden data-id="+item.taskIdx+"></div>" + item.taskItemName + "</th>")
             });
             $("#GradeList tr").append("<th>Final Grade</th>");
 
@@ -286,12 +289,14 @@ function printTotalGrade() {
     var str = "";
     $.each(stList, function (index, item) {
         //최종 성적 표시 창
-        str = str + "<tr><td><div hidden data-id=\"" + item.authStudentIdx + "\"></div>" + item.student.studentName + "</td></tr><tr class=\"spacer\"></tr>";
+        str = str + "<tr><td><div hidden data-id=\"" + item.classMembersIdx + "\"></div>" + item.authStudent.student.studentName + "</td></tr><tr class=\"spacer\"></tr>";
         $("#TotalGradeChart").append(str).trigger("create");
         str = "";
 
         $.each(tkList, function (index2, item2) {
-            $("#TotalGradeChart tr").last().prev().append("<td></td>");
+            //과제 점수에는 클래스명 :taskScore 붙혀주기
+            if(tkList.length==index2) $("#TotalGradeChart tr").last().prev().append("<td></td>");
+            else $("#TotalGradeChart tr").last().prev().append("<td class=\"taskScore\"></td>");
         });
     });
 
@@ -311,7 +316,6 @@ function printTotalGrade() {
             //     private Double finalGrade;
             //     private Long classIdx;
 
-
             //학생 수만큼 반복
             $.each($("#TotalGradeChart tr td div"), function (index2, item2) {
 
@@ -322,7 +326,7 @@ function printTotalGrade() {
 
                     //매칭을 위한 변수 선언
                     var stIdx = $(item2).data("id");
-                    var taskIdx = $(item3).children().text();
+                    var taskIdx = $(item3).children().data("id");
 
                     //과제idx 순서대로 점수를 담을 리스트 선언
                     var list = new Array();
@@ -373,12 +377,23 @@ function printTotalGrade() {
 //sectionAjax -> printTaskChart
 
 $(function () {
-
+    $('head').append('<link rel="stylesheet" href="css/class.css" type="text/css" />');
 
     //select css 수정
     SectionAjax();
     printGradeChart();
     printTotalGrade();
+
+    //enter누르면 save
+    $("#taskChart tr td input").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#saveTask").click();
+        }
+    });
+
+    $("#smallmodal2").on("shown.bs.modal", function () {
+        $("#sectionName").focus();
+    });
 
     //섹션 추가 폼 초기화
     $(document).on("click", "#addSection", function () {
@@ -691,6 +706,207 @@ $(function () {
     $("#cancel").on('click', function () {
         if (confirm("Are you sure you want to go back?")) {
             location.href = '/class_list';
+        }
+    });
+
+    //최종성적 과제점수 선택시
+    $(document).on("click", ".taskScore", function () {
+
+        //기존 차트 삭제
+        $("#largeModal .modal-body .au-card-inner").empty();
+        var str= "<h3 class=\"title-2 m-b-40\">Task Scores</h3>\n" +
+                "<canvas id=\"myChart\"></canvas>"
+        //새로운 차트
+        $("#largeModal .modal-body .au-card-inner").append(str);
+
+        //모달 열기
+        $("#largeModal").modal('show');
+
+        //선택한 점수의 과제idx와 학생idx 구하기
+        var authStudentIdx = $(this).parent().find("td:first div").data("id");
+        var thisIndex = $(this).parent().find("td").index(this);
+        var taskIdx = $("#GradeList tr th:eq("+(thisIndex)+") div").data("id");
+
+        var studentName = $(this).parent().find("td:first").text();
+        var taskName = $("#GradeList tr th:eq("+(thisIndex)+")").text();
+
+        $.ajax({
+            url: "/findAuthStudentTaskChart", //서버요청주소
+            type: "post",//요청방식 (get,post,patch,delete,put)
+            data: "taskIdx=" + taskIdx+"&authStudentIdx=" + authStudentIdx+"&curClassIdx="+curClassIdx,
+            async: false,
+            dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+            success: function (result) {
+                //결과값 확인
+                // console.log(result);
+
+                var sectionName = [];
+                var score = [];
+                var maxScore = [];
+                var avg = [];
+
+                //짤림 방지
+                var maxNumber = 0;
+
+                for(var i in result){
+                    sectionName.push(result[i].sectionName);
+                    score.push(result[i].score);
+                    maxScore.push(result[i].maxScore);
+                    //소수점 자리 맞추기, avg가 없으면 null로 유지
+                    if(result[i].avg!=null) avg.push(Math.floor(result[i].avg * 100) / 100);
+                    else avg.push(result[i].avg);
+
+                    //가장 높은 점수 저장
+                    if(maxNumber<=result[i].maxScore) maxNumber = result[i].maxScore;
+                    if(maxNumber<=result[i].avg) maxNumber = result[i].avg;
+                }
+
+
+
+                var ctx = document.getElementById("myChart");
+                if (ctx) {
+                    ctx.height = 150;
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            //섹션명
+                            labels: sectionName,
+                            // type: 'line',
+                            defaultFontFamily: 'Poppins',
+                            datasets: [{
+                                label: "AVG",
+                                //평균 점수
+                                data: avg,
+                                backgroundColor: 'transparent',
+                                borderColor: 'rgba(220,53,69,0.75)',
+                                borderWidth: 3,
+                                pointStyle: 'circle',
+                                pointRadius: 5,
+                                pointBorderColor: 'transparent',
+                                pointBackgroundColor: 'rgba(220,53,69,0.75)',
+                                type: 'line',
+                            }, {
+                                label: "Score",
+                                //점수
+                                data: score,
+                                backgroundColor:'#4BC0C0'
+                            }, {
+                                label: "Total Point",
+                                //총 점수
+                                data: maxScore,
+                                backgroundColor: '#E5E5E5',
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            tooltips: {
+                                mode: 'index',
+                                titleFontSize: 12,
+                                titleFontColor: '#000',
+                                bodyFontColor: '#000',
+                                backgroundColor: '#fff',
+                                titleFontFamily: 'Poppins',
+                                bodyFontFamily: 'Poppins',
+                                cornerRadius: 3,
+                                intersect: false,
+                            },
+                            hover: {
+                                animationDuration: 0,
+                            },
+                            animation: {
+                                onComplete: function () {
+                                    var chartInstance = this.chart,
+                                        ctx = chartInstance.ctx;
+                                    ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                                    ctx.fillStyle = 'Black';
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'bottom';
+
+                                    this.data.datasets.forEach(function (dataset, i) {
+
+                                        if(i==0){
+                                            var meta = chartInstance.controller.getDatasetMeta(i);
+                                            meta.data.forEach(function (bar, index) {
+                                                var data = dataset.data[index];
+                                                ctx.fillText(data, bar._model.x, bar._model.y -5);
+                                            });
+                                        }
+                                    });
+                                }
+                            },
+                            legend: {
+                                display: false,
+                                labels: {
+                                    usePointStyle: true,
+                                    fontFamily: 'Poppins',
+                                },
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    gridLines: {
+                                        display: false,
+                                        drawBorder: false
+                                    },
+                                    scaleLabel: {
+                                        display: false,
+                                        labelString: 'Section'
+                                    },
+                                    ticks: {
+                                        fontFamily: "Poppins"
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    gridLines: {
+                                        display: false,
+                                        drawBorder: false
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Score',
+                                        fontFamily: "Poppins"
+
+                                    },
+                                    ticks: {
+                                        fontFamily: "Poppins",
+                                        max : maxNumber+5,
+                                        min : 0
+                                        // max:10
+                                        //여기 max totalpoint의 +5를 저장
+                                    }
+                                }]
+                            },
+                            title: {
+                                display: true,
+                                text: studentName + " : " + taskName,
+                                fontSize : 16,
+                                fontFamily: "Poppins",
+                                fontStyle : 'bold'
+                            }
+                        }
+                    });
+                }
+
+
+
+
+            }, //성공했을때
+
+            error: function (request) {
+                alert(request.responseText);
+            }// 실패했을때
+        });
+
+
+
+
+    });
+
+    //최종성적 모달창 Enter입력시 취소버튼 클릭
+    $("#largeModal").keyup(function(event) {
+        if (event.keyCode === 13 || event.keyCode === 32 ) {
+            $("#largeModal button").click();
         }
     });
 

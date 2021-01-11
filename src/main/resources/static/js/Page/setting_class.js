@@ -7,15 +7,16 @@
 $(function () {
 
     //클래스 조회 & 과제 조회
-    var classIdx = getParameterByName("idx");
+    // var classIdx = getParameterByName("idx");
+    var authClassIdx = $("#authClassIdx").data('id');
 
     //주소창의 파라메터를 가져오는 함수
-    function getParameterByName(name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
-        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
+    // function getParameterByName(name) {
+    //     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    //     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    //         results = regex.exec(location.search);
+    //     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    // }
 
     //버튼 UI
     $("#addTask").attr("hidden", false);
@@ -23,24 +24,24 @@ $(function () {
     $("#delTask").attr("hidden", false);
     $("#alert small").attr("hidden", true);
 
-    //update로 표시
+/*    //update로 표시
     $("#addClass").text("update");
-    $("#addClass").attr('id', 'updateClass');
+    $("#addClass").attr('id', 'updateClass');*/
 
     $.ajax({
-        url: "/findClass", //서버요청주소
+        url: "/admin/findAuthClass", //서버요청주소
         type: "post",//요청방식 (get,post,patch,delete,put)
-        data: "classIdx=" + classIdx,
+        data: "authClassIdx=" + authClassIdx,
         dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
         success: function (result) {
-            console.log(result);
-            var className = result.className;
+            // console.log(result);
+/*            var className = result.className;
             // var classSectionName = result.classSectionName;
             var classIdx = result.classIdx;
 
             $("#text-input1").val(className);
             // $("#select2-select-container").text(classSectionName);
-            $("#classIdx").text(classIdx);
+            $("#classIdx").text(classIdx);*/
 
             TaskAjax();
 
@@ -61,6 +62,7 @@ $(function () {
     $("#select").select2({
         tags: true
     });
+/*
 
     //클래스 수정
     $(document).on("click", "#updateClass", function () {
@@ -108,12 +110,16 @@ $(function () {
         }
         }
     });
+*/
+
+    $("#mediumModal").on("shown.bs.modal", function () {
+        $("#taskName").focus();
+    });
+
 
     //취소하기
     $(document).on("click", "#cancelClass", function () {
-        if (confirm("Are you sure you want to go Back?")) {
             location.href = 'setting_class_list';
-        }
     });
 
     //과제 등록
@@ -126,25 +132,55 @@ $(function () {
         addTask(2);
     });
 
+    //모달창 Enter입력시 전송버튼 클릭
+    $("#taskName").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#confirm").click();
+        }
+    });
+    $("#gradeRatio").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#confirm").click();
+        }
+    });
+    $("#taskName2").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#confirm2").click();
+        }
+    });
+    $("#gradeRatio2").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#confirm2").click();
+        }
+    });
+
     function addTask(Type){
 
         //신규등록과 기존정보 수정을 구분
-
-        var classIdx;
         var taskName ;
         var gradeRatio;
         var taskIdx;
         var ckDefault=0;
 
         if(Type==1){
-            classIdx = $("#classIdx").text();
             taskName = $("#taskName").val();
             gradeRatio = $("#gradeRatio").val();
+
+            if(taskName==""){
+                alert("Please Input Task Name");
+                $("#taskName").focus();
+                return 0;
+            }
         } else if(Type==2){
-            classIdx = $("#classIdx").text();
             taskIdx = $("#modalTaskIdx").text();
             taskName = $("#taskName2").val();
             gradeRatio = $("#gradeRatio2").val();
+
+            if(taskName==""){
+                alert("Please Input Task Name");
+                $("#taskName2").focus();
+                return 0;
+            }
         }
 
         //과제 등급 제어
@@ -187,11 +223,12 @@ $(function () {
             return false;
         }
 
+        //수정
         if(Type==1){
             $.ajax({
             url: "/updateTask", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
-            data: "taskName=" + taskName + "&gradeRatio=" + gradeRatio + "&ckDefault=" + ckDefault + "&classIdx=" + classIdx,
+            data: "taskName=" + taskName + "&gradeRatio=" + gradeRatio + "&ckDefault=" + ckDefault + "&authClassIdx=" + authClassIdx,
             dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
                 alert("The Task has been created.");
@@ -203,11 +240,12 @@ $(function () {
         });
         }
 
+        //삽입
         if(Type==2){
         $.ajax({
             url: "/updateTask", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
-            data: "taskName=" + taskName + "&gradeRatio=" + gradeRatio + "&ckDefault=" + ckDefault + "&classIdx=" + classIdx + "&taskIdx="+taskIdx ,
+            data: "taskName=" + taskName + "&gradeRatio=" + gradeRatio + "&ckDefault=" + ckDefault + "&authClassIdx=" + authClassIdx + "&taskIdx="+taskIdx ,
             dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
                 alert("The Task has been updated.");
@@ -290,6 +328,7 @@ $(function () {
 
         //과제input창 비우기
         $("#text-input2").attr('placeholder', '');
+        $("#taskIdx").text('');
 
         //모달창 비우고 닫기
         $("#taskName").val("");
@@ -300,14 +339,15 @@ $(function () {
         //과제항목 입력
         //Default 과제를 알기 위한 ajax
 
+        alert(authClassIdx);
         //클래스의 과제항목을 검색하는 ajax
         $.ajax({
             url: "/findTaskListByClassId", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
-            data: "classIdx=" + classIdx,
+            data: "classIdx=" + authClassIdx,
             success: function (result) {
-
+                console.log(result);
                 $.each(result, function (index, item) {
 
                     var taskIdx = item.taskIdx;

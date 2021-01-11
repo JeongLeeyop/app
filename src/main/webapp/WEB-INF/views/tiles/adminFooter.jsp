@@ -51,6 +51,23 @@
     }
 
     $(function () {
+        // 시즌 idx 전역변수에 입력
+        var curSeasonIdx = sessionStorage.getItem("curSeasonIdx");
+
+        //최초 Season 설정
+        if(curSeasonIdx==null) {
+            $.ajax({
+                url: "/SeasonInit", //서버요청주소
+                type: "post",//요청방식 (get,post,patch,delete,put)
+                dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+                success: function (result) {
+                    sessionStorage.setItem("curSeasonIdx",result);
+                }, //성공했을때
+                error: function (request) {
+                    alert(request.responseText);
+                }// 실패했을때
+            });
+        }
 
         //로그인 세션 확인
         var Account = <%=session.getAttribute("Account")!=null%>;
@@ -80,7 +97,6 @@
 //            session.removeAttribute("Account");
 //            session.removeAttribute("Authority");
  %>
-
 
         //메뉴버튼 클릭시 패딩 삭제
         $(".zmdi.zmdi-menu").on("click", function () {

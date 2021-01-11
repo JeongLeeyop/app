@@ -4,6 +4,7 @@ import com.example.app.model.domain.AuthClass;
 import com.example.app.model.domain.Class;
 import com.example.app.model.domain.section.Section;
 import com.example.app.model.domain.section.Task;
+import com.example.app.model.dto.response.CMTaskScoreResponse;
 import com.example.app.model.dto.response.repository.AuthClassMapping;
 import com.example.app.model.dto.response.totalGradeResponse;
 import com.example.app.service.ClassService;
@@ -116,4 +117,13 @@ public class ClassController {
     public List<totalGradeResponse> findTotalGrade(Long curClassIdx, HttpSession session) {
         return classService.findTotalGrade(curClassIdx,session);
     }
+
+    //11.AuthStudent의 Task 그래프 데이터를 조회해주는 기능
+
+    @RequestMapping("findAuthStudentTaskChart")
+    @ResponseBody
+    public List<CMTaskScoreResponse> findAuthStudentTaskChart(Long taskIdx, Long authStudentIdx, Long curClassIdx) {
+        return classService.findAuthStudentTaskChart(taskIdx,authStudentIdx,curClassIdx);
+    }
+
 }

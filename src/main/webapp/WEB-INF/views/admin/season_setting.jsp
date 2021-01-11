@@ -14,164 +14,13 @@ moving the class to menus lead to only the menu having the effect -->
                     <!-- USER DATA-->
                     <div class="user-data m-b-30">
                         <h3 class="title-3 m-b-30">
-                            <i class="zmdi zmdi-account-calendar"></i>Class</h3>
-                        <div class="filters m-b-25">
-                            <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border">
-                                <select class="js-select2" name="property">
-                                    <option selected="selected">Named</option>
-                                    <option value="">Grade</option>
-                                </select>
-                                <div class="dropDownSelect2"></div>
-                            </div>
-                            <%--                            <div class="rs-select2--dark rs-select2--sm rs-select2--border">
-                                                            <select class="js-select2 au-select-dark" name="time">
-                                                                <option selected="selected">All Time</option>
-                                                                <option value="">By Month</option>
-                                                                <option value="">By Day</option>
-                                                            </select>
-                                                            <div class="dropDownSelect2"></div>
-                                                        </div>--%>
-                        </div>
-                        <div class="table-responsive custom-table-data">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <td>
-                                        <label class="au-checkbox">
-                                            <input type="checkbox" class="allCheck">
-                                            <span class="au-checkmark"></span>
-                                        </label>
-                                    </td>
-                                    <td>name</td>
-                                    <td>Grade</td>
-                                    <%--<td>Teacher</td>--%>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <label class="au-checkbox">
-                                            <input type="checkbox">
-                                            <span class="au-checkmark"></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <div class="custom-table-data__info">
-                                            <h6 class="hoverName">Class1</h6>
-                                        </div>
-                                    </td>
-                                    <td class="multiple-select2-td level1">
-                                        <div class="rs-select2--trans rs-select2--sm custom-rs-multiple-select2">
-                                            <select class="js-select2" multiple="multiple" name="property">
-                                                <option value="">All</option>
-                                                <option value="" selected="selected">1</option>
-                                                <option value="">2</option>
-                                                <option value="">3</option>
-                                                <option value="">4</option>
-                                                <option value="">5</option>
-                                                <option value="">6</option>
-                                                <option value="">Any</option>
-                                            </select>
-                                            <div class="dropDownSelect2"></div>
-                                        </div>
-                                    </td>
-                                    <%--                                                <td>
-                                                                                        <div class="rs-select2--trans rs-select2--sm">
-                                                                                            <select class="js-select2 js-example-placeholder-multiple" multiple="multiple">
-                                                                                                <option>1</option>
-                                                                                                <option>2</option>
-                                                                                                <option>3</option>
-                                                                                                <option>4</option>
-                                                                                                <option>5</option>
-                                                                                                <option>6</option>
-                                                                                                <option>전과목</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </td>--%>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="au-checkbox">
-                                            <input type="checkbox">
-                                            <span class="au-checkmark"></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <div class="custom-table-data__info">
-                                            <h6 class="hoverName">Class1</h6>
-                                        </div>
-                                    </td>
-                                    <td class="multiple-select2-td level1">
-                                        <div class="rs-select2--trans rs-select2--sm custom-rs-multiple-select2">
-                                            <select class="js-select2" multiple="multiple" name="property">
-                                                <option value="">All</option>
-                                                <option value="" selected="selected">1</option>
-                                                <option value="">2</option>
-                                                <option value="">3</option>
-                                                <option value="">4</option>
-                                                <option value="">5</option>
-                                                <option value="">6</option>
-                                                <option value="">Any</option>
-                                            </select>
-                                            <div class="dropDownSelect2"></div>
-                                        </div>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="au-checkbox">
-                                            <input type="checkbox">
-                                            <span class="au-checkmark"></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <div class="custom-table-data__info">
-                                            <h6 class="hoverName">Class1</h6>
-                                        </div>
-                                    </td>
-                                    <td class="multiple-select2-td level1">
-<%--                                    <td>--%>
-                                        <div class="rs-select2--trans rs-select2--sm custom-rs-multiple-select2">
-                                            <select class="js-select2" multiple="multiple" name="property">
-                                                <option value="">All</option>
-                                                <option value="" selected="selected">1</option>
-                                                <option value="">2</option>
-                                                <option value="">3</option>
-                                                <option value="">4</option>
-                                                <option value="">5</option>
-                                                <option value="">6</option>
-                                                <option value="">Any</option>
-                                            </select>
-                                            <div class="dropDownSelect2"></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="user-data__footer">
-                            <button id="addClass" type="button" class="btn btn-success" data-toggle="modal"
-                                    data-target="#mediumModal">
-                                <i class="zmdi zmdi-plus"></i> Add Class
-                            </button>
-                            <button type="button" class="btn btn-danger">
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                    <!-- END USER DATA-->
-                </div>
-                <div class="col-lg-6">
-                    <!-- USER DATA-->
-                    <div class="user-data m-b-30">
-                        <h3 class="title-3 m-b-30">
                             <i class="zmdi zmdi-account-calendar"></i>Student</h3>
                         <div class="filters m-b-25">
                             <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border">
-                                <select class="js-select2" name="property">
-                                    <option selected="selected">Named</option>
-                                    <option value="">Grade</option>
+                                <select class="js-select2 student-order-by" name="property">
+                                    <option selected="selected" value="">By Index</option>
+                                    <option>By Name</option>
+                                    <option value="">By Grade</option>
                                 </select>
                                 <div class="dropDownSelect2"></div>
                             </div>
@@ -197,11 +46,9 @@ moving the class to menus lead to only the menu having the effect -->
                                     <td>name</td>
                                     <td>Gender</td>
                                     <td>Grade</td>
-
-
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="studentList">
                                 <tr>
                                     <td>
                                         <label class="au-checkbox">
@@ -315,10 +162,65 @@ moving the class to menus lead to only the menu having the effect -->
                         </div>
                         <div class="user-data__footer">
                             <button type="button" class="btn btn-success" data-toggle="modal"
-                                    data-target="#mediumModal2">
+                                    id="addStudent" data-target="#mediumModal2">
                                 <i class="zmdi zmdi-plus"></i> Add Student
                             </button>
-                            <button type="button" class="btn btn-danger">
+                            <button type="button" class="btn btn-danger" id="delStudent">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                    <!-- END USER DATA-->
+                </div>
+                <div class="col-lg-6">
+                    <!-- USER DATA-->
+                    <div class="user-data m-b-30">
+                        <h3 class="title-3 m-b-30">
+                            <i class="zmdi zmdi-account-calendar"></i>Class</h3>
+                        <div class="filters m-b-25">
+                            <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border">
+                                <select class="js-select2 class-order-by" name="property">
+                                    <option selected="selected" value="">By Index</option>
+                                    <option>By Name</option>
+                                    <option value="">By Grade</option>
+                                </select>
+                                <div class="dropDownSelect2"></div>
+                            </div>
+                            <%--                            <div class="rs-select2--dark rs-select2--sm rs-select2--border">
+                                                            <select class="js-select2 au-select-dark" name="time">
+                                                                <option selected="selected">All Time</option>
+                                                                <option value="">By Month</option>
+                                                                <option value="">By Day</option>
+                                                            </select>
+                                                            <div class="dropDownSelect2"></div>
+                                                        </div>--%>
+                        </div>
+                        <div class="table-responsive custom-table-data">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <td>
+                                        <label class="au-checkbox">
+                                            <input type="checkbox" class="allCheck">
+                                            <span class="au-checkmark"></span>
+                                        </label>
+                                    </td>
+                                    <td>name</td>
+                                    <td>Grade</td>
+                                    <%--<td>Teacher</td>--%>
+                                </tr>
+                                </thead>
+                                <tbody class="classList">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="user-data__footer">
+                            <button id="addClass" type="button" class="btn btn-success" data-toggle="modal"
+                                    data-target="#mediumModal">
+                                <i class="zmdi zmdi-plus"></i> Add Class
+                            </button>
+                            <button id="delClass" type="button" class="btn btn-danger">
                                 Delete
                             </button>
                         </div>
@@ -326,7 +228,9 @@ moving the class to menus lead to only the menu having the effect -->
                     <!-- END USER DATA-->
                 </div>
             </div>
-            <button type="button" class="btn btn-secondary btn-lg" style="margin-right: 25px; float: right;" onclick="location.href='/admin'">Go back</button>
+            <button type="button" class="btn btn-secondary btn-lg" style="margin-right: 25px; float: right;"
+                    onclick="location.href='/admin'">Go back
+            </button>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -359,27 +263,10 @@ moving the class to menus lead to only the menu having the effect -->
                         <div class="card-body card-block">
                             <div class="form-group">
                                 <label for="className" class=" form-control-label">Class name</label>
+                                <span hidden class="modal-classIdx"></span>
                                 <input type="text" id="className" placeholder="Enter your Class name"
                                        class="form-control">
                             </div>
-                            <%--<div class="form-group">
-                                <label for="classGrade" class=" form-control-label">Class Grade</label>
-                                <input type="text" id="classGrade" placeholder="1" class="form-control">
-                                &lt;%&ndash;<small class="help-block form-text">Only numbers can be entered; all proportions must be
-                                    summed up to 100%.</small>&ndash;%&gt;
-                            </div>--%>
-                            <%--<div class="row form-group">
-
-                                    <div class="form-check">
-                                        <div class="checkbox">
-                                            <label for="ckDefault" class="form-check-label ">
-                                                Default Task Check
-                                            </label>
-                                            <input type="checkbox" id="ckDefault" name="checkbox1" value="option1" class="form-check-input" style="
-                                            margin-left: 5px;">
-                                        </div>
-                                    </div>
-                            </div>--%>
                         </div>
                     </div>
                 </div>
@@ -415,18 +302,20 @@ moving the class to menus lead to only the menu having the effect -->
                         </div>
                         <div class="card-body card-block">
                             <div class="form-group">
-                                <label for="taskName" class=" form-control-label">Student name</label>
+                                <label for="studentName" class=" form-control-label">Student name</label>
+                                <span hidden class="modal-studentIdx"></span>
                                 <input type="text" placeholder="Enter your Student name"
-                                       class="form-control">
+                                       class="form-control" id="studentName">
                             </div>
                             <div class="form-group">
-                                <label for="gradeRatio" class=" form-control-label">Class Grade</label>
-                                <select class="form-control" name="grade">
+                                <label for="studentGrade" class=" form-control-label">Class Grade</label>
+                                <select id="studentGrade" class="form-control" name="grade">
                                     <option data-id="1" value="">1</option>
                                     <option data-id="2" value="">2</option>
                                     <option data-id="3" value="">3</option>
                                     <option data-id="4" value="">4</option>
                                     <option data-id="5" value="">5</option>
+                                    <option data-id="6" value="">6</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -435,12 +324,10 @@ moving the class to menus lead to only the menu having the effect -->
                                     <label for="inline-radio1" class="form-check-label "
                                            style="padding-right: 20px;">
                                         <input type="radio" id="inline-radio1" name="inline-radios" value="Male"
-                                               class="form-check-input">Male
-                                    </label>
+                                               class="form-check-input genderCheck">Male</label>
                                     <label for="inline-radio2" class="form-check-label ">
                                         <input type="radio" id="inline-radio2" name="inline-radios" value="Female"
-                                               class="form-check-input">Female
-                                    </label>
+                                               class="form-check-input genderCheck">Female</label>
                                 </div>
                             </div>
                         </div>
@@ -455,35 +342,9 @@ moving the class to menus lead to only the menu having the effect -->
                 </button>
             </div>
         </div>
-        <%--<div class="modal-body">
-
-            <div class="col-lg-6" style="max-width: 100%;">
-                <div class="card" style="margin-bottom: 0px;">
-                    <div class="card-header">
-                        <strong>Student</strong>
-                        <small> Form</small>
-                    </div>
-                    <div class="card-body card-block">
-                        <div class="form-group">
-                            <label for="taskName" class=" form-control-label">Student Name</label>
-                            <a id="modalTaskIdx" hidden></a>
-                            <input type="text" id="taskName2" placeholder="Enter your Student name"
-                                   class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="gradeRatio" class=" form-control-label">Student Grade</label>
-                            <input type="text" id="gradeRatio2" placeholder="1" class="form-control">
-                            &lt;%&ndash;<small class="help-block form-text">Only numbers can be entered; all proportions must be
-                                summed up to 100%.</small>&ndash;%&gt;
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>--%>
     </div>
 </div>
 </div>
 <script src="/vendor/jquery-3.2.1.min.js"></script>
 <script src="/vendor/select2/select2.min.js"></script>
 <script type="text/javascript" src="/js/Page/admin/season_setting.js"></script>
-<%--<script type="text/javascript" src="/js/Page/setting_class.js"></script>--%>

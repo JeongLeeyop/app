@@ -1,27 +1,18 @@
 package com.example.app.service;
 
-import com.example.app.model.domain.Account;
+import com.example.app.common.OrderByCode;
+import com.example.app.model.domain.*;
 import com.example.app.model.domain.Class;
-import com.example.app.model.domain.Season;
-import com.example.app.model.domain.Student;
-import com.example.app.model.domain.section.Score;
-import com.example.app.model.domain.section.Section;
-import com.example.app.model.domain.section.SectionTasks;
-import com.example.app.model.domain.section.Task;
-import com.example.app.model.dto.response.repository.ScoreMapping;
-import com.example.app.model.dto.response.repository.TotalGradeMapping;
-import com.example.app.model.dto.response.totalGradeResponse;
+import com.example.app.model.dto.response.teacherAuthCountResponse;
 import com.example.app.repository.*;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -44,7 +35,16 @@ public class AdminService {
     @Autowired
     SeasonRepository seasonRepo;
     @Autowired
+    ClassMembersRepository classMembersRepo;
+    @Autowired
+    AuthStudentRepository authStudentRepo;
+    @Autowired
+    AttendanceRepository attendanceRepo;
+    @Autowired
+    AccountRepository accountRepo;
+    @Autowired
     StudentService studentService;
+
 
     //0.현재 계정의 시즌 목록을 조회하는 기능
     public List<Season> findSeasonList(HttpSession session) {
@@ -52,344 +52,358 @@ public class AdminService {
         return seasonRepo.findSeasonBySchool(account.getSchool());
     }
 
-/*
-    //0.클래스를 조회하는 기능
-    public Optional<Class> findClass(Long classIdx) {
-        return classRepo.findById(classIdx);
+    //1. 시즌관리 - 클래스 Grade 수정
+    public Class updateClassGrade(Long ClassIdx, String Grade) {
+        Class _class = classRepo.findById(ClassIdx).get();
+        _class.setClassGrade(Grade);
+        return classRepo.save(_class);
     }
-
-    //1. 전체 학생 목록을 출력하여 등급 항목에 과제 항목의 점수를 반영하여 조회해주는 기능
-    public List<totalGradeResponse> findTotalGrade(Long curClassIdx, HttpSession session) {
-        Account curAccount = (Account) session.getAttribute("Account");
-//        System.out.println(curClassIdx);
-        List<TotalGradeMapping> totalGradeList = scoreRepo.findTotalGrade(curClassIdx, curAccount.getUserIdx());
-        List<totalGradeResponse> result = new ArrayList<totalGradeResponse>();
-
-        List<Task> task = taskRepo.findTaskByClassIdx(curClassIdx);
-
-        //등급 기준을 저장하기 위한 map
-        Map<Long, Long> map = new HashMap<Long, Long>();
-        for (Task item : task) {
-//            System.out.println(item);
-            map.put(item.getTaskIdx(), item.getTaskGradeRatio());
-        }
-
-        for (TotalGradeMapping item : totalGradeList) {
-            Double grade;
-            Double finalGrade = 0.0;
-            Long curTaskIdx = item.getTask();
-            Long gradeRatio = map.get(curTaskIdx);
-//            System.out.println("gradeRatio : "+ gradeRatio);
-
-            //성적 매기기
-            if (item.getSum() == null) {
-                grade = null;
-            } else if (gradeRatio == 0L) {
-                grade = null;
-            } else {
-                grade = item.getSum().doubleValue() / item.getCount();
-                finalGrade = (item.getSum().doubleValue() / item.getCount()) * gradeRatio / 100;
-            }
-            System.out.println("1 : " + item.getTask() + " 2 : " + item.getStudent() + " 3 : " + item.getCount() + " 4 : " + item.getSum() + " 5 : " + grade + " 6 : " + finalGrade);
-            result.add(new totalGradeResponse(item.getStudent(), curTaskIdx, grade, finalGrade, null));
-        }
-
-*//*        for(totalGradeResponse a : result){
-            System.out.println(a);
-        }*//*
-        return result;
-    }
-
-    //2. Setting에서 설정한 클래스 등급 비율을 표시해주는 기능
-    public int findSetGradeRatio(int a) {
-        return 0;
-    }
-
-    // 클래스의 섹션 목록을 조회하는 기능
-    public List<Section> findSectionList(Long curClassIdx) {
-        List<Section> result = sectionRepo.findSectionBy_class_ClassIdxOrderBySectionIdx(curClassIdx);
-        return result;
-    }
-
-    //3. 클래스의 섹션을 추가하는 기능
-    @Transactional
-    @Modifying
-    public Section addSection(Long curClassIdx, String sectionName, Long curSectionIdx) {
-
-        Class curClass = classRepo.findById(curClassIdx).get();
-
-        //현재 클래스의 가장 마지막 섹션에 있는 과제 항목 들고오기
-        List<SectionTasks> sectionTasksList = sectionTasksRepo.findLastSectionTasks(curClassIdx);
-        System.out.println("--------------------------------------->" + sectionTasksList);
-
-        //신규 섹션 생성
-        Section section = new Section();
-        section.set_class(curClass);
-        section.setSectionName(sectionName);
-        //매개변수에 섹션 아이디값이 존재하면 삽입
-        if (curSectionIdx != null) {
-            section.setSectionIdx(curSectionIdx);
-        }
-
-        System.out.println(section);
-        Section result = sectionRepo.save(section);
-
-        //신규섹션
-        if (curSectionIdx == null) {
-            for (SectionTasks item : sectionTasksList) {
-                SectionTasks sectionTasks = new SectionTasks();
-                sectionTasks.setSection(result);
-                sectionTasks.setTask(item.getTask());
-                sectionTasks.setMaxScore(item.getMaxScore());
-                sectionTasksRepo.save(sectionTasks);
-            }
-        }
-
-        //만든 섹션에 Default 과제항목 넣기
-//        List<ClassDefaultTask> list = classDefaultTaskRepo.findDefaultTaskByClassId(curClassIdx);
-
-        *//*for (ClassDefaultTask item : list) {
-            SectionTasks sectionItem = new SectionTasks();
-            sectionItem.setSection(result);
-            sectionItem.setTaskItemInfo(item.getTaskItemInfo());
-            sectionTasksRepo.save(sectionItem);
-        }*//*
-
-        return result;
-    }
-
-
-
 
     @Transactional
     @Modifying
-    //4. 클래스의 섹션을 삭제하는 기능
-    public void delSection(Long curSectionIdx) {
+    @ResponseBody
+    //0.클래스를 삭제하는 기능
+    public void delClass(Long[] classIdxList) {
 
-        //섹션의 과제 항목 데이터를 삭제
-        scoreRepo.DelScoreBySectionIdx(curSectionIdx);
+//       authClass -> Section, SectionTasks,Task,Score
 
-        //섹션의 섹션아이템을 삭제
-        sectionTasksRepo.DelSectionTasksIdxBySectionIdx(curSectionIdx);
+        for (Long ClassIdx : classIdxList) {
+            System.out.println("delClass 시작");
 
-        //섹션 삭제
-        sectionRepo.deleteSectionBySectionIdx(curSectionIdx);
-    }
+            //authClass찾기
+            List<AuthClass> authClassList = authClassRepo.findAuthClassBy_class_ClassIdx(ClassIdx);
+            for (AuthClass authClass : authClassList) {
 
-    //5. 클래스의 섹션의 이름을 수정하는 기능
-    public int sectionName(int a) {
-        return 0;
-    }
+                Long authClassIdx = authClass.getAuthClassIdx();
 
-    //6. 섹션의 과제 항목과 점수를 조회하는 기능
-    public Map findTaskChart(Long curSectionIdx, Long curClassIdx, HttpSession session) {
+                //점수 삭제
+                scoreRepo.DelScoreByAuthClassIdx(authClassIdx);
+                System.out.println("과제항목데이터삭제");
 
-        //차트 데이터 불러오기
-        List<ScoreMapping> classChart = scoreRepo.findAllBySectionOrderByStudent(sectionRepo.findById(curSectionIdx).get());
+                //섹션_과제 삭제
+                sectionTasksRepo.DelSectionTasksByAuthClassIdx(authClassIdx);
+                System.out.println("섹션항목 삭제");
 
-        //사용중인 과제 항목 불러오기
-//        List<SectionTasks> usedList = scoreRepo.findDistinctBySection(sectionRepo.findById(curSectionIdx).get());
-        List<SectionTasks> usedList = sectionTasksRepo.findSectionTasksBySectionIdx(curSectionIdx);
+                //섹션 삭제
+                sectionRepo.DelSectionByAuthClassIdx(authClassIdx);
+                System.out.println("섹션 삭제");
 
-        //모든 과제 리스트 불러오기
-        List<Task> taskList = taskRepo.findTaskByClassIdx(curClassIdx);
+                //과제 항목 삭제
+                taskRepo.DelTaskByAuthClassIdx(authClassIdx);
+                System.out.println("과제삭제");
 
-        //모든 학생 리스트 불러오기
-        List<Student> studentList = studentService.findStudentList(session);
+                //클래스 멤버 삭제
+                classMembersRepo.DelClassMembersByAuthClassIdx(authClassIdx);
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("classChart", classChart);
-        map.put("usedList", usedList);
-        map.put("taskList", taskList);
-        map.put("studentList", studentList);
+                //AuthClass삭제
+                authClassRepo.DelAuthClassByAuthClassIdx(authClassIdx);
+                System.out.println("AuthClass 삭제");
 
-        return map;
-    }
+            }
 
-    //6. 섹션의 기본 템플릿 제공
-    *//*public Map findTaskTemplate(Long curClassIdx, HttpSession session) {
+            //클래스 삭제
+            classRepo.deleteById(ClassIdx);
+            System.out.println("클래스 삭제");
 
-        *//**//*List<TaskItemInfo> DefaultTaskList = new ArrayList<TaskItemInfo>();
-        List<ClassDefaultTask> DefaultTaskItem = classDefaultTaskRepo.findDefaultTaskByClassId(curClassIdx);
-        for (ClassDefaultTask classDefaultTask : DefaultTaskItem) {
-            DefaultTaskList.add(classDefaultTask.getTaskItemInfo());
-        }*//**//*
-
-        //현재 클래스의 가장 마지막 섹션에 있는 과제 항목 들고오기
-        List<SectionTasks> sectionTasksList = sectionTasksRepo.findLastSectionTasks(curClassIdx);
-
-        //모든 과제 리스트 불러오기
-        List<Task> taskList = taskRepo.findTaskByClassIdx(curClassIdx);
-
-        //모든 학생 리스트 불러오기
-        List<Student> studentList = studentService.findStudentList(session);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("sectionItemList", sectionTasksList);
-        map.put("taskList", taskList);
-        map.put("studentList", studentList);
-
-        return map;
-    }*//*
-
-    //7. 섹션의 과제 항목을 추가하는 기능
-    public Map<String, Object> addTask(Long curClassIdx, Long curSectionIdx) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        SectionTasks sectionTasks = new SectionTasks();
-        sectionTasks.setSection(sectionRepo.findById(curSectionIdx).get());
-        SectionTasks result = sectionTasksRepo.save(sectionTasks);
-        List<Task> task = taskRepo.findTaskByClassIdx(curClassIdx);
-
-        map.put("sectionTasks", result);
-        map.put("task", task);
-        return map;
-    }
-
-    //8. 섹션의 과제 항목을 삭제하는 기능
-    @Transactional
-    @Modifying
-    public int delTask(Long sectionTasksIdx) {
-
-        SectionTasks sectionTasks = sectionTasksRepo.findById(sectionTasksIdx).get();
-
-        //taskiteminfo Null여부 체크 : 새로 추가된 Task이므로 TaskItem이 없음
-        if (sectionTasks.getTask() != null) {
-            //섹션내부 데이터 삭제
-            scoreRepo.delTask(sectionTasks.getSection().getSectionIdx(), sectionTasks.getTask().getTaskIdx());
+            System.out.println("서비스 delClass 끝");
         }
-        //섹션항목 삭제
-        sectionTasksRepo.deleteById(sectionTasksIdx);
-        return 0;
     }
 
-    //9. 섹션의 과제 항목을 이름을 수정하는 기능
     @Transactional
     @Modifying
-    public int changeTask(Long sectionTasksIdx, Long targetTaskIdx) {
-        //구조가 변경되야함
-        //TaskItem에 SectionIdx와 TaskItemInfoIdx를 SectionItem으로 해결할 수 있다.
+    @ResponseBody
+    //0.학생을 삭제하는 기능
+    public void delStudent(Long[] studentIdxList) {
 
-        SectionTasks sectionTasks = sectionTasksRepo.findById(sectionTasksIdx).get();
+//       authStudent ->
 
-        //taskiteminfo Null여부 체크 : 새로 추가된 Task이므로 TaskItem이 없음
-        if (sectionTasks.getTask() != null) {
-            //taskitem의 taskiteminfo를 전부 수정
-            List<Score> scoreList = scoreRepo.findScoreBySectionAndTask(sectionTasks.getSection().getSectionIdx(), sectionTasks.getTask().getTaskIdx());
-            for (Score score : scoreList) {
-                score.setTask(taskRepo.findById(targetTaskIdx).get());
-                scoreRepo.save(score);
+        for (Long studentIdx : studentIdxList) {
+            System.out.println("delStudent 시작");
+
+            //authStudent찾기
+            List<AuthStudent> authStudentList = authStudentRepo.findAuthStudentByStudent_StudentIdx(studentIdx);
+            for (AuthStudent authStudent : authStudentList) {
+
+                Long authClassIdx = authStudent.getAuthStudentIdx();
+
+                //출석 삭제
+                attendanceRepo.deleteByAuthStudent_AuthStudentIdx(authClassIdx);
+                System.out.println("출석 삭제");
+
+                //과제 점수 삭제
+                scoreRepo.deleteByAuthStudent_AuthStudentIdx(authClassIdx);
+                System.out.println("점수삭제");
+
+                //클래스 멤버 삭제
+                classMembersRepo.deleteByAuthStudent_AuthStudentIdx(authClassIdx);
+                System.out.println("클래스_맴버 삭제");
+
+                //AuthStudent삭제
+                authStudentRepo.deleteById(authClassIdx);
+                System.out.println("AuthStudent 삭제");
+
+            }
+
+            //클래스 삭제
+            studentRepo.deleteById(studentIdx);
+            System.out.println("Student 삭제");
+
+            System.out.println("서비스 delStudent 끝");
+        }
+    }
+
+    @Transactional
+    @Modifying
+    @ResponseBody
+    //0. Auth학생 삭제 삭제하는 기능
+    public void deleteAuthStudent(Long[] authStudentIdxList) {
+        for (Long authStudentIdx : authStudentIdxList) {
+            //출석 삭제
+            attendanceRepo.deleteByAuthStudent_AuthStudentIdx(authStudentIdx);
+            System.out.println("출석 삭제");
+
+            //과제 점수 삭제
+            scoreRepo.deleteByAuthStudent_AuthStudentIdx(authStudentIdx);
+            System.out.println("점수삭제");
+
+            //클래스 멤버 삭제
+            classMembersRepo.deleteByAuthStudent_AuthStudentIdx(authStudentIdx);
+            System.out.println("클래스_맴버 삭제");
+            //AuthStudent삭제
+            authStudentRepo.deleteById(authStudentIdx);
+            System.out.println("AuthStudent 삭제");
+        }
+    }
+
+    @Transactional
+    @Modifying
+    @ResponseBody
+    //0. Auth클래스 삭제 삭제하는 기능
+    public void deleteAuthClass(Long[] classIdxList) {
+        for (Long classIdx : classIdxList) {
+
+            //점수 삭제
+            scoreRepo.DelScoreByAuthClassIdx(classIdx);
+            System.out.println("과제항목데이터삭제");
+
+            //섹션_과제 삭제
+            sectionTasksRepo.DelSectionTasksByAuthClassIdx(classIdx);
+            System.out.println("섹션항목 삭제");
+
+            //섹션 삭제
+            sectionRepo.DelSectionByAuthClassIdx(classIdx);
+            System.out.println("섹션 삭제");
+
+            //과제 항목 삭제
+            taskRepo.DelTaskByAuthClassIdx(classIdx);
+            System.out.println("과제삭제");
+
+            //클래스 멤버 삭제
+            classMembersRepo.DelClassMembersByAuthClassIdx(classIdx);
+
+            //AuthClass삭제
+            authClassRepo.DelAuthClassByAuthClassIdx(classIdx);
+            System.out.println("AuthClass 삭제");
+
+        }
+    }
+
+    @ResponseBody
+    //0.선생님을 찾는 기능
+    public List<teacherAuthCountResponse> findTeacherList(HttpSession session, Long curSeasonIdx, Long orderBy) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "userIdx");
+        if (orderBy == OrderByCode.ByName.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "userName");
+        }
+
+        Account adminAccount = (Account) session.getAttribute("Account");
+        List<Account> accountList = accountRepo.findAccountBySchool(adminAccount.getSchool(), sort);
+        List<teacherAuthCountResponse> authCountList = new ArrayList<>();
+        for (Account account : accountList) {
+            teacherAuthCountResponse authCountResponse = new teacherAuthCountResponse();
+            authCountResponse.setAuthStudentCount(authStudentRepo.countAllByAccountAndSeason_SeasonIdx(account, curSeasonIdx));
+            authCountResponse.setAuthClassCount(authClassRepo.countAllByAccountAndSeason_SeasonIdx(account, curSeasonIdx));
+            authCountResponse.setAccount(account);
+            authCountList.add(authCountResponse);
+        }
+        ;
+
+        return authCountList;
+
+    }
+
+    @ResponseBody
+    //0.선생님을 찾는 기능
+    public List<AuthStudent> findAuthStudentList(Long userIdx, Long curSeasonIdx, Long orderBy, HttpSession session) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "AuthStudentIdx");
+        if (orderBy == OrderByCode.ByGrade.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "StudentStudentGrade");
+        }
+        else if (orderBy == OrderByCode.ByName.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "StudentStudentName");
+        }
+
+        Account account = accountRepo.findById(userIdx).get();
+
+        return authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccount(curSeasonIdx, account, sort);
+
+    }
+
+    @ResponseBody
+    //0.Auth 학생을 찾는 기능
+    public List<AuthClass> findAuthClassList(Long userIdx, Long curSeasonIdx, Long orderBy) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "AuthClassIdx");
+        if (orderBy == OrderByCode.ByName.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "_classClassName");
+        } else if (orderBy == OrderByCode.ByGrade.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "_classClassGrade");
+        }
+        Account account = accountRepo.findById(userIdx).get();
+        return authClassRepo.findAuthClassBySeason_SeasonIdxAndAccount(curSeasonIdx, account, sort);
+
+    }
+
+    @Transactional
+    @Modifying
+    //9. 선생님 관리 - Auth학생 생성
+    public List<AuthStudent> createAuthStudent(Long[] studentIdxList, Long userIdx, Long curSeasonIdx) {
+
+        Account account = accountRepo.findById(userIdx).get();
+        Season season = seasonRepo.findById(curSeasonIdx).get();
+
+        for (Long studentIdx : studentIdxList) {
+            AuthStudent authStudent = new AuthStudent();
+            authStudent.setAccount(account);
+            authStudent.setSeason(season);
+
+            authStudent.setStudent(studentRepo.findById(studentIdx).get());
+            authStudentRepo.save(authStudent);
+        }
+
+        return null;
+
+    }
+
+    @Transactional
+    @Modifying
+    //9. 선생님 관리 - Auth클래스생성
+    public List<AuthStudent> createAuthClass(Long[] classIdxList, Long userIdx, Long curSeasonIdx) {
+
+        Account account = accountRepo.findById(userIdx).get();
+        Season season = seasonRepo.findById(curSeasonIdx).get();
+
+        List<AuthStudent> authStudentList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(curSeasonIdx,account);
+
+        for (Long classIdx : classIdxList) {
+            AuthClass authClass = new AuthClass();
+            authClass.setAccount(account);
+            authClass.setSeason(season);
+            authClass.set_class(classRepo.findById(classIdx).get());
+            authClass = authClassRepo.save(authClass);
+
+            //클래스 맴버 배치
+            for(AuthStudent authStudent : authStudentList) {
+                System.out.println(authStudent);
+                ClassMembers classMembers = new ClassMembers();
+                classMembers.setAuthStudent(authStudent);
+                classMembers.setAuthClass(authClass);
+                classMembersRepo.save(classMembers);
             }
         }
 
-        //sectionitem의 taskiteminfo를 수정
-        sectionTasks.setTask(taskRepo.findById(targetTaskIdx).get());
-        sectionTasksRepo.save(sectionTasks);
+        return null;
 
-
-        return 0;
     }
 
-    //10. 과제 점수를 입력, 수정하는 기능
+    //2. 관리자 계정의 전체 학생을 조회하는 기능
+    public List<Student> findStudentList_WithoutAuth(Long userIdx, Long curSeasonIdx, Long orderBy, HttpSession session) {
+
+        Sort sort = Sort.by(Sort.Direction.ASC, "studentIdx");
+        if (orderBy == OrderByCode.ByGrade.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "studentGrade");
+        } else if (orderBy == OrderByCode.ByName.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "studentName");
+        }
+
+        List<Student> student = studentRepo.findStudentByAccountWithoutAuthStudent(curSeasonIdx, userIdx, sort);
+        return student;
+    }
+
+    //9. 선생님 관리 - 현재 선생님의 authStudent와 authClass Count를 업데이트
+    public teacherAuthCountResponse updateCount(Long userIdx, Long curSeasonIdx) {
+        teacherAuthCountResponse authCountResponse = new teacherAuthCountResponse();
+        Account account = accountRepo.findById(userIdx).get();
+        authCountResponse.setAuthStudentCount(authStudentRepo.countAllByAccountAndSeason_SeasonIdx(account, curSeasonIdx));
+        authCountResponse.setAuthClassCount(authClassRepo.countAllByAccountAndSeason_SeasonIdx(account, curSeasonIdx));
+        return authCountResponse;
+    }
+
+    @ResponseBody
+    //9. 선생님 관리 - classMembers에 등록된 학생을 뺀 Auth 학생 목록
+    public List<AuthStudent> findAuthStudentList2(Long authClassIdx,Long userIdx,Long curSeasonIdx,Long orderBy) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "authStudentIdx");
+        if (orderBy == OrderByCode.ByName.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "student.studentName");
+        } else if (orderBy == OrderByCode.ByGrade.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "student.studentGrade");
+        }
+
+        return authStudentRepo.findAuthStudentByAuthClassIdxWithoutClassMembers(userIdx,curSeasonIdx,authClassIdx,sort);
+
+    }
+
+    //2. 관리자 계정의 전체 학생을 조회하는 기능
+    public List<ClassMembers> findClassMembers(Long authClassIdx, Long orderBy) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "classMembersIdx");
+        if (orderBy == OrderByCode.ByGrade.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "authStudent.student.studentGrade");
+        } else if (orderBy == OrderByCode.ByName.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "authStudent.student.studentName");
+        }
+
+        List<ClassMembers> classMembersList = classMembersRepo.findByAuthClass_AuthClassIdx(authClassIdx, sort);
+        return classMembersList;
+    }
+
     @Transactional
     @Modifying
-    public int saveTaskScore(String taskChart, Long curSectionIdx,String sectionTasksList) {
+    //9. 선생님 관리 - classMembers 학생 생성
+    public List<ClassMembers> createClassMembers(Long[] studentIdxList, Long authClassIdx) {
 
-        // 가져온 데이터 출력
-        //        System.out.println(taskChart);
+        AuthClass authClass = authClassRepo.findById(authClassIdx).get();
 
-        //현재 세션 가져오기
-        Section curSection = sectionRepo.findById(curSectionIdx).get();
-
-
-        //json 파싱
-        JsonParser parser = new JsonParser();
-        JsonArray jsonArray = (JsonArray) parser.parse(sectionTasksList);
-
-        //SectionItem에 maxScore 저장
-        for (int i = 0; i < jsonArray.size(); i++) {
-            //sectionTasksIdx, maxScore 파싱
-            JsonObject object = (JsonObject) jsonArray.get(i);
-            Long sectionTasksIdx = object.get("sectionTasksIdx").getAsLong();
-            Double maxScore = object.get("maxScore").getAsDouble();
-
-            sectionTasksRepo.updateMaxScore(sectionTasksIdx,maxScore);
-
-*//*            //Task의 maxScore수정 : 최근 사용된 maxScore값을 기억
-            Long taskItemInfoIdx = sectionTasksRepo.findById(sectionTasksIdx).get().getTaskItemInfo().getTaskItemInfoIdx();
-            taskRepo.updateMaxScore(taskItemInfoIdx, maxScore);*//*
+        for (Long studentIdx : studentIdxList) {
+            ClassMembers classMembers = new ClassMembers();
+            classMembers.setAuthClass(authClass);
+            classMembers.setAuthStudent(authStudentRepo.findById(studentIdx).get());
+            classMembersRepo.save(classMembers);
         }
 
-        //json 파싱
-        jsonArray = (JsonArray) parser.parse(taskChart);
-        //가지고온 데이터 개수 출력
-        System.out.println("add record size : " + jsonArray.size());
+        return null;
 
-        //파싱을 위한 변수 출력
-        List<Score> scoreList = new ArrayList<>();
+    }
 
-        for (int i = 0; i < jsonArray.size(); i++) {
-            //스트링에 ""을 제거하기 위한 작업이었는데.. 필요가 없었다..
-//            Long studentIdx =Long.parseLong(object.get("studentIdx").getAsString().replace("\"", ""));
-//            Long taskIdx = Long.parseLong(object.get("taskIdx").getAsString().replace("\"", ""));
+    @Transactional
+    @Modifying
+    //9. 선생님 관리 - classMembers 학생 삭제
+    public List<ClassMembers> deleteClassMembers(Long[] classMembersList) {
 
-            //studentIdx, taskIdx 파싱
-            JsonObject object = (JsonObject) jsonArray.get(i);
-            Long studentIdx = object.get("studentIdx").getAsLong();
-            Long taskIdx = object.get("taskIdx").getAsLong();
-
-            //뒤에서 사용될 변수
-            Long scoreIdx;
-            BigDecimal score;
-
-            //student, taskinfo 가져오기
-            Student curStudent = studentRepo.findById(studentIdx).get();
-            Task curTask = taskRepo.findById(taskIdx).get();
-            //결과 출력
-            System.out.println("Student idx " + studentIdx + " | TaskInfo idx " + taskIdx);
-
-            //DTO 생성
-            Score _score = new Score();
-
-            //생성된 DTO에 가져온 객체 입력
-            _score.setStudent(curStudent);
-            _score.setTask(curTask);
-            _score.setSection(curSection);
-
-            //아이디가 이미 있으면 입력해 주기
-            if (object.has("scoreIdx")) {
-                scoreIdx = object.get("scoreIdx").getAsLong();
-                _score.setScoreIdx(scoreIdx);
-                //아이디 출력
-                System.out.println("scoreIdx | " + scoreIdx);
-            }
-
-
-            //점수가 있으면 넣고 없으면 null값 대입
-            if (object.has("score")) {
-                String str = object.get("score").getAsString();
-                score = new BigDecimal(str);
-
-                System.out.println("score | " + score);
-            } else {
-                score = null;
-            }
-            _score.setScore(score);
-            Score result = scoreRepo.save(_score);
-            System.out.println(_score);
-
-
-//            scoreRepo.updateScore(score, result.getTaskItemIdx());
-//          score.setTaskScore(score);
-
+        for (Long classMembersIdx : classMembersList) {
+            //과제 점수 삭제
+            scoreRepo.deleteByAuthStudent_AuthStudentIdx(classMembersIdx);
+            System.out.println("점수삭제");
+            //클래스 멤버 삭제
+            classMembersRepo.deleteById(classMembersIdx);
+            System.out.println("클래스_맴버 삭제");
         }
-        return 0;
+
+        return null;
+
     }
 
-    //11. 과제 정보를 출력해주는 기능 : 성적비율
-    public List<Task> findTaskList(Long curClassIdx) {
-        return taskRepo.findTaskByClassIdx(curClassIdx);
+    //10. authClassIdx로 authClass찾기
+    public AuthClass findAuthClassByAuthClassId(Long authClassIdx){
+        return authClassRepo.findById(authClassIdx).get();
     }
-    */
+
 }

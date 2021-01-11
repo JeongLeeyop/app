@@ -1,4 +1,4 @@
-package com.example.app.model.dto.response.repository;
+    package com.example.app.model.dto.response.repository;
 
 import java.math.BigDecimal;
 
@@ -9,13 +9,17 @@ public interface ScoreMapping {
     BigDecimal getScore();
 
     //필요없음
-    Long getStudentStudentIdx();
+//    Long getStudentStudentIdx();
     //필요없음
-    String getStudentStudentName();
+//    String getStudentStudentName();
+    //필요없음
+    //Long getAuthStudentAuthStudentIdx();
+    //String getAuthStudentStudentStudentName();
 
-    Long getAuthStudentAuthStudentIdx();
-
-    String getAuthStudentStudentStudentName();
+    //classMembersIdx
+    Long getClassMembersClassMembersIdx();
+    //학생이름
+    String getClassMembersAuthStudentStudentStudentName();
 
     //오잉?
     Long getTaskTaskIdx();

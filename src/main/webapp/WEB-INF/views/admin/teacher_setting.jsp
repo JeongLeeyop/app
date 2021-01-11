@@ -17,9 +17,9 @@ moving the class to menus lead to only the menu having the effect -->
                         <div class="table-data__tool-left">
 
                             <div class="rs-select2--light rs-select2--md">
-                                <select class="js-select2" name="property">
-                                    <option selected="selected">By Name</option>
-                                    <option value="">By Grade</option>
+                                <select class="js-select2 teacher-order-by" name="property">
+                                    <option selected="selected">By Index</option>
+                                    <option value="">By Name</option>
                                 </select>
                                 <div class="dropDownSelect2"></div>
                             </div>
@@ -27,10 +27,10 @@ moving the class to menus lead to only the menu having the effect -->
                                 <i class="zmdi zmdi-filter-list"></i>filters
                             </button>
                             <div class="rs-select2--light rs-select2--sm">
-                              <%--  <select class="js-select2" name="time">
-                                    <option selected="selected">By Name</option>
-                                    <option value="">By Grade</option>
-                                </select>--%>
+                                <%--  <select class="js-select2" name="time">
+                                      <option selected="selected">By Name</option>
+                                      <option value="">By Grade</option>
+                                  </select>--%>
                                 <div class="dropDownSelect2"></div>
                             </div>
 
@@ -58,106 +58,12 @@ moving the class to menus lead to only the menu having the effect -->
                                 <td></td>
                                 <th style="width: 150px;">name</th>
                                 <th>email</th>
-                                    <%--<th>Grade</th>--%>
+                                <%--<th>Grade</th>--%>
                                 <th>Student</th>
                                 <th>Class</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr class="tr-shadow">
-                                <td>1</td>
-                                <td>Lori Lynch</td>
-                                <td class="emailTd">
-                                    <span class="block-email">lori@example.com</span>
-                                </td>
-                                <%--<td class="custom-td"><span class="select2-selection__rendered"  title="1" style="background: rgb(90, 98, 104);">1</span></td>--%>
-                                <td>
-                                    <button type="button" class="btn btn-outline-link btn-sm studentButton">
-                                        <i class="fa fa-user"></i>&nbsp; Student ( 0 )
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-link btn-sm classButton">
-                                        <i class="fa fa-link"></i>&nbsp; Class ( 1 )
-                                    </button>
-                                </td>
-
-                                <%-- <td>
-                                     <span class="status--process">Processed</span>
-                                 </td>
-                                 <td>$679.00</td>
-                                 <td>
-                                     <div class="table-data-feature">
-                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                                             <i class="zmdi zmdi-mail-send"></i>
-                                         </button>
-                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                             <i class="zmdi zmdi-edit"></i>
-                                         </button>
-                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                             <i class="zmdi zmdi-delete"></i>
-                                         </button>
-                                         <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                             <i class="zmdi zmdi-more"></i>
-                                         </button>
-                                     </div>
-                                 </td>--%>
-                            </tr>
-                            <tr class="spacer"></tr>
-
-                            <tr class="tr-shadow">
-                                <td>2</td>
-                                <td>Lori Lynch</td>
-                                <td class="emailTd">
-                                    <span class="block-email">john@example.com</span>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-link btn-sm studentButton">
-                                        <i class="fa fa-user"></i>&nbsp; Student ( 0 )
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-link btn-sm classButton">
-                                        <i class="fa fa-link"></i>&nbsp; Class ( 0 )
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="spacer"></tr>
-                            <tr class="tr-shadow">
-                                <td>3</td>
-                                <td>Lori Lynch</td>
-                                <td class="emailTd">
-                                    <span class="block-email">lyn@example.com</span>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-link btn-sm studentButton">
-                                        <i class="fa fa-user"></i>&nbsp; Student ( 0 )
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-link btn-sm classButton">
-                                        <i class="fa fa-link"></i>&nbsp; Class ( 0 )
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="spacer"></tr>
-                            <tr class="tr-shadow">
-                                <td>4</td>
-                                <td>Lori Lynch</td>
-                                <td class="emailTd">
-                                    <span class="block-email">doe@example.com</span>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-link btn-sm studentButton">
-                                        <i class="fa fa-user"></i>&nbsp; Student ( 0 )
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-link btn-sm classButton">
-                                        <i class="fa fa-link"></i>&nbsp; Class ( 0 )
-                                    </button>
-                                </td>
-                            </tr>
+                            <tbody class="teacherList">
                             </tbody>
                         </table>
                     </div>
@@ -182,7 +88,7 @@ moving the class to menus lead to only the menu having the effect -->
 
 <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document" style="max-width: 915px;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="largeModalLabel">Large Modal</h5>
@@ -192,15 +98,24 @@ moving the class to menus lead to only the menu having the effect -->
             </div>
             <div class="modal-body">
 
-
                 <div class="row activeDiv">
                     <div class="col-lg-6 custom-col-lg-6">
                         <!-- USER DATA-->
                         <div class="user-data custom-user-data m-b-30">
-                            <div class="filters m-b-25" style="padding-right: 20px;">
-                                <h3 style="display: contents;" class="title-3 m-b-30"><i style="padding-bottom: 10px;"
+                            <div class="filters m-b-25" style="padding-right: 0px;">
+                                <div hidden class="authClassIdx"></div>
+                                <h3 style="display: contents;" class="title-3 m-b-30"><i style="padding-bottom: 0px;"
                                                                                          class="zmdi zmdi-account-calendar"></i>Auth
                                     Student</h3>
+                                <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border"
+                                     style="width: 112px;float: right;">
+                                    <select class="js-select2 auth-student-order-by2" name="property">
+                                        <option selected="selected" value="0">By Index</option>
+                                        <option value="2">By Name</option>
+                                        <option value="1">By Grade</option>
+                                    </select>
+                                    <div class="dropDownSelect2"></div>
+                                </div>
                             </div>
                             <div class="table-responsive custom-table-data">
                                 <table class="table">
@@ -213,10 +128,11 @@ moving the class to menus lead to only the menu having the effect -->
                                             </label>
                                         </td>
                                         <td>name</td>
+                                        <td>Gender</td>
                                         <td>Grade</td>
                                     </tr>
                                     </thead>
-                                    <tbody class="aaa">
+                                    <tbody class="authStudentList2">
                                     </tbody>
                                 </table>
                             </div>
@@ -225,17 +141,28 @@ moving the class to menus lead to only the menu having the effect -->
                     </div>
 
                     <div class="arrow">
-                        <button class="au-btn au-btn-icon au-btn-load au-btn--small arrow-right">
+                        <button class="au-btn au-btn-icon au-btn-load au-btn--small arrow-right2">
                             >
                         </button>
-                        <button class="au-btn au-btn-icon au-btn-load au-btn--small arrow-left">
+                        <button class="au-btn au-btn-icon au-btn-load au-btn--small arrow-left2">
                             <
                         </button>
                     </div>
                     <div class="col-lg-6 custom-col-lg-6">
                         <!-- USER DATA-->
                         <div class="user-data custom-user-data m-b-30">
-                            <h3 class="title-3 m-b-30"><i class="zmdi zmdi-account-calendar"></i>Class Member</h3>
+                            <div class="filters m-b-25" style="padding-right: 0px;">
+                                <h3 style="display: contents;" class="title-3 m-b-30"><i style="padding-bottom: 10px;"class="zmdi zmdi-account-calendar">
+                                </i>Class Members</h3>
+                                <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border" style="width: 112px;float: right;">
+                                    <select class="js-select2 class-members-order-by" name="property">
+                                        <option selected="selected" value="0">By Index</option>
+                                        <option value="2">By Name</option>
+                                        <option value="1">By Grade</option>
+                                    </select>
+                                    <div class="dropDownSelect2"></div>
+                                </div>
+                            </div>
                             <div class="table-responsive custom-table-data">
                                 <table class="table">
                                     <thead>
@@ -247,23 +174,23 @@ moving the class to menus lead to only the menu having the effect -->
                                             </label>
                                         </td>
                                         <td>name</td>
+                                        <td>Gender</td>
                                         <td>Grade</td>
                                     </tr>
                                     </thead>
-                                    <tbody class="bbb">
+                                    <tbody class="classMembersList">
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
 
-
                 </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Confirm</button>
+                <%--<button type="button" class="btn btn-primary">Confirm</button>--%>
             </div>
         </div>
     </div>

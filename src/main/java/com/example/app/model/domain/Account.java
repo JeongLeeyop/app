@@ -32,6 +32,8 @@ public class Account {
     private String graduation;
     @Column(nullable = false)
     private Timestamp createDate;
+    @Column
+    private int autoSave;
 
     @Column
     private int authority;

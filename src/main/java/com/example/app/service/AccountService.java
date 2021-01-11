@@ -1,10 +1,12 @@
 package com.example.app.service;
 
 import com.example.app.common.AuthorityCode;
+import com.example.app.common.AutoSaveCode;
 import com.example.app.model.domain.Account;
 import com.example.app.model.domain.School;
 import com.example.app.model.dto.request.accountRequest;
 import com.example.app.repository.AccountRepository;
+import com.example.app.repository.SchoolRepository;
 import com.example.app.repository.SeasonRepository;
 import com.example.app.util.DateTimeHelper;
 import com.example.app.util.PwUtil;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.util.NoSuchElementException;
 
 @Service
 public class AccountService {
@@ -22,6 +25,8 @@ public class AccountService {
     AccountRepository accountRepo;
     @Autowired
     SeasonRepository seasonRepo;
+    @Autowired
+    SchoolRepository schoolRepo;
 
     PwUtil pwUtil;
 
@@ -31,7 +36,7 @@ public class AccountService {
         //1.패스워드 체크
 //        String pwHash = pwUtil.Encryption(password);
 //        System.out.println( pwHash+ " == " + result.getUserPw());
-        System.out.println(pwUtil.Encryption(password).toUpperCase()+" : "+result.getUserPw().toUpperCase());
+//        System.out.println(pwUtil.Encryption(password).toUpperCase()+" : "+result.getUserPw().toUpperCase());
         if (pwUtil.Encryption(password).toUpperCase().equals(result.getUserPw().toUpperCase())) {
             return result;
         }
@@ -57,7 +62,7 @@ public class AccountService {
     }
 
     //3. 회원가입
-    public Account signUp(accountRequest accountReq) {
+    public Account signUp(accountRequest accountReq) throws NoSuchElementException {
         Account account = new Account();
         Timestamp createDate = DateTimeHelper.timeStampNow();
 
@@ -69,6 +74,8 @@ public class AccountService {
         account.setUserName(accountReq.getUsername());
         account.setUserPw(accountReq.getPassword());
         account.setAuthority(AuthorityCode.Teacher.getValue());
+        account.setSchool(schoolRepo.findById(accountReq.getSchoolCode()).get());
+        account.setAutoSave(AutoSaveCode.False.getValue());
         Account result = accountRepo.save(account);
 
 //        System.out.println("SignUp 결과값 : " + result);

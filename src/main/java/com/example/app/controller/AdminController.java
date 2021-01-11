@@ -1,13 +1,20 @@
 package com.example.app.controller;
 
-import com.example.app.model.domain.Season;
+import com.example.app.common.OrderByCode;
+import com.example.app.model.domain.*;
+import com.example.app.model.domain.Class;
 import com.example.app.model.domain.section.Section;
 import com.example.app.model.domain.section.Task;
+import com.example.app.model.dto.request.classRequest;
+import com.example.app.model.dto.request.studentRequest;
+import com.example.app.model.dto.response.teacherAuthCountResponse;
 import com.example.app.model.dto.response.totalGradeResponse;
 import com.example.app.service.AdminService;
 import com.example.app.service.ClassService;
+import com.example.app.service.SettingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,15 +36,10 @@ public class AdminController {
     ClassService classService;
     @Autowired
     AdminService adminService;
+    @Autowired
+    SettingService settingService;
 
-/*    //1. 클래스의 섹션을 조회하는 기능
-    @RequestMapping("findSeasonList")
-    @ResponseBody
-    public List<Season> findSeasonList(HttpSession session) {
-        return adminService.findSeasonList(session);
-    }*/
-
-    //4. 관리자 화면
+    //1. 관리자 화면
     @RequestMapping("")
     public ModelAndView admin() {
 //        log.debug("admin");
@@ -44,7 +47,7 @@ public class AdminController {
         return view;
     }
 
-    //4. 관리자 - 시즌 관리
+    //2. 관리자 - 시즌 관리
     @RequestMapping("/season_setting")
     public ModelAndView season_setting() {
 //        log.debug("admin/season_setting");
@@ -52,7 +55,7 @@ public class AdminController {
         return view;
     }
 
-    //4. 관리자 - 선생님 관리
+    //3. 관리자 - 선생님 관리
     @RequestMapping("/teacher_setting")
     public ModelAndView teacher_setting() {
 //        log.debug("admin/teacher_setting");
@@ -60,86 +63,192 @@ public class AdminController {
         return view;
     }
 
-
-/*
-    //1. 클래스의 섹션을 추가하는 기능
-    @RequestMapping("addSection")
+    //4. 시즌관리 - 클래스 Grade 수정
     @ResponseBody
-    public Section addSection(Long curClassIdx, String sectionName,Long curSectionIdx) {
-        return classService.addSection(curClassIdx,sectionName,curSectionIdx);
+    @RequestMapping("/updateClassGrade")
+    public Class updateClassGrade(Long ClassIdx, String Grade) throws Exception {
+        Class _class = adminService.updateClassGrade(ClassIdx,Grade);
+        if(_class!=null) {
+//            System.out.println(_class);
+            return _class;
+        } else {
+            throw new Exception();
+        }
     }
 
-    //2. 클래스의 섹션을 삭제하는 기능
-    @RequestMapping("delSection")
+    //5. 시즌관리 - 클래스 Grade 수정
     @ResponseBody
-    public void delSection(Long curSectionIdx) {
-        classService.delSection(curSectionIdx);
-
+    @RequestMapping("/updateStudentGender")
+    public Student updateStudentGender(studentRequest studentReq,HttpSession session) throws Exception {
+        Student student = settingService.updateStudent(studentReq,null,1,session);
+        if(student!=null) {
+//            System.out.println(student);
+            return student;
+        } else {
+            throw new Exception();
+        }
     }
 
-    //3. 클래스의 섹션의 이름을 수정하는 기능
-    @RequestMapping("sectionName")
+    //6. 시즌관리 - 클래스 Grade 수정
     @ResponseBody
-    public ModelAndView sectionName(HttpServletRequest req) {
+    @RequestMapping("/updateStudentGrade")
+    public Student updateStudentGrade(studentRequest studentReq,HttpSession session) throws Exception {
+        Student student = settingService.updateStudent(studentReq,null,2,session);
+        if(student!=null) {
+//            System.out.println(student);
+            return student;
+        } else {
+            throw new Exception();
+        }
+    }
+
+    //7. 시즌관리 - 새 클래스를 삭제하는 기능
+    @RequestMapping("delClass")
+    @ResponseBody
+    public void delClass(Long[] classIdxList) throws Exception{
+
+        try {
+            adminService.delClass(classIdxList);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //8. 시즌관리 - 학생을 삭제하는 기능
+    @RequestMapping("delStudent")
+    @ResponseBody
+    public void delStudent(Long[] studentIdxList) throws Exception{
+        try {
+            adminService.delStudent(studentIdxList);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //8. 선생님관리 - 선생님 전체 조회
+    @RequestMapping("findTeacherList")
+    @ResponseBody
+    public List<teacherAuthCountResponse> findTeacherList(HttpSession session, Long curSeasonIdx, Long orderBy) throws Exception{
+        try {
+            return adminService.findTeacherList(session,curSeasonIdx,orderBy);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 
-    //4. 섹션의 과제 항목과 점수를 조회하는 기능
-    @RequestMapping("findTaskChart")
+    //9. 선생님 관리 - 선생님 학생 조회
+    @RequestMapping("findTeacherAuthStudentList")
     @ResponseBody
-    public Map findTaskChart(Long curSectionIdx, Long curClassIdx, HttpSession session) {
-        return classService.findTaskChart(curSectionIdx,curClassIdx,session);
+    public List<AuthStudent> findAuthStudent(Long userIdx,Long curSeasonIdx, Long orderBy, HttpSession session)  {
+        List<AuthStudent> result = adminService.findAuthStudentList(userIdx,curSeasonIdx,orderBy,session);
+        return result;
     }
 
-   *//* //4. 섹션의 기본 템플릿 제공
-    @RequestMapping("findTaskTemplate")
+    //9. 선생님 관리 - Auth학생 생성
+    @RequestMapping("createAuthStudent")
     @ResponseBody
-    public Map findTaskTemplate(Long curClassIdx, HttpSession session) {
-        return classService.findTaskTemplate(curClassIdx,session);
-    }*//*
-
-    //5. 섹션의 과제 항목을 추가하는 기능
-    @RequestMapping("addTask")
-    @ResponseBody
-    public Map<String, Object> addTask(Long curClassIdx,Long curSectionIdx) {
-        return classService.addTask(curClassIdx,curSectionIdx);
-    }
-
-    //6. 섹션의 과제 항목을 삭제하는 기능
-    @RequestMapping("class_delTask")
-    public ModelAndView delTask(Long sectionTasksIdx) {
-        classService.delTask(sectionTasksIdx);
+    public List<AuthStudent> createAuthStudent(Long[] studentIdxList,Long userIdx, Long curSeasonIdx)  {
+        adminService.createAuthStudent(studentIdxList,userIdx,curSeasonIdx);
         return null;
     }
 
-    //7. 섹션의 과제 항목을 수정하는 기능
-    @RequestMapping("class_changeTask")
-    public ModelAndView taskName(Long sectionTasksIdx, Long targetTaskIdx) {
-        classService.changeTask(sectionTasksIdx,targetTaskIdx);
+    //0.Auth Class을 찾는 기능
+    @RequestMapping("findAuthClass")
+    @ResponseBody
+    public AuthClass findAuthClass(Long authClassIdx) {
+        AuthClass result = adminService.findAuthClassByAuthClassId(authClassIdx);
+        //에러제어 필요
+        return result;
+    }
+
+    //0.Auth Class을 찾는 기능
+    @RequestMapping("findAuthClassList")
+    @ResponseBody
+    public List<AuthClass> findAuthClassList(Long userIdx, Long curSeasonIdx, Long orderBy) {
+        List<AuthClass> result = adminService.findAuthClassList(userIdx,curSeasonIdx,orderBy);
+        //에러제어 필요
+        return result;
+    }
+
+    //0.Auth Class을 찾는 기능
+    @RequestMapping("findAuthClassList2")
+    @ResponseBody
+    public List<AuthClass> findAuthClassList2(HttpSession session, Long curSeasonIdx, Long orderBy) {
+        Account account = (Account)session.getAttribute("Account");
+        List<AuthClass> result = adminService.findAuthClassList(account.getUserIdx(),curSeasonIdx,orderBy);
+        //에러제어 필요
+        return result;
+    }
+
+    //9. 선생님 관리 - Auth학생 삭제
+    @RequestMapping("deleteAuthStudent")
+    @ResponseBody
+    public List<AuthStudent> deleteAuthStudent(Long[] authStudentIdxList)  {
+        adminService.deleteAuthStudent(authStudentIdxList);
         return null;
     }
 
-    //8. 과제 점수를 입력, 수정하는 기능
-    @RequestMapping("saveTaskScore")
+    //9. 선생님 관리 - Auth클래스 삭제
+    @RequestMapping("deleteAuthClass")
     @ResponseBody
-    public ModelAndView saveTaskScore(@RequestParam String taskChart, Long curSectionIdx, @RequestParam String sectionTasksList) throws Exception{
-        classService.saveTaskScore(taskChart,curSectionIdx, sectionTasksList);
+    public List<AuthStudent> deleteAuthClass(Long[] classIdxList)  {
+        adminService.deleteAuthClass(classIdxList);
         return null;
     }
 
-    //9. 과제 정보를 출력해주는 기능 : 성적비율
-    @RequestMapping("findTaskList")
+    //9. 선생님 관리 - Auth클래스생성
+    @RequestMapping("createAuthClass")
     @ResponseBody
-    public List<Task> findTaskList(Long curClassIdx) throws Exception{
-        return classService.findTaskList(curClassIdx);
+    public List<AuthStudent> createAuthClass(Long[] classIdxList,Long userIdx, Long curSeasonIdx)  {
+        adminService.createAuthClass(classIdxList,userIdx,curSeasonIdx);
+        return null;
     }
 
-    //10. 전체 학생 목록을 출력하여 등급 항목에 과제 항목의 점수를 반영하여 조회해주는 기능
-    @RequestMapping("findTotalGrade")
+    //9. 선생님 관리 - 현재 선생님의 authStudent를 제외한 전체 Student 목록 출력
+    @RequestMapping("findStudentList_WithoutAuth")
     @ResponseBody
-    public List<totalGradeResponse> findTotalGrade(Long curClassIdx, HttpSession session) {
-        return classService.findTotalGrade(curClassIdx,session);
+    public List<Student> findStudentList_WithoutAuth(Long userIdx,Long curSeasonIdx, Long orderBy ,HttpSession session) {
+        return adminService.findStudentList_WithoutAuth(userIdx,curSeasonIdx,orderBy,session);
     }
 
-    */
+    //9. 선생님 관리 - 현재 선생님의 authStudent와 authClass Count를 업데이트
+    @RequestMapping("updateCount")
+    @ResponseBody
+    public teacherAuthCountResponse updateCount(Long userIdx,Long curSeasonIdx) {
+        return adminService.updateCount(userIdx,curSeasonIdx);
+    }
+
+    //9. 선생님 관리 - classMembers에 등록된 학생을 뺀 Auth 학생 목록
+    @RequestMapping("findTeacherAuthStudentList2")
+    @ResponseBody
+    public List<AuthStudent> findTeacherAuthStudentList2(Long authClassIdx,Long userIdx,Long curSeasonIdx,Long orderBy)  {
+        List<AuthStudent> result = adminService.findAuthStudentList2(authClassIdx,userIdx,curSeasonIdx,orderBy);
+        return result;
+    }
+
+    //9. 선생님 관리 - 현재 AuthClass의 classMembers 목록 출력
+    @RequestMapping("findClassMembers")
+    @ResponseBody
+    public List<ClassMembers> findClassMembers(Long authClassIdx, Long orderBy) {
+        return adminService.findClassMembers(authClassIdx,orderBy);
+    }
+
+    //9. 선생님 관리 - classMembers 학생 생성
+    @RequestMapping("createClassMembers")
+    @ResponseBody
+    public List<ClassMembers> createClassMembers(Long[] studentIdxList,Long authClassIdx)  {
+        //형변환
+        adminService.createClassMembers(studentIdxList,authClassIdx);
+        return null;
+    }
+
+    //9. 선생님 관리 - classMembers 학생 삭제
+    @RequestMapping("deleteClassMembers")
+    @ResponseBody
+    public List<ClassMembers> deleteClassMembers(Long[] classMembersList)  {
+        //형변환
+        adminService.deleteClassMembers(classMembersList);
+        return null;
+    }
 }
