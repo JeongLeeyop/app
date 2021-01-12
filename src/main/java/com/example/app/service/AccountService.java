@@ -37,8 +37,10 @@ public class AccountService {
 //        String pwHash = pwUtil.Encryption(password);
 //        System.out.println( pwHash+ " == " + result.getUserPw());
 //        System.out.println(pwUtil.Encryption(password).toUpperCase()+" : "+result.getUserPw().toUpperCase());
-        if (pwUtil.Encryption(password).toUpperCase().equals(result.getUserPw().toUpperCase())) {
-            return result;
+        if(result !=null) {
+            if (pwUtil.Encryption(password).toUpperCase().equals(result.getUserPw().toUpperCase())) {
+                return result;
+            }
         }
         return null;
 /*

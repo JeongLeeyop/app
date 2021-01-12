@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface
 SeasonRepository extends CrudRepository<Season, Long> {
-    public List<Season> findSeasonBySchool(School school);
+    public List<Season> findSeasonBySchoolOrderBySeasonIdx(School school);
 
     public Season findSeasonBySeasonIdx(Long seasonId);
 

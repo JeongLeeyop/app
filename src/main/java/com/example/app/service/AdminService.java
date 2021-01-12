@@ -49,7 +49,7 @@ public class AdminService {
     //0.현재 계정의 시즌 목록을 조회하는 기능
     public List<Season> findSeasonList(HttpSession session) {
         Account account = (Account) session.getAttribute("Account");
-        return seasonRepo.findSeasonBySchool(account.getSchool());
+        return seasonRepo.findSeasonBySchoolOrderBySeasonIdx(account.getSchool());
     }
 
     //1. 시즌관리 - 클래스 Grade 수정

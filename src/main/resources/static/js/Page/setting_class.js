@@ -339,7 +339,7 @@ $(function () {
         //과제항목 입력
         //Default 과제를 알기 위한 ajax
 
-        alert(authClassIdx);
+        // alert(authClassIdx);
         //클래스의 과제항목을 검색하는 ajax
         $.ajax({
             url: "/findTaskListByClassId", //서버요청주소
