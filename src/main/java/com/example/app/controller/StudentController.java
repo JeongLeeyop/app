@@ -3,11 +3,13 @@ package com.example.app.controller;
 import com.example.app.model.domain.Student;
 import com.example.app.model.dto.response.studentChartResponse;
 import com.example.app.model.dto.response.totalGradeResponse;
+import com.example.app.service.AdminService;
 import com.example.app.service.AttendanceService;
 import com.example.app.service.SettingService;
 import com.example.app.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,6 +25,8 @@ public class StudentController {
 
     @Autowired
     StudentService studentService;
+    @Autowired
+    AdminService adminService;
 
     //0. 전체 학생의 이름을 조회하는 기능
     @RequestMapping("findStudentList")
@@ -42,6 +46,17 @@ public class StudentController {
     @RequestMapping("findStudentDetail")
     public ModelAndView findStudentDetail(HttpServletRequest req) {
         return null;
+    }
+
+
+
+
+    //TEST
+    @Transactional
+    @Modifying
+    @RequestMapping("go")
+    public void test() {
+        adminService.test();
     }
 }
 

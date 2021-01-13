@@ -1,5 +1,7 @@
 package com.example.app.repository;
 
+import com.example.app.model.domain.Class;
+import com.example.app.model.domain.section.Section;
 import com.example.app.model.domain.section.Task;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,5 +27,6 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
     @Query("update Task t set t.maxScore = ?2 where t.taskIdx=?1")
     public void updateMaxScore(Long taskIdx, Double maxScore);
 
-
+    @Query("select s from Task s where s._class = ?1 ")
+    public List<Task> find(Class _class);
 }

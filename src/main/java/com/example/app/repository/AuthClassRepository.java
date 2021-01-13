@@ -39,4 +39,6 @@ group by t.task.taskIdx,t.student.studentIdx order by t.student.studentIdx,t.tas
     public int countAllByAccountAndSeason_SeasonIdx(Account account,Long curSeasonIdx);
 
     public List<AuthClass> findAuthClassBySeason_SeasonIdxAndAccount(Long curSeasonIdx, Account userIdx, Sort sort);
+
+    public List<AuthClass> findAuthClassByAccount(Account account);
 }

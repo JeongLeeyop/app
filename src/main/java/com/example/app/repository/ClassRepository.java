@@ -14,4 +14,7 @@ ClassRepository extends CrudRepository<Class, Long> {
 
     public List<Class> findClassBySeason_SeasonIdx(Long SeasonIdx,Sort sort);
 
+    @Query("select c from Class c order by c.className")
+    public List<Class> findAll();
+
 }

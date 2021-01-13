@@ -3,7 +3,9 @@ package com.example.app.repository;
 import com.example.app.model.domain.Account;
 import com.example.app.model.domain.Attendance;
 import com.example.app.model.domain.AuthStudent;
+import com.example.app.model.domain.Class;
 import com.example.app.model.domain.Student;
+import com.example.app.model.domain.section.Task;
 import com.example.app.model.dto.response.repository.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -53,6 +55,9 @@ public interface AttendanceRepository extends JpaRepository <Attendance, Long> {
     @Transactional
     @Modifying
     public void deleteByAuthStudent_AuthStudentIdx(Long authStudentIdx);
+
+    @Query("select s from Attendance s where s.student = ?1 ")
+    public List<Attendance> find(Student student);
 
 }
 

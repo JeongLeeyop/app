@@ -24,4 +24,6 @@ AuthStudentRepository extends CrudRepository<AuthStudent, Long> {
 
     @Query("select s from AuthStudent s where s.account.userIdx = ?1 AND s.season.seasonIdx = ?2 AND s.authStudentIdx not In (select c.authStudent.authStudentIdx from ClassMembers c where c.authClass.authClassIdx = ?3)")
     public List<AuthStudent> findAuthStudentByAuthClassIdxWithoutClassMembers(Long userIdx,Long curSeasonIdx,Long authClassIdx, Sort sort);
+
+    public List<AuthStudent> findAuthStudentByAccount(Account account);
 }

@@ -25,4 +25,6 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
     //유저 찾기 (운영자가 아니면서 autoSave가 0이 아닌)
     public List<Account> findBySchoolAndAuthorityIsNotAndAutoSaveIsNot(School school,int Authority, int AutoSave);
 
+    public List<Account> findAll();
+
 }

@@ -714,7 +714,7 @@ $(function () {
 
         //기존 차트 삭제
         $("#largeModal .modal-body .au-card-inner").empty();
-        var str= "<h3 class=\"title-2 m-b-40\">Task Scores</h3>\n" +
+        var str= "<h3 class=\"title-2 m-b-20\">Task Scores</h3>\n" +
                 "<canvas id=\"myChart\"></canvas>"
         //새로운 차트
         $("#largeModal .modal-body .au-card-inner").append(str);
@@ -866,12 +866,12 @@ $(function () {
                                         display: true,
                                         labelString: 'Score',
                                         fontFamily: "Poppins"
-
                                     },
                                     ticks: {
                                         fontFamily: "Poppins",
                                         max : maxNumber+5,
-                                        min : 0
+                                        min : 0,
+                                        fontSize : 10
                                         // max:10
                                         //여기 max totalpoint의 +5를 저장
                                     }

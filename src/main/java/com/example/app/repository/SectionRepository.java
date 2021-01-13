@@ -1,5 +1,6 @@
 package com.example.app.repository;
 
+import com.example.app.model.domain.Class;
 import com.example.app.model.domain.section.Section;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +22,9 @@ public interface SectionRepository extends CrudRepository<Section, Long> {
     public List<Section> findSectionBy_class_ClassIdxOrderBySectionIdx(Long classIdx);
 
     public List<Section> findSectionByauthClass_AuthClassIdxOrderBySectionIdx(Long classIdx);
+
+    //
+
+    @Query("select s from Section s where s._class = ?1 ")
+    public List<Section> find(Class _class);
 }

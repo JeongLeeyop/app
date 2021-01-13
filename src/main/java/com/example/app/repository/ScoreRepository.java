@@ -1,5 +1,7 @@
 package com.example.app.repository;
 
+import com.example.app.model.domain.AuthClass;
+import com.example.app.model.domain.ClassMembers;
 import com.example.app.model.domain.Student;
 import com.example.app.model.domain.section.Score;
 import com.example.app.model.dto.response.repository.ScoreMapping;
@@ -73,4 +75,9 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
     //11.AuthStudent의 Task 그래프 데이터를 조회해주는 기능
     @Query("select s.score as score, st.maxScore as maxScore, s.score/st.maxScore*100 as avg from Score s join SectionTasks st On s.section.sectionIdx = st.section.sectionIdx and s.task.taskIdx = st.task.taskIdx where s.task.taskIdx = ?1 and s.classMembers.classMembersIdx=?2 and s.section.sectionIdx=?3")
     public CMTaskScoreMapping findAuthStudentTaskChart(Long taskIdx, Long authStudentIdx, Long sectionIdx);
+
+    @Transactional
+    @Modifying
+    @Query("update Score s set s.classMembers =?1 where s.student=?2 and s.task.taskIdx in (select t.taskIdx from Task t where t.authClass=?3)")
+    public void findByStudent(ClassMembers classMembers, Student student, AuthClass authClass);
 }

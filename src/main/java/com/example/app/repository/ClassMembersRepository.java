@@ -1,5 +1,7 @@
 package com.example.app.repository;
 
+import com.example.app.model.domain.AuthClass;
+import com.example.app.model.domain.AuthStudent;
 import com.example.app.model.domain.ClassMembers;
 import org.hibernate.annotations.SQLInsert;
 import org.springframework.data.domain.Sort;
@@ -25,5 +27,9 @@ public interface ClassMembersRepository extends CrudRepository<ClassMembers, Lon
     //AuthClass로 찾기
     public List<ClassMembers> findByAuthClass_AuthClassIdx(Long authClassIdx, Sort sort);
 
+    public List<ClassMembers> findAll();
+
+    @Query("select s from ClassMembers s where s.authStudent=?1 and s.authClass=?2")
+    public ClassMembers findAll2(AuthStudent authStudent, AuthClass authClass);
 
 }

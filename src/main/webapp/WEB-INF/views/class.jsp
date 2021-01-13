@@ -198,7 +198,7 @@
 </div>
 
 <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document" style="max-width: 915px;">
+                    <div class="modal-dialog modal-lg" role="document" style="max-width: 1000px;">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="largeModalLabel">Large Modal</h5>
@@ -209,9 +209,9 @@
                             <div class="modal-body">
 
                                     <div class="col-lg-6">
-                                        <div class="au-card m-b-30">
+                                        <div class="au-card m-b-30" style="padding: 0px;padding-right: 0px;">
                                             <div class="au-card-inner">
-                                                <h3 class="title-2 m-b-40">Yearly Sales</h3>
+                                                <h3 class="title-2 m-b-20">Task Scores</h3>
                                                 <canvas id="myChart"></canvas>
                                             </div>
                                         </div>
