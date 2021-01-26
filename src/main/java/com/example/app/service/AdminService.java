@@ -419,8 +419,35 @@ public class AdminService {
     @Modifying
     public void test() {
 
-//        score에 sectionIdx랑 taskIdx지워야할듯 ;
+        //////////////전 시즌의 class와 student 복사
+        Sort sort = Sort.by(Sort.Direction.ASC,"classIdx");
+        List<Class> classList = classRepo.findClassBySeason_SeasonIdx(1L,sort);
+        Season season = seasonRepo.findById(3L).get();
+        for(Class _class : classList){
+            Class newClass = new Class();
+            newClass.setClassGrade(_class.getClassGrade());
+            newClass.setClassName(_class.getClassName());
+            newClass.setAccount(_class.getAccount());
+            newClass.setSeason(season);
+            classRepo.save(newClass);
+        }
+        sort = Sort.by(Sort.Direction.ASC,"studentIdx");
+        List<Student> studentList = studentRepo.findStudentBySeason_SeasonIdx(1L,sort);
+        for(Student student : studentList){
+            Student newStudent = new Student();
+            newStudent.setStudentGender(student.getStudentGender());
+            newStudent.setStudentGrade(student.getStudentGrade());
+            newStudent.setAccount(student.getAccount());
+            newStudent.setStudentName(student.getStudentName());
+            newStudent.setSeason(season);
+            studentRepo.save(newStudent);
+        }
+
+
 /*
+
+//        score에 sectionIdx랑 taskIdx지워야할듯 ;
+
 //        1.
 //       클래스를 이름순으로 가져와
         List<Class> classList = classRepo.findAll();
@@ -490,9 +517,9 @@ public class AdminService {
             }
 
             flag=0;
-        }*/
+        }
 
-/*
+
 
 //       2.
 //        student 걍 넣으면 될듯 ㅋ
@@ -518,6 +545,7 @@ public class AdminService {
 
         }
 */
+
 
 /*
 //      3. 1,2단계가 성공하면 진행할 것
@@ -551,8 +579,9 @@ public class AdminService {
 
 
         }*/
-/*
 
+
+/*
 
 //        4.저장된 classMembers를 score에 대입
         List<Account> accountList = accountRepo.findAll();
@@ -568,7 +597,6 @@ public class AdminService {
                 }
             }
         }
-
 */
 
 

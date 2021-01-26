@@ -14,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -55,8 +57,12 @@ public class StudentController {
     @Transactional
     @Modifying
     @RequestMapping("go")
-    public void test() {
+    public String test(HttpServletResponse response) throws Exception{
         adminService.test();
+        PrintWriter out = response.getWriter();
+        out.println("<script>alert('test() 성공'); location.href='login';</script>");
+        out.flush();
+        return null;
     }
 }
 

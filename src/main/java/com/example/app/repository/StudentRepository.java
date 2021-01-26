@@ -17,4 +17,6 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
     public List<Student> findStudentByAccountWithoutAuthStudent(Long curSeasonIdx, Long userIdx,Sort sort);
 
     public List<Student> findAll();
+
+    public List<Student> findStudentBySeason_SeasonIdx(Long seasonIdx,Sort Sort);
 }

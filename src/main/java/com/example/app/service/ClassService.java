@@ -376,9 +376,12 @@ public class ClassService {
         List<CMTaskScoreResponse> result = new ArrayList<>();
 
         for(Section section : sectionList){
-
+            System.out.println(section.getSectionIdx());
+            System.out.println(taskIdx);
+            System.out.println(authStudentIdx);
             CMTaskScoreMapping CMTaskScoreMapping = scoreRepo.findAuthStudentTaskChart(taskIdx,authStudentIdx,section.getSectionIdx());
-/*
+            System.out.println("호에엥");
+            /*
             System.out.println("Score : "+CMTaskScoreMapping.getScore());
             System.out.println("MaxScore : " + CMTaskScoreMapping.getMaxScore());
             System.out.println("AVG : " +CMTaskScoreMapping.getAvg());*/

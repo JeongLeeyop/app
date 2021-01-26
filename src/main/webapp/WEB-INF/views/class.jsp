@@ -56,6 +56,7 @@
                                     <div class="card-header">
                                         <strong>Section</strong> List
                                         <h3 data-id="${authClass.authClassIdx}"class="title-3"style="padding-top: 10px;padding-bottom: 5px;">${authClass._class.className}</h3>
+                                        <span class="sectionName"></span>
                                     </div>
                                     <div class="card-body card-block" style="height: 431px;" >
                                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" style="height: 100%;">

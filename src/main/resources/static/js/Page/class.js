@@ -101,7 +101,7 @@ function printTaskChart(curSectionIdx) {
         dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
         success: function (result)
         {
-            // console.log(result);
+            console.log(result);
 
             //classChart = Score
             //studentList = authStudent
@@ -228,6 +228,10 @@ function printTaskChart(curSectionIdx) {
             studentSize = result.classMembers.length;
             usedTaskSize = result.usedList.length;
 
+            //섹션명 출력
+            if(result.usedList[0]!=null){
+                $(".sectionName").text(result.usedList[0].section.sectionName)
+            }
         }, //성공했을때
 
         error: function (request) {
@@ -839,6 +843,7 @@ $(function () {
                                 labels: {
                                     usePointStyle: true,
                                     fontFamily: 'Poppins',
+                                    // padding:50
                                 },
                             },
                             scales: {
@@ -849,17 +854,22 @@ $(function () {
                                         drawBorder: false
                                     },
                                     scaleLabel: {
-                                        display: false,
-                                        labelString: 'Section'
+                                        display: true,
+                                        labelString: 'Section',
+                                        fontFamily: "Poppins"
                                     },
                                     ticks: {
-                                        fontFamily: "Poppins"
+                                        fontFamily: "Poppins",
+                                        fontSize : 10,
+                                        //글자 기울임 없애기
+                                        // minRotation: 0,
+                                        // maxRotation: 0,
                                     }
                                 }],
                                 yAxes: [{
                                     display: true,
                                     gridLines: {
-                                        display: false,
+                                        display: true,
                                         drawBorder: false
                                     },
                                     scaleLabel: {
@@ -872,6 +882,7 @@ $(function () {
                                         max : maxNumber+5,
                                         min : 0,
                                         fontSize : 10
+                                        // beginAtZero: true
                                         // max:10
                                         //여기 max totalpoint의 +5를 저장
                                     }
