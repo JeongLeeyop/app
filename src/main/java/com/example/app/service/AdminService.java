@@ -419,10 +419,10 @@ public class AdminService {
     @Modifying
     public void test() {
 
-        //////////////전 시즌의 class와 student 복사
+        /*//////////////전 시즌의 class와 student 복사
         Sort sort = Sort.by(Sort.Direction.ASC,"classIdx");
         List<Class> classList = classRepo.findClassBySeason_SeasonIdx(1L,sort);
-        Season season = seasonRepo.findById(3L).get();
+        Season season = seasonRepo.findById(2L).get();
         for(Class _class : classList){
             Class newClass = new Class();
             newClass.setClassGrade(_class.getClassGrade());
@@ -442,6 +442,8 @@ public class AdminService {
             newStudent.setSeason(season);
             studentRepo.save(newStudent);
         }
+
+*/
 
 
 /*
@@ -518,8 +520,10 @@ public class AdminService {
 
             flag=0;
         }
+*/
 
 
+/*
 
 //       2.
 //        student 걍 넣으면 될듯 ㅋ
@@ -547,14 +551,16 @@ public class AdminService {
 */
 
 
+
 /*
+
 //      3. 1,2단계가 성공하면 진행할 것
 //      class Members
 //      관리자가 아닌 모든 유저정보를 들고와
         List<Account> accountList = accountRepo.findAll();
 
         for (Account account : accountList) {
-            logger.info("현재 계정 : " + account);
+//            logger.info("현재 계정 : " + account);
 //      선생님의 모든 authClass를 들고온다.
             List<AuthClass> authClassList = authClassRepo.findAuthClassByAccount(account);
 //      선생님의 모든 authStudent를 가져온다.
@@ -562,27 +568,27 @@ public class AdminService {
 
 //       auth_class와 auth_Student를 가지고 classMembers에 입력해준다.
             for (AuthClass authClass : authClassList) {
-                logger.info("현재 authClass : " + authClass.getAuthClassIdx() + "  : " + authClass.get_class().getClassName());
+//                logger.info("현재 authClass : " + authClass.getAuthClassIdx() + "  : " + authClass.get_class().getClassName());
                 for (AuthStudent authStudent : authStudentList) {
-                    logger.info("현재 authStudent : " + authStudent.getAuthStudentIdx() + " : " + authStudent.getStudent().getStudentName());
+//                    logger.info("현재 authStudent : " + authStudent.getAuthStudentIdx() + " : " + authStudent.getStudent().getStudentName());
                     ClassMembers classMembers = new ClassMembers();
                     classMembers.setAuthClass(authClass);
                     classMembers.setAuthStudent(authStudent);
-                    ClassMembers rsClassMembers = classMembersRepo.save(classMembers);
-                    logger.info("저장된 ClassMembers : " + rsClassMembers);
-
-//       입력한 classMembers정보를 가지고
-//        현재 score에 student의 authstudentIdx를 찾아 입력해준다.
-//                    scoreRepo.findByStudent(rsClassMembers,rsClassMembers.getAuthStudent().getStudent());
+                    */
+/*ClassMembers rsClassMembers = *//*
+classMembersRepo.save(classMembers);
+//                    logger.info("저장된 ClassMembers : " + rsClassMembers);
                 }
             }
+        }
+//       입력한 classMembers정보를 가지고
+//        현재 score에 student의 authstudentIdx를 찾아 입력해준다.
+//        scoreRepo.findByStudent(rsClassMembers,rsClassMembers.getAuthStudent().getStudent());
+*/
 
-
-        }*/
 
 
 /*
-
 //        4.저장된 classMembers를 score에 대입
         List<Account> accountList = accountRepo.findAll();
 
@@ -596,8 +602,8 @@ public class AdminService {
                     scoreRepo.findByStudent(rsClassMembers,rsClassMembers.getAuthStudent().getStudent(),rsClassMembers.getAuthClass());
                 }
             }
-        }
-*/
+        }*/
+
 
 
     }

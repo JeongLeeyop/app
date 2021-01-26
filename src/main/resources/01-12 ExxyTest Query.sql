@@ -1,31 +1,31 @@
 --기존 테이블 변경
-    
+
 --    task_item : score
-    rename task_item to score;    
-    alter table score rename column task_item_idx to score_idx;   
+    rename task_item to score;
+    alter table score rename column task_item_idx to score_idx;
     alter table score rename column task_score to score;
     alter table score rename column task_item_info_idx to task_idx;
-    
+
 --   section_item : section_tasks
     rename section_item to section_tasks;
-    alter table section_tasks rename column section_item_idx to section_tasks_idx;   
+    alter table section_tasks rename column section_item_idx to section_tasks_idx;
     alter table section_tasks rename column task_item_info_idx to task_idx;
-    
+
 --    task_item_info : task
     rename task_item_info to task;
     alter table task rename column task_item_info_idx to task_idx;
-    
+
 --  class_default_task 삭제
     drop table CLASS_DEFAULT_TASK;
-    
+
 --    jpa 제약 삭제하고 다시 생성하는 작업!
 -- score : section, student, task
 -- sectionTask : section, task
 -- task : class
-    
-    
---기존의 변경된 이름의 테이블 지우고 
---drop table section_tasks; 
+
+
+--기존의 변경된 이름의 테이블 지우고
+--drop table section_tasks;
 --drop table score;
 --drop table Task;
 
@@ -36,27 +36,28 @@
     CREATE SEQUENCE  "CLASS_MEMBERS_SEQ_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE ;
     CREATE SEQUENCE  "SCHOOL_SEQ_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE ;
     CREATE SEQUENCE  "SEASON_SEQ_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE ;
-   
+
 --   drop sequence AUTH_CLASS_SEQ_NO;
--- 시퀀스 넘버확인 번호 뺴기
+-- 시퀀스 넘버확인 번호 ?兮?
    SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'AUTH_CLASS_SEQ_NO';
 --   ALTER SEQUENCE AUTH_CLASS_SEQ_NO INCREMENT BY +37;
    select AUTH_CLASS_SEQ_NO.nextval from dual;
-  
+
 
 --시퀀스 이름 수정
-   rename task_item_seq_no to score_seq_no; 
-   rename task_item_name_seq_no to task_seq_no; 
+   rename task_item_seq_no to score_seq_no;
+   rename task_item_name_seq_no to task_seq_no;
    rename section_item_seq_no to section_tasks_seq_no;
 
 
---school 
+--school
 --학교명 입력
 insert into school values(school_seq_no.nextval,null,'CSIS');
 
 --season
 --시즌명 입력 (idx,name,schoolidx)
-insert into season values(season_seq_no.nextval,'2020 하반기',1);
+insert into season values(season_seq_no.nextval,'2020 Fall Semester',1);
+insert into season values(season_seq_no.nextval,'2021 Spring Semester',1);
 
 --account
 --모든 선생님 학교와 권한 설정
@@ -66,12 +67,13 @@ update account set auto_save = 0 where authority =0;
 
 --class
 --클래스 전체를 시즌1로
-update class set season_idx = 1;
+update class set season_idx = 1 ;
 update student set season_idx = 1;
+commit;
 --update auth_class set season_idx = 1;
 --update auth_student set season_idx = 1;
 
---auth_class 
+--auth_class
 -- 클래스 데이터를 보면서 생성
 -- 클래스 아이디는 여러개중 하나만 살릴 것임
 -- delete는 현재는 안된다! 클래스 무결성 해결하고 와서 지우자
@@ -92,10 +94,10 @@ update student set season_idx = 1;
           --insert into auth_class values(auth_class_seq_no.nextval,44,null,1); ????????????????
           delete from task where task_idx = 52;
           delete from class where class_idx = 55;
-    delete from class where class_idx in (69,60,55,78);      
-    --Fine Arts    
+    delete from class where class_idx in (69,60,55,78);
+    --Fine Arts
     insert into auth_class values(auth_class_seq_no.nextval,77,56,1);
-    --History 
+    --History
     insert into auth_class values(auth_class_seq_no.nextval,76,56,1);
     --LA
     insert into auth_class values(auth_class_seq_no.nextval,66,55,1);
@@ -145,7 +147,7 @@ update student set season_idx = 1;
 -----------auth_Class가 만들어져야 작업할 수 있다.
 --section
 --select * from auth_class where class_idx = 41 and user_idx = (select user_idx from class where class_idx = (select class_idx from section where section_idx = 1));
---update section s set auth_class_idx = (select  
+--update section s set auth_class_idx = (select
 
 --task : task_item_info
 
@@ -153,4 +155,4 @@ update student set season_idx = 1;
 --section_tasks : section_item
 
 -----------auth_Class, class_Members가 만들어져야 작업할 수 있다.
---score : task_item 
+--score : task_item
