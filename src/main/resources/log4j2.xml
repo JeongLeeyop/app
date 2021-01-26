@@ -2,7 +2,7 @@
 <Configuration status="info" monitorInterval="30">
     <Properties>
         <Property name="LOG_FORMAT">%d{yyyy-MM-dd HH:mm:ss} %p %m%n</Property>
-        <Property name="BASE_DIR">C:/Users/anfdm/Desktop/Edu/SpringWorkSpace/Student-Management-App/src/main/resources/log</Property>
+        <Property name="BASE_DIR">/home/ec2-user/ExxyApp/Student-Management-App/src/main/resources/log</Property>
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT" follow="true">
@@ -27,8 +27,6 @@
     <Loggers>
         <Root level="info">
             <AppenderRef ref="Console"/>
-
-<!--            작업할때 주석처리-->
             <AppenderRef ref="File" />
         </Root>
     </Loggers>
