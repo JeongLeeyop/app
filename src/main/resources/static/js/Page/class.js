@@ -101,7 +101,7 @@ function printTaskChart(curSectionIdx) {
         dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
         success: function (result)
         {
-            console.log(result);
+            // console.log(result);
 
             //classChart = Score
             //studentList = authStudent
@@ -640,7 +640,11 @@ $(function () {
                         curRow.find("td:eq(" + Number(j + 2) + ")").children().focus();
                         return false;
                     }
-                }
+                } /*else if(isNaN(score)){
+                    alert("Failed to save. Please check the input value.");
+                    curRow.find("td:eq(" + Number(j + 2) + ")").children().focus();
+                    return false;
+                }*/
 
                 //과제id (있을경우)
                 var scoreIdx = curRow.find("td:eq(" + Number(j + 2) + ")").children().attr("data-id");
