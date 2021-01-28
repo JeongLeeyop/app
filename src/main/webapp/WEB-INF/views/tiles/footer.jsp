@@ -48,13 +48,19 @@
 
 
     var toggle = 0;
+    var toggle2 = 0;
 
     //선택된 auth클래스 id를 가지고 class로 넘어가기
-    function ClassPage(classId){
+    function ClassPage(classId) {
         var authClassIdx = $(classId).data('id');
 
-        document.write('<form action="class" id="smb_form" method="post"><input type="hidden" id="authClassIdx" name="authClassIdx" value="'+ authClassIdx +'"></form>');
+        document.write('<form action="class" id="smb_form" method="post"><input type="hidden" id="authClassIdx" name="authClassIdx" value="' + authClassIdx + '"></form>');
         document.getElementById("smb_form").submit();
+    }
+
+    function AttendancePage(item){
+        document.write('<form action="attendance2" id="smb_form2" method="post"><input type="hidden" id="authStudentGroup" name="authStudentGroup" value="' + item + '"></form>');
+        document.getElementById("smb_form2").submit();
     }
 
     $(function () {
@@ -79,15 +85,12 @@
           });// 실패했을때*/
 
 
-
-
-
         //뒤로가기
-        window.onpageshow=function(event){
-                if(event.persisted || ( window.performance && window.performance.navigation.type==2)){
-                    location.reload();
-                }
+        window.onpageshow = function (event) {
+            if (event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+                location.reload();
             }
+        }
 
         /*$(window).bind('pageshow',function(event){
             if(event.originalEvent && event.originalEvent.persisted){
@@ -105,7 +108,7 @@
         if (Account == false) {
             alert("This service requires login.");
             location.href = "login";
-        } else if (Authority == 1){
+        } else if (Authority == 1) {
             alert("You are not teacher account.");
             location.href = "admin";
         }
@@ -126,9 +129,9 @@
 
 
         //시즌을 선택했을때 선택된 시즌id를 세션에 저장
-        $("#SeasonSelect").on('change',function(){
+        $("#SeasonSelect").on('change', function () {
             sessionStorage.setItem("curSeasonIdx", $(this).find('option:selected').data('id'));
-            location.href="attendance";
+            location.href = "attendance";
         });
 
         //프로필 메뉴에 시즌 목록 출력
@@ -156,7 +159,7 @@
                         async: false,
                         dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
                         success: function (result2) {
-                            sessionStorage.setItem("curSeasonIdx",result2);
+                            sessionStorage.setItem("curSeasonIdx", result2);
                         }, //성공했을때
                         error: function (request) {
                             alert(request.responseText);
@@ -164,14 +167,49 @@
                     });
                     // sessionStorage.setItem('curSeasonIdx',result[0].seasonIdx);
 
-                //초기 접속 이후 현재 시즌에 맞는 option을 selected 처리해준다.
+                    //초기 접속 이후 현재 시즌에 맞는 option을 selected 처리해준다.
                 }
-                    $("#SeasonSelect").find("option[data-id=\'"+sessionStorage.getItem("curSeasonIdx")+"\']").prop("selected",true);
-                    // console.log(sessionStorage.getItem("curSeasonIdx"));
+                $("#SeasonSelect").find("option[data-id=\'" + sessionStorage.getItem("curSeasonIdx") + "\']").prop("selected", true);
+                // console.log(sessionStorage.getItem("curSeasonIdx"));
 
 
                 //현재 선택된 시즌 출력
                 // console.log($("#SeasonSelect").find('option:selected').data('id'));
+
+                ////////////////////////////////////////////////////////////////////
+                //                                                                //
+                //                            출석 메뉴                           //
+                //                                                                //
+                ////////////////////////////////////////////////////////////////////
+
+                $.ajax({
+                    url: "/findAuthStudentGroup", //서버요청주소
+                    type: "post",//요청방식 (get,post,patch,delete,put)
+                    data: "curSeasonIdx=" + sessionStorage.getItem("curSeasonIdx"),
+                    dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+                    success: function (result) {
+
+                        if(result==""){
+                            $(".attendance").empty();
+                            var str = "<li class=\"attendance\">\n" +
+                                "                    <a href=\"attendance\">\n" +
+                                "                        <i class=\"fas fa-calendar\"></i>Attendance</a>\n" +
+                                "                </li>";
+
+                            $(".attendance").append(str);
+                        } else {
+                            $.each(result, function (index, item) {
+                                $("#attendanceList").append("<li><a href=\"#\" onclick=\"AttendancePage(\'"+item+"\');\">" + item + "</a></li>");
+                                $("#attendanceListMobile").append("<li><a href=\"#\" onclick=\"AttendancePage(\'"+item+"\');\">" + item + "</a></li>");
+                            });
+                            $(".logoLink").prop('href','attendanceInit');
+                        }
+
+                    }, //성공했을때
+                    error: function (request) {
+                        // alert(request.responseText);
+                    }
+                });
 
                 ////////////////////////////////////////////////////////////////////
                 //                                                                //
@@ -183,15 +221,14 @@
                 $.ajax({
                     url: "/findAuthClassList", //서버요청주소
                     type: "post",//요청방식 (get,post,patch,delete,put)
-                    data : "curSeasonIdx="+sessionStorage.getItem("curSeasonIdx"),
+                    data: "curSeasonIdx=" + sessionStorage.getItem("curSeasonIdx"),
                     dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
                     success: function (result) {
                         $.each(result, function (index, item) {
                             // console.log(item);
-                            $("#classList").append("<li><a href=\"#\"; onclick=\"ClassPage(this);\" data-id=\""+item.authclass+"\">" + item.classname + "</a></li>");
-                            $("#classListMobile").append("<li><a href=\"#\"; onclick=\"ClassPage(this);\" data-id=\""+item.authclass+"\">" + item.classname + "</a></li>");
+                            $("#classList").append("<li><a href=\"#\"; onclick=\"ClassPage(this);\" data-id=\"" + item.authclass + "\">" + item.classname + "</a></li>");
+                            $("#classListMobile").append("<li><a href=\"#\"; onclick=\"ClassPage(this);\" data-id=\"" + item.authclass + "\">" + item.classname + "</a></li>");
                         });
-
 
 
                         //클래스가 없으면 없다고 출력
@@ -224,19 +261,36 @@
         });
 
         //클래스 버튼 아이콘 토글
-        $(".js-arrow").on("click", function () {
+        //attendance
+        $(".arrowToggle").on("click", function () {
             if (toggle == 0) {
-                $(this).removeClass("fa-caret-down");
-                $(this).addClass("fa-caret-up");
+                $(this).find(".toggle").removeClass("fa-caret-down");
+                $(this).find(".toggle").addClass("fa-caret-up");
                 toggle = 1;
                 // console.log("down");
             } else if (toggle == 1) {
-                $(this).removeClass("fa-caret-up");
-                $(this).addClass("fa-caret-down");
+                $(this).find(".toggle").removeClass("fa-caret-up");
+                $(this).find(".toggle").addClass("fa-caret-down");
                 toggle = 0;
                 // console.log("up");
             }
         });
+
+        //class
+        $(".arrowToggle2").on("click", function () {
+            if (toggle2 == 0) {
+                $(this).find(".toggle").removeClass("fa-caret-down");
+                $(this).find(".toggle").addClass("fa-caret-up");
+                toggle2 = 1;
+                // console.log("down");
+            } else if (toggle2 == 1) {
+                $(this).find(".toggle").removeClass("fa-caret-up");
+                $(this).find(".toggle").addClass("fa-caret-down");
+                toggle2 = 0;
+                // console.log("up");
+            }
+        });
+
 
     });
 

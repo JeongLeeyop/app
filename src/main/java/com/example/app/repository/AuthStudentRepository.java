@@ -13,6 +13,8 @@ AuthStudentRepository extends CrudRepository<AuthStudent, Long> {
 
     public List<AuthStudent> findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(Long seasonIdx, Account account);
 
+    public List<AuthStudent> findAuthStudentBySeason_SeasonIdxAndAccountAndAuthStudentGroupOrderByAuthStudentIdx(Long seasonIdx, Account account,String AuthStudentGroup);
+
     //Admin : TeacherSetting : userIdx로 AuthStudent 찾기
     public List<AuthStudent> findAuthStudentBySeason_SeasonIdxAndAccount(Long seasonIdx,Account account, Sort sort);
 
@@ -26,4 +28,8 @@ AuthStudentRepository extends CrudRepository<AuthStudent, Long> {
     public List<AuthStudent> findAuthStudentByAuthClassIdxWithoutClassMembers(Long userIdx,Long curSeasonIdx,Long authClassIdx, Sort sort);
 
     public List<AuthStudent> findAuthStudentByAccount(Account account);
+
+    //authStudentGroup이름 찾기
+    @Query("select DISTINCT a.authStudentGroup from AuthStudent a where a.season.seasonIdx=?1 AND a.account = ?2 ")
+    public List<String> findAuthStudentGroup(Long seasonIdx, Account account);
 }

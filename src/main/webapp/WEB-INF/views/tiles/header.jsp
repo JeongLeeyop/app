@@ -3,7 +3,7 @@
     <div class="header-mobile__bar">
         <div class="container-fluid">
             <div class="header-mobile-inner">
-                <a class="logo" href="attendance">
+                <a class="logo logoLink" href="attendance">
                     <img src="images/icon/logo.png" alt="CoolAdmin" style="max-width: 25%;margin-top: 15px;"/>
                 </a>
                 <button class="hamburger hamburger--slider" type="button">
@@ -17,17 +17,20 @@
     <nav class="navbar-mobile">
         <div class="container-fluid">
             <ul class="navbar-mobile__list list-unstyled">
-                <li>
-                    <a href="attendance">
-                        <i class="fas fa-calendar"></i>Attendance</a>
+                <li class="attendance">
+                    <a class="js-arrow arrowToggle" href="#">
+                        <i class="fas fas fa-calendar"></i>Attendance<i class="fas fa-caret-down toggle" style="padding-left:5px;"></i>
+                        <ul id="attendanceListMobile" style="padding-top: 10px;" class="list-unstyled navbar__sub-list js-sub-list"> </ul>
+                    </a>
                 </li>
-<%--                <li>
-                    <a href="class_list">
-                        <i class="fas fa-table"></i>Class</a>
-                </li>--%>
+                <%--                <li>
+                                    <a href="class_list">
+                                        <i class="fas fa-table"></i>Class</a>
+                                </li>--%>
                 <li>
                     <a href="class_list">
-                        <i class="fas fas fa-table"></i>Class &nbsp; <i class="js-arrow fas fa-caret-down"style="width: 50px;height: 20px;"></i>
+                        <i class="fas fas fa-table"></i>Class &nbsp; <i class="js-arrow fas fa-caret-down"
+                                                                        style="width: 50px;height: 20px;"></i>
                         <ul id="classListMobile" style="padding-top: 10px;"
                             class="list-unstyled navbar__sub-list js-sub-list">
                         </ul>
@@ -41,10 +44,10 @@
                 <li>
                     <a href="setting"><i class="fa fa-cog"></i>Setting</a>
                 </li>
-               <%-- <li>
-                    <a href="reportcard">
-                        <i class="fas fa-star" style="margin-right: 17px;"></i>Report Card</a>
-                </li>--%>
+                <%-- <li>
+                     <a href="reportcard">
+                         <i class="fas fa-star" style="margin-right: 17px;"></i>Report Card</a>
+                 </li>--%>
             </ul>
         </div>
     </nav>
@@ -54,9 +57,8 @@
 <!-- MENU SIDEBAR-->
 <aside class="menu-sidebar d-none d-lg-block">
 
-
     <div class="logo">
-        <a href="attendance">
+        <a href="attendance" class="logoLink">
             <img src="images/icon/logo.png" alt="Cool Admin" style="max-width:80%;margin-left: 15px;"/>
         </a>
     </div>
@@ -102,15 +104,22 @@
             <ul class="list-unstyled navbar__list">
                 <%--<li class="active has-sub">--%>
 
-                <li>
+               <%--<li class="attendance">
                     <a href="attendance">
                         <i class="fas fa-calendar"></i>Attendance</a>
+                </li>--%>
+
+                <li class="attendance">
+                    <a class="js-arrow arrowToggle" href="#">
+                        <i class="fas fas fa-calendar"></i>Attendance<i class="fas fa-caret-down toggle" style="padding-left:5px;"></i>
+                        <ul id="attendanceList" style="padding-top: 10px;" class="list-unstyled navbar__sub-list js-sub-list"> </ul>
+                    </a>
                 </li>
                 <li>
-                    <a href="class_list">
-                        <i class="fas fas fa-table"></i>Class<i class="js-arrow fas fa-caret-down" style="width: 167px;height: 40px;position: absolute;top: 95px;left: 120px;padding-top: 16px;"></i>
-                        <ul id="classList" style="padding-top: 10px;"class="list-unstyled navbar__sub-list js-sub-list">
-                        </ul>
+                    <a class="js-arrow arrowToggle2" href="#">
+                        <i class="fas fas fa-table"></i><span onclick="location.href='class_list'">Class</span><i class="fas fa-caret-down toggle"
+                                                                style="padding-left:5px;"></i>
+                        <ul id="classList" style="padding-top: 10px;"class="list-unstyled navbar__sub-list js-sub-list"></ul>
                     </a>
                 </li>
                 <li>
@@ -172,7 +181,8 @@
                                             </h5>
                                             <span class="email">${Account.userEmail}</span>
                                         </div>
-                                        <select style="margin-top: 15px;" name="selectSm" id="SeasonSelect" class="form-control-sm form-control">
+                                        <select style="margin-top: 15px;" name="selectSm" id="SeasonSelect"
+                                                class="form-control-sm form-control">
                                             <option value="0">Select Season</option>
                                             <option value="1">Option #1</option>
                                         </select>

@@ -21,7 +21,7 @@
                                     <div class="au-card-inner">
                                         <div class="table-responsive">
                                             <table class="table table-top-countries">
-                                                <tbody id="studentList">
+                                                <tbody id="studentList" data-group="${authStudentGroup}">
                                                 </tbody>
                                             </table>
                                         </div>
