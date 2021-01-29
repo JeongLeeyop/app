@@ -92,7 +92,7 @@ public class AccountController {
     }
 
 
-    //2.회원가입 버튼
+   /* //2.회원가입 버튼
     @RequestMapping("/signUp")
     public String signUp(accountRequest account, HttpServletRequest req,HttpServletResponse response) throws Exception{
         String hashPw = account.getPassword();
@@ -137,7 +137,7 @@ public class AccountController {
         }
 
     }
-
+*/
 
     //3.회원정보 수정 (예정)
 

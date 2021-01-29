@@ -99,7 +99,7 @@
         </div>
     </div>--%>
 
-    <div class="setting-menu js-right-sidebar d-none d-lg-block show-sidebar">
+    <div class="setting-menu js-right-sidebar d-none d-lg-block show-sidebar" style="overflow-y: auto; max-width:300px">
         <nav class="navbar-sidebar">
             <ul class="list-unstyled navbar__list">
                 <%--<li class="active has-sub">--%>
