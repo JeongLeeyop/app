@@ -311,7 +311,7 @@ function printTotalGrade() {
         data: "curClassIdx=" + curClassIdx,
         dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
         success: function (result) {
-            // console.log("TotalGrad ==> " , result);
+//             console.log("TotalGrad ==> " , result);
 
             // public class totalGradeResponse
             //     private Long studentIdx; == authStudent
@@ -381,6 +381,10 @@ function printTotalGrade() {
 //sectionAjax -> printTaskChart
 
 $(function () {
+
+
+    setInterval(function() { console.log($("#multiple-select option:checked").val())}, 1000);
+
     $('head').append('<link rel="stylesheet" href="css/class.css" type="text/css" />');
 
     //select css 수정
@@ -587,7 +591,7 @@ $(function () {
 
         //maxScore 체크
         $.each($(".maxScore"),function(index, item){
-           if($(item).val() <= 0 ){
+           if($(item).val() < 0 ){
                alert(" Please check the Task MaxScore.");
                check = 1;
            }
@@ -664,6 +668,7 @@ $(function () {
             }
         }
 
+         
         //sectionItem : maxScore 저장
         var sectionTasksList = new Array();
         $.each($(".maxScore"),function(index, item){
@@ -682,6 +687,7 @@ $(function () {
         $.ajax({
             url: "/saveTaskScore", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
+            async : false, //중복처리 방지
             data: "taskChart=" + JSON.stringify(taskChart) + "&curSectionIdx=" + curSectionIdx+"&sectionTasksList="+JSON.stringify(sectionTasksList),
             dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function () {

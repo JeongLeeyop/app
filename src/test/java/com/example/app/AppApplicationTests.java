@@ -47,10 +47,12 @@ class AppApplicationTests {
 
         Calendar now = Calendar.getInstance();
         now.setTime(new Date());
-        SimpleDateFormat DateFormat = new SimpleDateFormat("YYYY-MM-DD");
+        SimpleDateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         now.add(Calendar.DATE,-1);
         String strDate = DateFormat.format(now.getTime());
+
+        logger.info(strDate);
         Timestamp curDate = Timestamp.valueOf(strDate + " 00:00:00");
 
         logger.info(curDate.toString());

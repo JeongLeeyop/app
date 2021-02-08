@@ -109,7 +109,8 @@ public class ClassService {
             if (item.getSum() == null) {
                 grade = null;
             } else if (gradeRatio == 0L) {
-                grade = null;
+                grade = item.getSum().doubleValue() / item.getCount();
+//                grade = null;
             } else {
                 grade = item.getSum().doubleValue() / item.getCount();
                 finalGrade = (item.getSum().doubleValue() / item.getCount()) * gradeRatio / 100;
