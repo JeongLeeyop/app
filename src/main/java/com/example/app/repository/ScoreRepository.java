@@ -47,6 +47,13 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
     public void delTask(Long sectionIdx,Long sectionTasksIdx);
 
 
+    @Query("DELETE FROM Score t where t.sectionTasks.sectionTasksIdx = ?1")
+    @Transactional
+    @Modifying
+    public void delBySectionTasksIdx(Long sectionTasksIdx);
+
+
+
     @Transactional
     @Modifying
     public void deleteByStudent(Student student);
@@ -63,17 +70,23 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
     //사용중인 과제항목 불러오기
     public List<UsedTaskList> findDistinctBySection(Section section);
 
-    @Query("select t from Score t where t.section.sectionIdx = ?1 and t.task.taskIdx=?2")
-    public List<Score> findScoreBySectionAndTask(Long sectionIdx, Long taskIdx);
+    /*@Query("select t from Score t where t.section.sectionIdx = ?1 and t.task.taskIdx=?2")
+    public List<Score> findScoreBySectionAndTask(Long sectionIdx, Long taskIdx);*/
+    @Query("select t from Score t where t.sectionTasks.sectionTasksIdx = ?1")
+    public List<Score> findScoreBySectionTasks(Long sectionTasksIdx);
 
 /*    @Query("select t.task.taskIdx as task, t.authStudent.authStudentIdx as student, count(t.score) as count, sum(t.score/s.maxScore*100) as sum from Score t left outer join SectionTasks s ON t.section.sectionIdx = s.section.sectionIdx AND t.task.taskIdx = s.task.taskIdx where t.task.taskIdx In (select ti.taskIdx from Task ti where ti.authClass.authClassIdx = ?1) AND t.authStudent.authStudentIdx In (select s.authStudentIdx from AuthStudent s where s.account.userIdx = ?2) group by t.task.taskIdx,t.authStudent.authStudentIdx order by t.authStudent.authStudentIdx,t.task.taskIdx")
     public List<TotalGradeMapping> findTotalGrade(Long curClassIdx, Long curUserIdx);*/
 
-    @Query("select t.task.taskIdx as task, t.classMembers.classMembersIdx as student, count(t.score) as count, sum(t.score/s.maxScore*100) as sum from Score t left outer join SectionTasks s ON t.section.sectionIdx = s.section.sectionIdx AND t.task.taskIdx = s.task.taskIdx where t.task.taskIdx In (select ti.taskIdx from Task ti where ti.authClass.authClassIdx = ?1) AND t.classMembers.classMembersIdx In (select s.classMembersIdx from ClassMembers s where s.authClass = ?1) group by t.task.taskIdx,t.classMembers.classMembersIdx order by t.classMembers.classMembersIdx,t.task.taskIdx")
-    public List<TotalGradeMapping> findTotalGrade(Long curClassIdx, Long curUserIdx);
+   /* @Query("select t.task.taskIdx as task, t.classMembers.classMembersIdx as student, count(t.score) as count, sum(t.score/s.maxScore*100) as sum from Score t left outer join SectionTasks s ON t.section.sectionIdx = s.section.sectionIdx AND t.task.taskIdx = s.task.taskIdx where t.task.taskIdx In (select ti.taskIdx from Task ti where ti.authClass.authClassIdx = ?1) AND t.classMembers.classMembersIdx In (select s.classMembersIdx from ClassMembers s where s.authClass = ?1) group by t.task.taskIdx,t.classMembers.classMembersIdx order by t.classMembers.classMembersIdx,t.task.taskIdx")
+    public List<TotalGradeMapping> findTotalGrade(Long curClassIdx, Long curUserIdx);*/
+   @Query("select t.task.taskIdx as task, t.classMembers.classMembersIdx as student, count(t.score) as count, sum(t.score/s.maxScore*100) as sum from Score t left outer join SectionTasks s ON t.sectionTasks.sectionTasksIdx = s.sectionTasksIdx where t.task.taskIdx In (select ti.taskIdx from Task ti where ti.authClass.authClassIdx = ?1) AND t.classMembers.classMembersIdx In (select s.classMembersIdx from ClassMembers s where s.authClass = ?1) group by t.task.taskIdx,t.classMembers.classMembersIdx order by t.classMembers.classMembersIdx,t.task.taskIdx")
+   public List<TotalGradeMapping> findTotalGrade(Long curClassIdx, Long curUserIdx);
+
 
     //11.AuthStudent의 Task 그래프 데이터를 조회해주는 기능
-    @Query("select s.score as score, st.maxScore as maxScore, s.score/st.maxScore*100 as avg from Score s join SectionTasks st On s.section.sectionIdx = st.section.sectionIdx and s.task.taskIdx = st.task.taskIdx where s.task.taskIdx = ?1 and s.classMembers.classMembersIdx=?2 and s.section.sectionIdx=?3")
+//    @Query("select s.score as score, st.maxScore as maxScore, s.score/st.maxScore*100 as avg from Score s join SectionTasks st On s.section.sectionIdx = st.section.sectionIdx and s.task.taskIdx = st.task.taskIdx where s.task.taskIdx = ?1 and s.classMembers.classMembersIdx=?2 and s.section.sectionIdx=?3")
+    @Query("select sum(s.score) as score, sum(st.maxScore) as maxScore, sum(s.score/st.maxScore*100)/count(s.score) as avg, count(s.score) as count from Score s join SectionTasks st On s.sectionTasks.sectionTasksIdx = st.sectionTasksIdx where s.task.taskIdx = ?1 and s.classMembers.classMembersIdx=?2 and s.section.sectionIdx=?3")
     public CMTaskScoreMapping findAuthStudentTaskChart(Long taskIdx, Long authStudentIdx, Long sectionIdx);
 
     @Transactional

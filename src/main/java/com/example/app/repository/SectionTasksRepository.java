@@ -32,8 +32,8 @@ public interface SectionTasksRepository extends CrudRepository<SectionTasks, Lon
 
     @Transactional
     @Modifying
-    @Query("update SectionTasks s set s.maxScore = ?2 where s.sectionTasksIdx=?1")
-    public void updateMaxScore(Long sectionTasksIdx, Double maxScore);
+    @Query("update SectionTasks s set s.maxScore = ?2, s.Memo = ?3 where s.sectionTasksIdx=?1")
+    public void updateMaxScore(Long sectionTasksIdx, Double maxScore,String memo);
 
     @Query("select si from SectionTasks si where si.section.sectionIdx In (select max(s.sectionIdx) from Section s where s.authClass.authClassIdx = ?1) order by si.sectionTasksIdx")
     public List<SectionTasks> findLastSectionTasks(Long curClassIdx);

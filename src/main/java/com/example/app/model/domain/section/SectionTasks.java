@@ -20,8 +20,9 @@ public class SectionTasks {
     @ColumnDefault("10")
     private Double maxScore;
 
-    @ManyToOne
+    private String Memo;
 
+    @ManyToOne
     @JoinColumn(name = "sectionIdx")
     private Section section;
 

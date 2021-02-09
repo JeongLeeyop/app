@@ -50,7 +50,7 @@
         </div>
     </div>
 </div>--%>
-
+    
                             <div class="col-lg-6 sectionChart" style="width: 30%;flex: 0 0 30%;">
                                 <div class="card" style="height: 100%;">
                                     <div class="card-header">
@@ -61,12 +61,20 @@
                                     <div class="card-body card-block" style="height: 431px;" >
                                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" style="height: 100%;">
                                             <div class="row form-group" style="height: 92%;">
+                                            <ul id="a">
+                                              <li><a href="#">Home</a></li>
+                                              <li><a href="#">News</a></li>
+                                              <li><a href="#">Contact</a></li>
+                                              <li><a href="#">About</a></li>
+                                            </ul>
+
+<%--
                                                 <div class="col-12 col-md-9">
-                                                    <select name="multiple-select" id="multiple-select" multiple="" class="form-control">
+                                                    <select name="multiple-select" id="multiple-select" class="form-control">
                                                     </select>
                                                 </div>
+ --%>
                                             </div>
-
                                     </div>
                                     <div id="alert2" class="user-data__footer">
                                         <button data-toggle="modal" data-target="#smallmodal2" id ="addSection" type="button" class="btn btn-primary btn-sm">
@@ -88,7 +96,7 @@
                                 <div class="top-campaign">
                                     <div class="card-header">
                                         <strong>Task</strong> List </div>
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" style="width: 100%;">
                                         <table overflow : auto class="table table-top-campaign">
                                             <thead id = "taskList">
                                                 <tr id = "taskListTr">

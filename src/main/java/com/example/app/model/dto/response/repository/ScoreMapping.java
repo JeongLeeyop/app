@@ -1,5 +1,7 @@
     package com.example.app.model.dto.response.repository;
 
+import com.example.app.model.domain.section.SectionTasks;
+
 import java.math.BigDecimal;
 
 public interface ScoreMapping {
@@ -7,6 +9,8 @@ public interface ScoreMapping {
     Long getScoreIdx();
 
     BigDecimal getScore();
+
+    Long getSectionTasksSectionTasksIdx();
 
     //필요없음
 //    Long getStudentStudentIdx();

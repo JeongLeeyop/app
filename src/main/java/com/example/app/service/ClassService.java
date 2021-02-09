@@ -51,15 +51,15 @@ public class ClassService {
     AdminService adminService;
 
     //0.전체 클래스를 조회하는 기능
-    public List<Class> findClassList(Long curSeasonIdx,Long orderBy) {
-        Sort sort = Sort.by(Sort.Direction.ASC,"classIdx");
-        if(orderBy==OrderByCode.ByGrade.getValue()){
-            sort = Sort.by(Sort.Direction.ASC,"classGrade");
-        } else if(orderBy==OrderByCode.ByName.getValue()){
-            sort = Sort.by(Sort.Direction.ASC,"className");
+    public List<Class> findClassList(Long curSeasonIdx, Long orderBy) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "classIdx");
+        if (orderBy == OrderByCode.ByGrade.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "classGrade");
+        } else if (orderBy == OrderByCode.ByName.getValue()) {
+            sort = Sort.by(Sort.Direction.ASC, "className");
         }
 
-        return classRepo.findClassBySeason_SeasonIdx(curSeasonIdx,sort);
+        return classRepo.findClassBySeason_SeasonIdx(curSeasonIdx, sort);
     }
 
     //0.권한이 있는 클래스 목록을 조회하는 기능
@@ -67,7 +67,7 @@ public class ClassService {
 
         Season season = seasonRepo.findSeasonBySeasonIdx(curSeasonIdx);
         Account account = (Account) session.getAttribute("Account");
-        List<AuthClassMapping> result = authClassRepo.findAuthClassByAccountAndSeason(account.getUserIdx(),season.getSeasonIdx());
+        List<AuthClassMapping> result = authClassRepo.findAuthClassByAccountAndSeason(account.getUserIdx(), season.getSeasonIdx());
         return result;
     }
 
@@ -191,7 +191,7 @@ public class ClassService {
 
 
     //6. 섹션의 과제 항목과 점수를 조회하는 기능
-    public Map findTaskChart(Long curSectionIdx, Long curClassIdx, HttpSession session,Long curSeasonIdx) {
+    public Map findTaskChart(Long curSectionIdx, Long curClassIdx, HttpSession session, Long curSeasonIdx) {
 
         //차트 데이터 불러오기
         List<ScoreMapping> classChart = scoreRepo.findAllBySectionOrderByStudent(sectionRepo.findById(curSectionIdx).get());
@@ -208,7 +208,7 @@ public class ClassService {
 //        List<AuthStudent> studentList = studentService.findAuthStudentList(curSeasonIdx,session);
 
         //해당 시즌의 classMembers 리스트 불러오기
-        List<ClassMembers> classMembers = adminService.findClassMembers(curClassIdx,0L);
+        List<ClassMembers> classMembers = adminService.findClassMembers(curClassIdx, 0L);
 
         Map<String, Object> map = new HashMap<>();
         map.put("classChart", classChart);
@@ -244,7 +244,8 @@ public class ClassService {
         //taskiteminfo Null여부 체크 : 새로 추가된 Task이므로 TaskItem이 없음
         if (sectionTasks.getTask() != null) {
             //섹션과제 내부의 점수 데이터 삭제
-            scoreRepo.delTask(sectionTasks.getSection().getSectionIdx(), sectionTasks.getTask().getTaskIdx());
+//            scoreRepo.delTask(sectionTasks.getSection().getSectionIdx(), sectionTasks.getTask().getTaskIdx());
+            scoreRepo.delBySectionTasksIdx(sectionTasksIdx);
         }
         //섹션과제 항목 삭제
         sectionTasksRepo.deleteById(sectionTasksIdx);
@@ -263,7 +264,8 @@ public class ClassService {
         //task의 Null여부 체크 : 새로 추가된 Task이므로 score 없음
         if (sectionTasks.getTask() != null) {
             //score의 taskidx를 전부 수정
-            List<Score> scoreList = scoreRepo.findScoreBySectionAndTask(sectionTasks.getSection().getSectionIdx(), sectionTasks.getTask().getTaskIdx());
+//            List<Score> scoreList = scoreRepo.findScoreBySectionAndTask(sectionTasks.getSection().getSectionIdx(), sectionTasks.getTask().getTaskIdx());
+            List<Score> scoreList = scoreRepo.findScoreBySectionTasks(sectionTasksIdx);
             for (Score score : scoreList) {
                 score.setTask(taskRepo.findById(targetTaskIdx).get());
                 scoreRepo.save(score);
@@ -280,7 +282,7 @@ public class ClassService {
     //10. 과제 점수를 입력, 수정하는 기능
     @Transactional
     @Modifying
-    public int saveTaskScore(String taskChart, Long curSectionIdx,String sectionTasksList) {
+    public int saveTaskScore(String taskChart, Long curSectionIdx, String sectionTasksList) {
 
         // 가져온 데이터 출력
         //        System.out.println(taskChart);
@@ -298,8 +300,9 @@ public class ClassService {
             JsonObject object = (JsonObject) jsonArray.get(i);
             Long sectionTasksIdx = object.get("sectionTasksIdx").getAsLong();
             Double maxScore = object.get("maxScore").getAsDouble();
+            String memo = object.get("memo").getAsString();
 
-            sectionTasksRepo.updateMaxScore(sectionTasksIdx,maxScore);
+            sectionTasksRepo.updateMaxScore(sectionTasksIdx, maxScore, memo);
         }
 
         //json 파싱
@@ -315,6 +318,7 @@ public class ClassService {
             JsonObject object = (JsonObject) jsonArray.get(i);
             Long studentIdx = object.get("studentIdx").getAsLong();
             Long taskIdx = object.get("taskIdx").getAsLong();
+            Long sectionTasks = object.get("sectionTasks").getAsLong();
 
             //뒤에서 사용될 변수
             Long scoreIdx;
@@ -334,6 +338,7 @@ public class ClassService {
             _score.setClassMembers(curStudent);
             _score.setTask(curTask);
             _score.setSection(curSection);
+            _score.setSectionTasks(sectionTasksRepo.findById(sectionTasks).get());
 
             //아이디가 이미 있으면 입력해 주기
             if (object.has("scoreIdx")) {
@@ -366,22 +371,18 @@ public class ClassService {
     }
 
     //11. 과제 정보를 출력해주는 기능 : 성적비율
-    public List<Task> findTaskList(Long curClassIdx){
+    public List<Task> findTaskList(Long curClassIdx) {
         return taskRepo.findTaskByClassIdx(curClassIdx);
     }
 
     //11.AuthStudent의 Task 그래프 데이터를 조회해주는 기능
-    public List<CMTaskScoreResponse> findAuthStudentTaskChart(Long taskIdx, Long authStudentIdx,Long curClassIdx) {
+    public List<CMTaskScoreResponse> findAuthStudentTaskChart(Long taskIdx, Long authStudentIdx, Long curClassIdx) {
 
         List<Section> sectionList = sectionRepo.findSectionByauthClass_AuthClassIdxOrderBySectionIdx(curClassIdx);
         List<CMTaskScoreResponse> result = new ArrayList<>();
 
-        for(Section section : sectionList){
-            System.out.println(section.getSectionIdx());
-            System.out.println(taskIdx);
-            System.out.println(authStudentIdx);
-            CMTaskScoreMapping CMTaskScoreMapping = scoreRepo.findAuthStudentTaskChart(taskIdx,authStudentIdx,section.getSectionIdx());
-            System.out.println("호에엥");
+        for (Section section : sectionList) {
+            CMTaskScoreMapping CMTaskScoreMapping = scoreRepo.findAuthStudentTaskChart(taskIdx, authStudentIdx, section.getSectionIdx());
             /*
             System.out.println("Score : "+CMTaskScoreMapping.getScore());
             System.out.println("MaxScore : " + CMTaskScoreMapping.getMaxScore());
@@ -391,10 +392,17 @@ public class ClassService {
 
             taskScoreRes.setSectionName(section.getSectionName());
 
-            if(CMTaskScoreMapping!=null) {
-                taskScoreRes.setScore(CMTaskScoreMapping.getScore());
-                taskScoreRes.setAvg(CMTaskScoreMapping.getAvg());
-                taskScoreRes.setMaxScore(CMTaskScoreMapping.getMaxScore());
+            if (CMTaskScoreMapping != null) {
+
+                if(CMTaskScoreMapping.getCount() > 1) {
+                    taskScoreRes.setScore(new BigDecimal(CMTaskScoreMapping.getAvg()));
+                    taskScoreRes.setMaxScore(new BigDecimal(100.0));
+                    taskScoreRes.setAvg(CMTaskScoreMapping.getAvg());
+                } else {
+                    taskScoreRes.setScore(CMTaskScoreMapping.getScore());
+                    taskScoreRes.setMaxScore(CMTaskScoreMapping.getMaxScore());
+                    taskScoreRes.setAvg(CMTaskScoreMapping.getAvg());
+                }
             }
             result.add(taskScoreRes);
         }
