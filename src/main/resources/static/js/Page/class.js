@@ -68,7 +68,7 @@ function SectionAjax() {
             $.each(result, function (index, item) {
                 var sectionName = item.sectionName;
                 var sectionIdx = item.sectionIdx;
-                var str = "<option value=\"" + sectionIdx + "\">" + sectionName + "</option>";
+//                var str = "<option value=\"" + sectionIdx + "\">" + sectionName + "</option>";
                 var str2 = "<li><a href=\"#\" data-id=\""+sectionIdx+"\">"+sectionName+"</a></li>";
 //                $("#multiple-select").append(str);
                 $("#a").append(str2);

@@ -32,6 +32,7 @@ option {width: 0px;}
             width: 100%;
             min-width: 290px;
             max-width: 395px;
+            margin-top: 30px;
         }
         .m-b-30 {
             padding: 40px;
