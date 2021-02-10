@@ -50,7 +50,7 @@ $(function () {
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
                 $.each(result, function (index, item) {
-                    var str = "<tr class=\"studentDetail\"><td id=\"" + item.authStudentIdx + "\"style=\"vertical-align: middle;\">" + item.student.studentName + "</td><td>" +
+                    var str = "<tr class=\"studentDetail\"><td id=\"" + item.authStudentIdx + "\"style=\"vertical-align: middle;white-space: normal;\">" + item.student.studentName + "</td><td style=\"min-width: 50px;\">" +
                         "<div data-id=\"none\" class=\"noselect\">\n" +
                         "                    <select style=\"position: relative;\"class=\"js-select\" name=\"time\">\n" +
                         "                    <option data-id=\"0\" value=\"\">Present</option>\n" +

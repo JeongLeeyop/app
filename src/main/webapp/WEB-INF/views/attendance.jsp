@@ -27,7 +27,7 @@
                                         </div>
                                     </div>
                                     <div class="au-card-inner" style="width: 100%;">
-                                            <div class="table-responsive" style="position: absolute;/* top: 50%; */bottom: 22px;width: 75%;max-width: 290px;">
+                                            <div class="table-responsive" style="position: absolute;/* top: 50%; */bottom: 15px;width: 75%;max-width: 290px;">
                                         <button type="button" id="addAt" class="btn btn-success btn-sm" >Save<div hidden id="curDate"></div></button>
                                         <button type="button" id="delAt" class="btn btn-danger btn-sm">Delete</button>
 

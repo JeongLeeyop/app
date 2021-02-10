@@ -62,10 +62,6 @@
                                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" style="height: 100%;">
                                             <div class="row form-group" style="height: 92%;">
                                             <ul id="a">
-                                              <!-- <li><a href="#">Home</a></li>
-                                              <li><a href="#">News</a></li>
-                                              <li><a href="#">Contact</a></li>
-                                              <li><a href="#">About</a></li> -->
                                             </ul>
 
 <%--
