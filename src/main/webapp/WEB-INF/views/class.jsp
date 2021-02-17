@@ -95,7 +95,7 @@
                                     <div class="table-responsive" style="width: 100%;">
                                         <table overflow : auto class="table table-top-campaign">
                                             <thead id = "taskList">
-                                                <tr id = "taskListTr">
+                                                <tr id = "taskListTr" style="height: 108px;">
                                                     <th style="border-top: none;font-size: 0.38cm;padding-bottom: 21.5px;padding-right: 12px;">
                                                         <div>Name</div>
                                                     </th>

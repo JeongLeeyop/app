@@ -299,7 +299,11 @@ public class ClassService {
             //sectionTasksIdx, maxScore 파싱
             JsonObject object = (JsonObject) jsonArray.get(i);
             Long sectionTasksIdx = object.get("sectionTasksIdx").getAsLong();
-            Double maxScore = object.get("maxScore").getAsDouble();
+
+            Double maxScore;
+            if(object.get("maxScore").getAsString().equals("")) maxScore = null;
+            else maxScore = object.get("maxScore").getAsDouble();
+
             String memo = object.get("memo").getAsString();
 
             sectionTasksRepo.updateMaxScore(sectionTasksIdx, maxScore, memo);
@@ -317,8 +321,10 @@ public class ClassService {
             //authStudentIdx, taskIdx 파싱
             JsonObject object = (JsonObject) jsonArray.get(i);
             Long studentIdx = object.get("studentIdx").getAsLong();
-            Long taskIdx = object.get("taskIdx").getAsLong();
             Long sectionTasks = object.get("sectionTasks").getAsLong();
+
+            Long taskIdx = object.get("taskIdx").getAsLong();
+
 
             //뒤에서 사용될 변수
             Long scoreIdx;
@@ -327,7 +333,10 @@ public class ClassService {
             //authStudent, task 가져오기
 //            AuthStudent curStudent = authStudentRepo.findById(studentIdx).get();
             ClassMembers curStudent = classMembersRepo.findById(studentIdx).get();
-            Task curTask = taskRepo.findById(taskIdx).get();
+
+            SectionTasks curSectionTasks = sectionTasksRepo.findById(sectionTasks).get();
+//            Task curTask = taskRepo.findById(taskIdx).get();
+            Task curTask =curSectionTasks.getTask();
             //결과 출력
 //            System.out.println("Student idx " + studentIdx + " | TaskInfo idx " + taskIdx);
 
@@ -338,7 +347,7 @@ public class ClassService {
             _score.setClassMembers(curStudent);
             _score.setTask(curTask);
             _score.setSection(curSection);
-            _score.setSectionTasks(sectionTasksRepo.findById(sectionTasks).get());
+            _score.setSectionTasks(curSectionTasks);
 
             //아이디가 이미 있으면 입력해 주기
             if (object.has("scoreIdx")) {

@@ -181,7 +181,7 @@
                                             </h5>
                                             <span class="email">${Account.userEmail}</span>
                                         </div>
-                                        <select style="margin-top: 15px;" name="selectSm" id="SeasonSelect"
+                                        <select style="margin-top: 15px;border: 1px solid #ced4da !important;" name="selectSm" id="SeasonSelect"
                                                 class="form-control-sm form-control">
                                             <option value="0">Select Season</option>
                                             <option value="1">Option #1</option>
