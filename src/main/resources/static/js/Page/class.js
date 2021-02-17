@@ -687,8 +687,8 @@ $(function () {
 
         //maxScore 체크
         $.each($(".maxScore"),function(index, item){
-           if($(item).val() <= 0 /*|| $(item).val() == "" */){
-               alert(" Please check the Task MaxScore.");
+           if($(item).val() <= 0 && $(item).val() != "" /*|| $(item).val() == "" */){
+               alert(" Please check the Total Point.");
                check = 1;
                $(item).focus();
                return false;
@@ -735,12 +735,11 @@ $(function () {
                     curRow.find("td:eq(" + Number(j + 2) + ")").children().focus();
                     return false;*/
 //                    maxScore체크
-                   if(maxScore==""){
-                    alert("Please input Total Point score");
-                    $(".maxScore:eq(" + j + ")").focus();
-                    return false;
+                        if(maxScore==""&&score>=0){
+                       alert("Please input Total Point");
+                       $(".maxScore:eq(" + j + ")").focus();
+                       return false;
                     }
-
                 } else if (score < 0) {
                     //0이하인지 체크
                     alert("Scores cannot be less than 0");
