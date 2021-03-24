@@ -35,6 +35,11 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
     @Modifying
     public void deleteByAuthStudent_AuthStudentIdx(Long authStudentIdx);
 
+    @Query("DELETE FROM Score t where t.classMembers.classMembersIdx = ?1")
+    @Transactional
+    @Modifying
+    public void deleteByClassMembers(Long authStudentIdx);
+
 
     @Query("DELETE FROM Score t where t.section.sectionIdx = ?1")
     @Transactional

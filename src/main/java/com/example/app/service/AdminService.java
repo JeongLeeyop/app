@@ -132,22 +132,24 @@ public class AdminService {
             List<AuthStudent> authStudentList = authStudentRepo.findAuthStudentByStudent_StudentIdx(studentIdx);
             for (AuthStudent authStudent : authStudentList) {
 
-                Long authClassIdx = authStudent.getAuthStudentIdx();
+                Long authStudentIdx = authStudent.getAuthStudentIdx();
 
                 //출석 삭제
-                attendanceRepo.deleteByAuthStudent_AuthStudentIdx(authClassIdx);
+                attendanceRepo.deleteByAuthStudent_AuthStudentIdx(authStudentIdx);
                 System.out.println("출석 삭제");
 
                 //과제 점수 삭제
-                scoreRepo.deleteByAuthStudent_AuthStudentIdx(authClassIdx);
+
+
+                scoreRepo.deleteByAuthStudent_AuthStudentIdx(authStudentIdx);
                 System.out.println("점수삭제");
 
                 //클래스 멤버 삭제
-                classMembersRepo.deleteByAuthStudent_AuthStudentIdx(authClassIdx);
+                classMembersRepo.deleteByAuthStudent_AuthStudentIdx(authStudentIdx);
                 System.out.println("클래스_맴버 삭제");
 
                 //AuthStudent삭제
-                authStudentRepo.deleteById(authClassIdx);
+                authStudentRepo.deleteById(authStudentIdx);
                 System.out.println("AuthStudent 삭제");
 
             }
@@ -397,7 +399,7 @@ public class AdminService {
 
         for (Long classMembersIdx : classMembersList) {
             //과제 점수 삭제
-            scoreRepo.deleteByAuthStudent_AuthStudentIdx(classMembersIdx);
+            scoreRepo.deleteByClassMembers(classMembersIdx);
             System.out.println("점수삭제");
             //클래스 멤버 삭제
             classMembersRepo.deleteById(classMembersIdx);
