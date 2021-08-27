@@ -1,9 +1,6 @@
 package com.example.app;
 
-import com.example.app.model.domain.Account;
-import com.example.app.model.domain.Attendance;
-import com.example.app.model.domain.AuthStudent;
-import com.example.app.model.domain.School;
+import com.example.app.model.domain.*;
 import com.example.app.repository.*;
 import com.example.app.util.AttendanceScheduler;
 import org.junit.jupiter.api.Test;
@@ -33,6 +30,10 @@ class AppApplicationTests {
     AuthStudentRepository authStudentRepo;
     @Autowired
     AttendanceRepository attendanceRepo;
+    @Autowired
+    ClassMembersRepository classMembersRepo;
+    @Autowired
+    AuthClassRepository authClassRepo;
 
     @Test
     void contextLoads() {
@@ -101,6 +102,30 @@ class AppApplicationTests {
                 }
 
             }
+        }
+    }
+
+// 과목강사 : classMemeber 배치 (수동)
+    @Test
+    void insertClassMembers() {
+        System.out.println("Start!!!");
+
+        Long seasonIdx = 4L;
+        Long userIdx = 63L;
+        Account account = accountRepo.findById(userIdx).get();
+
+        String groupName = "4th Grade Joy";
+        Long authClassIdx = 234L;
+
+        List<AuthStudent> authStudentList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccount_UserIdx(seasonIdx,account,groupName);
+
+        for(AuthStudent authStudent : authStudentList) {
+            System.out.println(authStudent + "  호에에에엥");
+
+            ClassMembers classMembers = new ClassMembers();
+            classMembers.setAuthClass(authClassRepo.findById(authClassIdx).get());
+            classMembers.setAuthStudent(authStudentRepo.findById(authStudent.getAuthStudentIdx()).get());
+            classMembersRepo.save(classMembers);
         }
     }
 

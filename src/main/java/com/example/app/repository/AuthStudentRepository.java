@@ -32,4 +32,8 @@ AuthStudentRepository extends CrudRepository<AuthStudent, Long> {
     //authStudentGroup이름 찾기
     @Query("select DISTINCT a.authStudentGroup from AuthStudent a where a.season.seasonIdx=?1 AND a.account = ?2 ORDER BY a.authStudentGroup")
     public List<String> findAuthStudentGroup(Long seasonIdx, Account account);
+
+    //test
+    @Query("select a from AuthStudent a where a.season.seasonIdx=?1 AND a.account = ?2 AND a.authStudentGroup Like ?3")
+    public List<AuthStudent> findAuthStudentBySeason_SeasonIdxAndAccount_UserIdx(Long seasonIdx, Account account, String groupName);
 }

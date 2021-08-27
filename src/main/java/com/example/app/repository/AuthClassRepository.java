@@ -23,7 +23,7 @@ group by t.task.taskIdx,t.student.studentIdx order by t.student.studentIdx,t.tas
     public List<AuthClass> findAuthClassByAccountAndSeason(Account account, long seasonIdx);*/
 
     @Query("select a.authClassIdx as authclass, a._class.classIdx as _class, c.className as classname, a.account.userIdx as user, a.season.seasonIdx as season " +
-            "from AuthClass a join Class c on a._class.classIdx = c.classIdx where a.account.userIdx=?1 and c.season.seasonIdx=?2 order by a.authClassIdx")
+            "from AuthClass a join Class c on a._class.classIdx = c.classIdx where a.account.userIdx=?1 and c.season.seasonIdx=?2 order by c.className")
     public List<AuthClassMapping> findAuthClassByAccountAndSeason(Long account, Long season);
 
     //클래스의 idx로 AuthClass 찾기
