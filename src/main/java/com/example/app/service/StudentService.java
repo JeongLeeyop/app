@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.lang.Class;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,8 +69,13 @@ public class StudentService {
     }
 
     //3. 일반 계정의 권한 부여된 학생목록을 조회하는 기능
-    public List<AuthStudent> findAuthStudentList(Long curSeasonIdx, HttpSession session) {
-        List<AuthStudent> student = authstudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(curSeasonIdx, (Account) session.getAttribute("Account"));
+    public List<AuthStudent> findAuthStudentList(Long curSeasonIdx, HttpSession session,String authStudentGroup) {
+        List<AuthStudent> student = new ArrayList<>();
+        if(authStudentGroup==""){
+            student = authstudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(curSeasonIdx, (Account) session.getAttribute("Account"));
+        } else {
+            student = authstudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountAndAuthStudentGroupOrderByAuthStudentIdx(curSeasonIdx, (Account) session.getAttribute("Account"),authStudentGroup);
+        }
         return student;
     }
 
@@ -89,12 +95,12 @@ public class StudentService {
 
         //. 전체 학생명 출력 : 행
 //        System.out.println("전체 학생명 출력");
-        List<AuthStudent> authStudentList = this.findAuthStudentList(curSeasonIdx, session);
+        List<AuthStudent> authStudentList = this.findAuthStudentList(curSeasonIdx, session,"");
 //        System.out.println("=========> " + authStudentList);
 
         //. 전체 학생 출결일 출력
 //        System.out.println("전체 학생 출결일 출력");
-        List<atCountResponse> atCntResList = attendanceService.findTotalAt(curSeasonIdx, session);
+        List<atCountResponse> atCntResList = attendanceService.findTotalAt(curSeasonIdx, session,"");
 
 
         //출결일 구하기
@@ -241,6 +247,8 @@ public class StudentService {
     public int findStudentDetailGrade(int a) {
         return 0;
     }
+
+
 
 
 }

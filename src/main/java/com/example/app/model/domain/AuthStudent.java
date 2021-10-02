@@ -16,6 +16,9 @@ public class AuthStudent {
     @SequenceGenerator(sequenceName = "AuthStudent_SEQ_NO", name = "AuthStudent_SEQ_NO", allocationSize = 1)
     private long authStudentIdx;
 
+    @Column
+    private String authStudentGroup;
+
     @ManyToOne
     @JoinColumn(name = "studentIdx")
     private Student student;

@@ -8,6 +8,7 @@ $(function () {
     //중복실행 방지코드
     var isRun = false;
     var curSeasonIdx =  sessionStorage.getItem("curSeasonIdx");
+    var authStudentGroup = $("#studentList").data('group');
 
     //최초 Season 설정
     if(curSeasonIdx==null) {
@@ -33,6 +34,7 @@ $(function () {
     printAtAjax();
 
     $('head').append('<link rel="stylesheet" href="css/attendance.css" type="text/css" />');
+
     //출석 학생 목록 출력 Ajax
     function printAtAjax() {
         $("#studentList").empty();
@@ -43,12 +45,12 @@ $(function () {
         $.ajax({
             url: "/findAuthStudent", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
-            data: "curSeasonIdx=" + curSeasonIdx,
+            data: "curSeasonIdx=" + curSeasonIdx+"&authStudentGroup="+authStudentGroup,
             async: false,
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
                 $.each(result, function (index, item) {
-                    var str = "<tr class=\"studentDetail\"><td id=\"" + item.authStudentIdx + "\"style=\"vertical-align: middle;\">" + item.student.studentName + "</td><td>" +
+                    var str = "<tr class=\"studentDetail\"><td id=\"" + item.authStudentIdx + "\"style=\"vertical-align: middle;white-space: normal;\">" + item.student.studentName + "</td><td style=\"min-width: 50px;\">" +
                         "<div data-id=\"none\" class=\"noselect\">\n" +
                         "                    <select style=\"position: relative;\"class=\"js-select\" name=\"time\">\n" +
                         "                    <option data-id=\"0\" value=\"\">Present</option>\n" +
@@ -179,7 +181,7 @@ $(function () {
             url: "/findTotalAtSummary2", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
             async: false,
-            data: "curSeasonIdx="+curSeasonIdx,
+            data: "curSeasonIdx="+curSeasonIdx+"&authStudentGroup="+authStudentGroup,
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
                 // console.log(result);
@@ -330,7 +332,7 @@ $(function () {
             $.ajax({
                 url: "/findAtByDate", //서버요청주소
                 type: "post",//요청방식 (get,post,patch,delete,put)
-                data: "strDate=" + date.format()+"&curSeasonIdx="+curSeasonIdx,
+                data: "strDate=" + date.format()+"&curSeasonIdx="+curSeasonIdx+"&authStudentGroup="+authStudentGroup,
                 dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
                 success: function (result) {
                     console.log("findAtByDate : ",result);
@@ -569,11 +571,11 @@ $(function () {
 
         $.ajax({
             url: "/findTotalAt", //서버요청주소
-            data: "curSeasonIdx="+curSeasonIdx,
+            data: "curSeasonIdx="+curSeasonIdx+"&authStudentGroup="+authStudentGroup,
             type: "post",//요청방식 (get,post,patch,delete,put)
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
-                console.log(result);
+                // console.log(result);
 
 
                 var str = "<div class=\"col-md-12 At\">\n" +
@@ -655,7 +657,7 @@ $(function () {
             $.ajax({
                 url: "/deleteAt", //서버요청주소
                 type: "post",//요청방식 (get,post,patch,delete,put)
-                data: "curDate=" + curDate + "&curSeasonIdx="+curSeasonIdx,
+                data: "curDate=" + curDate + "&curSeasonIdx="+curSeasonIdx+"&authStudentGroup="+authStudentGroup,
                 dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
                 success: function (result) {
                     alert(result + " : data has been successfully deleted..");

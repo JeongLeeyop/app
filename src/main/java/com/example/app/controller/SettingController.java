@@ -64,6 +64,7 @@
                 return _class;
             } else {
                 throw new Exception();
+
             }
         }
 
@@ -112,8 +113,8 @@
         //4. 권한이 허가된 학생의 리스트를 조회하는 기능
         @RequestMapping("findAuthStudent")
         @ResponseBody
-        public List<AuthStudent> findAuthStudent(Long curSeasonIdx, HttpSession session)  {
-            List<AuthStudent> result = studentService.findAuthStudentList(curSeasonIdx,session);
+        public List<AuthStudent> findAuthStudent(Long curSeasonIdx, HttpSession session,String authStudentGroup)  {
+            List<AuthStudent> result = studentService.findAuthStudentList(curSeasonIdx,session,authStudentGroup);
             return result;
         }
 

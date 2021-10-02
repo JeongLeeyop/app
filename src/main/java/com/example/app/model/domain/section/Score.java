@@ -46,4 +46,8 @@ public class Score {
     @ManyToOne
     @JoinColumn(name = "classMembersIdx")
     private ClassMembers classMembers;
+
+    @ManyToOne
+    @JoinColumn(name = "sectionTasksIdx")
+    private SectionTasks sectionTasks;
 }

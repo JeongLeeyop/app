@@ -101,7 +101,7 @@
                                     </div>
                                 </div>--%>
                             </form>
-                            <div class="register-link">
+                           <div class="register-link">
                                 <p>
                                     Don't you have account?
                                     <a href="register">Sign Up Here</a>

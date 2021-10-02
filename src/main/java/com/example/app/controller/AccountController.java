@@ -5,6 +5,7 @@ import com.example.app.model.domain.Account;
 import com.example.app.model.dto.request.accountRequest;
 import com.example.app.repository.AccountRepository;
 import com.example.app.service.AccountService;
+import com.example.app.service.AttendanceService;
 import com.example.app.util.PwUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Controller
@@ -28,6 +30,9 @@ public class AccountController {
 
     @Autowired
     AccountService accountService;
+    @Autowired
+    AttendanceService attendanceService;
+
 
     PwUtil pwUtil;
 
@@ -54,11 +59,19 @@ public class AccountController {
             //관리자상태로 재로그인시 오류제어
             session.removeAttribute("Authority");
 
+            //최근 시즌
+            Long curSeason = attendanceService.SeasonInit(result);
+            List<String> str = attendanceService.findAuthStudentGroup(result,curSeason);
+
             if(result.getAuthority()==AuthorityCode.Admin.getValue()){
                 session.setAttribute("Authority", AuthorityCode.Admin.getValue());
                 return "redirect:admin";
+            } else if(!str.isEmpty()){
+                req.setAttribute("authStudentGroup",str.get(0));
+                return "redirect:attendanceInit";
+            } else {
+                return "redirect:attendance";
             }
-            return "redirect:attendance";
         } else {
             response.setContentType("text/html; charset=UTF-8");
             PrintWriter out = response.getWriter();
@@ -78,7 +91,8 @@ public class AccountController {
         return "redirect:login";
     }
 
-    //2.회원가입 버튼
+
+   //2.회원가입 버튼
     @RequestMapping("/signUp")
     public String signUp(accountRequest account, HttpServletRequest req,HttpServletResponse response) throws Exception{
         String hashPw = account.getPassword();

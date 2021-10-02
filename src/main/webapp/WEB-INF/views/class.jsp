@@ -50,22 +50,27 @@
         </div>
     </div>
 </div>--%>
-
+    
                             <div class="col-lg-6 sectionChart" style="width: 30%;flex: 0 0 30%;">
                                 <div class="card" style="height: 100%;">
                                     <div class="card-header">
                                         <strong>Section</strong> List
                                         <h3 data-id="${authClass.authClassIdx}"class="title-3"style="padding-top: 10px;padding-bottom: 5px;">${authClass._class.className}</h3>
+                                        <span class="sectionName"></span>
                                     </div>
                                     <div class="card-body card-block" style="height: 431px;" >
                                         <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" style="height: 100%;">
                                             <div class="row form-group" style="height: 92%;">
+                                            <ul id="a">
+                                            </ul>
+
+<%--
                                                 <div class="col-12 col-md-9">
-                                                    <select name="multiple-select" id="multiple-select" multiple="" class="form-control">
+                                                    <select name="multiple-select" id="multiple-select" class="form-control">
                                                     </select>
                                                 </div>
+ --%>
                                             </div>
-
                                     </div>
                                     <div id="alert2" class="user-data__footer">
                                         <button data-toggle="modal" data-target="#smallmodal2" id ="addSection" type="button" class="btn btn-primary btn-sm">
@@ -87,10 +92,10 @@
                                 <div class="top-campaign">
                                     <div class="card-header">
                                         <strong>Task</strong> List </div>
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" style="width: 100%;">
                                         <table overflow : auto class="table table-top-campaign">
                                             <thead id = "taskList">
-                                                <tr id = "taskListTr">
+                                                <tr id = "taskListTr" style="height: 108px;">
                                                     <th style="border-top: none;font-size: 0.38cm;padding-bottom: 21.5px;padding-right: 12px;">
                                                         <div>Name</div>
                                                     </th>
@@ -198,7 +203,7 @@
 </div>
 
 <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document" style="max-width: 915px;">
+                    <div class="modal-dialog modal-lg" role="document" style="max-width: 1000px;">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="largeModalLabel">Large Modal</h5>
@@ -209,9 +214,9 @@
                             <div class="modal-body">
 
                                     <div class="col-lg-6">
-                                        <div class="au-card m-b-30">
+                                        <div class="au-card m-b-30" style="padding: 0px;padding-right: 0px;">
                                             <div class="au-card-inner">
-                                                <h3 class="title-2 m-b-40">Yearly Sales</h3>
+                                                <h3 class="title-2 m-b-20">Task Scores</h3>
                                                 <canvas id="myChart"></canvas>
                                             </div>
                                         </div>

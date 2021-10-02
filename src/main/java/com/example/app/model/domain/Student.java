@@ -25,6 +25,8 @@ public class Student {
     private int studentGrade;
     @Column
     private String studentMemo;
+    @Column
+    private String studentGroup;
 
     @ManyToOne
     @JoinColumn(name = "userIdx", nullable = false)

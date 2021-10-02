@@ -7,5 +7,6 @@ import java.math.BigDecimal;
         BigDecimal getScore();
         BigDecimal getMaxScore();
         Double getAvg();
+        int getCount();
 
     }

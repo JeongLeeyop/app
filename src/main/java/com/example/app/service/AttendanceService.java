@@ -56,12 +56,25 @@ public class AttendanceService {
     }
 
     //1.캘린더를 통해 일별로 하루의 총 출석, 지각, 결석, 조퇴 횟수를 간략하게 표시해주는 기능
-    public Map<String,Object> findTotalAtSummary2(Long curSeasonIdx,HttpSession session) throws Exception {
+    public Map<String,Object> findTotalAtSummary2(Long curSeasonIdx,HttpSession session,String authStudentGroup) throws Exception {
 
-        List<present> present = attendanceRepo.findPresentList((Account)session.getAttribute("Account"),curSeasonIdx);
-        List<leave> leave = attendanceRepo.findLeaveList((Account)session.getAttribute("Account"),curSeasonIdx);
-        List<tardy> tardy = attendanceRepo.findTardyList((Account)session.getAttribute("Account"),curSeasonIdx);
-        List<absent> absent = attendanceRepo.findAbsentList((Account)session.getAttribute("Account"),curSeasonIdx);
+        List<present> present = new ArrayList<>();
+        List<leave> leave = new ArrayList<>();
+        List<tardy> tardy = new ArrayList<>();
+        List<absent> absent =new ArrayList<>();
+
+
+        if(authStudentGroup!=""){
+            present = attendanceRepo.findPresentList2((Account)session.getAttribute("Account"),curSeasonIdx,authStudentGroup);
+             leave = attendanceRepo.findLeaveList2((Account)session.getAttribute("Account"),curSeasonIdx,authStudentGroup);
+             tardy = attendanceRepo.findTardyList2((Account)session.getAttribute("Account"),curSeasonIdx,authStudentGroup);
+             absent = attendanceRepo.findAbsentList2((Account)session.getAttribute("Account"),curSeasonIdx,authStudentGroup);
+        } else {
+             present = attendanceRepo.findPresentList((Account)session.getAttribute("Account"),curSeasonIdx);
+             leave = attendanceRepo.findLeaveList((Account)session.getAttribute("Account"),curSeasonIdx);
+             tardy = attendanceRepo.findTardyList((Account)session.getAttribute("Account"),curSeasonIdx);
+             absent = attendanceRepo.findAbsentList((Account)session.getAttribute("Account"),curSeasonIdx);
+        }
 
         Map<String,Object> map = new HashMap<String,Object>();
 
@@ -73,14 +86,21 @@ public class AttendanceService {
     }
 
     //1.캘린더를 통해 일별로 하루의 총 출석, 지각, 결석, 조퇴 횟수를 간략하게 표시해주는 기능
-    public List<Attendance> findAtByDate(String strDate,Long curSeasonIdx,HttpSession session) throws Exception {
+    public List<Attendance> findAtByDate(String strDate,Long curSeasonIdx,HttpSession session,String authStudentGroup) throws Exception {
 
         Timestamp curDate = Timestamp.valueOf(strDate + " 00:00:00");
         List<Attendance> curDateList = new ArrayList<>();
 
         Account account = (Account)session.getAttribute("Account");
-        List<AuthStudent> stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(curSeasonIdx,account);
-//        List<Student> stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(account);
+        List<AuthStudent> stList = new ArrayList<>();
+
+
+        if(authStudentGroup!=""){
+            stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountAndAuthStudentGroupOrderByAuthStudentIdx(curSeasonIdx,account,authStudentGroup);
+        } else {
+            stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(curSeasonIdx, account);
+        }
+
 
         for(AuthStudent authStudent : stList){
             Attendance at = attendanceRepo.findAllByAtDateAndAuthStudent(curDate,authStudent);
@@ -95,11 +115,17 @@ public class AttendanceService {
     }
 
     //2.학생별 전체 출석 현황을 조회
-    public List<atCountResponse> findTotalAt(Long curSeasonIdx, HttpSession session) {
+    public List<atCountResponse> findTotalAt(Long curSeasonIdx, HttpSession session,String authStudentGroup) {
 
         //현 유저의 모든 학생 불러오기
 //        List<Student> stList = studentRepo.findStudentByAccount( (Account) session.getAttribute("Account") );
-        List<AuthStudent> stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(curSeasonIdx,(Account) session.getAttribute("Account"));
+        List<AuthStudent> stList = new ArrayList<>();
+
+        if(authStudentGroup!=""){
+            stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountAndAuthStudentGroupOrderByAuthStudentIdx(curSeasonIdx,(Account) session.getAttribute("Account"),authStudentGroup);
+        } else {
+            stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(curSeasonIdx,(Account) session.getAttribute("Account"));
+        }
         List<atCountResponse> atCountList = new ArrayList<>();
         for(AuthStudent authStudent : stList) {
             atCountResponse atCountResponse = new atCountResponse();
@@ -169,12 +195,16 @@ public class AttendanceService {
     //5.선택 날짜의 학생별 출석여부를 삭제하는 기능
     @Transactional
     @Modifying
-    public void deleteAt(String strDate,Long curSeasonIdx, HttpSession session) {
+    public void deleteAt(String strDate,Long curSeasonIdx, HttpSession session,String authStudentGroup) {
 
         Account account = (Account)session.getAttribute("Account");
+        List<AuthStudent> stList = new ArrayList<>();
 
-        List<AuthStudent> stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(curSeasonIdx,account);
-
+        if(authStudentGroup!=""){
+            stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountAndAuthStudentGroupOrderByAuthStudentIdx(curSeasonIdx,account,authStudentGroup);
+        }else{
+            stList = authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccountOrderByAuthStudentIdx(curSeasonIdx,account);
+        }
         Timestamp curDate = Timestamp.valueOf(strDate + " 00:00:00");
 
         for(AuthStudent authStudent : stList){
@@ -185,9 +215,14 @@ public class AttendanceService {
     //최초 시즌 설정
     public Long SeasonInit(HttpSession session) {
         Account account = (Account)session.getAttribute("Account");
-
-
 //        System.out.println(account);
+        Long curSeasonIdx = seasonRepo.findFirstBySchoolOrderBySeasonIdxDesc(account.getSchool()).getSeasonIdx();
+        return curSeasonIdx;
+    }
+
+
+    //최초 시즌 설정22
+    public Long SeasonInit(Account account) {
         Long curSeasonIdx = seasonRepo.findFirstBySchoolOrderBySeasonIdxDesc(account.getSchool()).getSeasonIdx();
         return curSeasonIdx;
     }
@@ -218,5 +253,16 @@ public class AttendanceService {
     public Season findLatelySeason(HttpSession session) {
         Account account = (Account)session.getAttribute("Account");
         return seasonRepo.findFirstBySchoolOrderBySeasonIdxDesc(account.getSchool());
+    }
+
+
+    //authStudent Group 이름 찾기
+    public List<String> findAuthStudentGroup(HttpSession session, Long curSeasonIdx) {
+        Account account = (Account)session.getAttribute("Account");
+        return authStudentRepo.findAuthStudentGroup(curSeasonIdx,account);
+    }
+    //authStudent Group 이름 찾기222
+    public List<String> findAuthStudentGroup(Account account, Long curSeasonIdx) {
+        return authStudentRepo.findAuthStudentGroup(curSeasonIdx,account);
     }
 }
