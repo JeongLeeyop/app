@@ -18,9 +18,9 @@ moving the class to menus lead to only the menu having the effect -->
                         <div class="filters m-b-25">
                             <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border">
                                 <select class="js-select2 student-order-by" name="property">
-                                    <option selected="selected" value="">By Index</option>
+                                    <option value="">By Index</option>
                                     <option>By Name</option>
-                                    <option value="">By Grade</option>
+                                    <option selected="selected" value="">By Grade</option>
                                 </select>
                                 <div class="dropDownSelect2"></div>
                             </div>
@@ -46,6 +46,7 @@ moving the class to menus lead to only the menu having the effect -->
                                     <td>name</td>
                                     <td>Gender</td>
                                     <td>Grade</td>
+                                    <td>Class</td>
                                 </tr>
                                 </thead>
                                 <tbody class="studentList">
@@ -338,6 +339,51 @@ moving the class to menus lead to only the menu having the effect -->
             <div class="modal-footer">
                 <button id="cancel2" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button id="confirm2" data-toggle="modal" data-target="#mediumModal2" type="button"
+                        class="btn btn-primary">Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mediumModal3" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="width: 50%;margin-left: 50%;left: 15%;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel3">Add Class</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="col-lg-6" style="max-width: 100%;">
+                    <div class="card" style="margin-bottom: 0px;">
+                        <div class="card-header">
+                            <strong>Class</strong>
+                            <small> Form</small>
+                        </div>
+                        <div class="card-body card-block">
+                            <div class="form-group" id="modalClassForm">
+                                <span hidden class="modal-classIdx2"></span>
+<%--                                <select id="Class" class="form-control" name="Class">
+                                    <option data-id="1" value="">1</option>
+                                    <option data-id="2" value="">2</option>
+                                    <option data-id="3" value="">3</option>
+                                    <option data-id="4" value="">4</option>
+                                    <option data-id="5" value="">5</option>
+                                    <option data-id="6" value="">6</option>
+                                </select>--%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="modal-footer">
+                <button id="cancel3" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="confirm3" data-toggle="modal" data-target="#mediumModal3" type="button"
                         class="btn btn-primary">Confirm
                 </button>
             </div>

@@ -50,8 +50,19 @@ public class StudentController {
         return null;
     }
 
+    //클래스(학생그룹) 목록을 조회하는 기능
+    @RequestMapping("/findStudentGroupList")
+    @ResponseBody
+    public List<String> findStudentGroupList(Long curSeasonIdx) {
+        return studentService.findStudentGroupList(curSeasonIdx);
+    }
 
-
+    //학생 클래스(그룹)을 수정하는 기능
+    @RequestMapping("/updateStudentGroup")
+    @ResponseBody
+    public void updateStudentGroup(Long studentIdx, String studentGroup) {
+        return studentService.updateStudentGroup(studentIdx,studentGroup);
+    }
 
     //TEST
     @Transactional

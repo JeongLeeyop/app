@@ -7,7 +7,7 @@ $(function () {
     //시즌 전역변수 저장
     var curSeasonIdx = sessionStorage.getItem("curSeasonIdx");
 
-    //클래스,학생 목록 출력
+    //코스,학생 목록 출력
     printClassList();
     printStudentList();
     
@@ -20,7 +20,7 @@ $(function () {
     //                                                                //
     ////////////////////////////////////////////////////////////////////
 
-    // Class Modal창
+    // Course Modal창
     //모달창이 열리면 자동으로 Input에 focus
     $("#mediumModal").on("shown.bs.modal", function () {
         $("#className").focus();
@@ -218,7 +218,28 @@ $(function () {
     //                                                                //
     ////////////////////////////////////////////////////////////////////
 
-    // Class Modal창
+    //모달창 클래스 목록 입력
+    $.ajax({
+        url: "/findStudentGroupList", //서버요청주소
+        type: "post",//요청방식 (get,post,patch,delete,put)
+        data: "curSeasonIdx=" + curSeasonIdx,
+        dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
+        success: function (result) {
+
+            var str = "<label for=\"Class\" class=\" form-control-label\">Class Name</label><select id=\"Class\" class=\"form-control\" name=\"Class\">"
+            $.each(result, function(index, item){
+                str = str + "<option>"+item+"</option>";
+            });
+            str = str + "</select>";
+            $("#modalClassForm").append(str).trigger("create");
+
+        }, //성공했을때
+        error: function (request) {
+            alert(request.responseText);
+        }// 실패했을때
+    });
+
+    // student Modal창
     //모달창이 열리면 자동으로 Input에 focus
     $("#mediumModal2").on("shown.bs.modal", function () {
         $("#studentName").focus();
@@ -231,7 +252,7 @@ $(function () {
         }
     });
 
-    //addClass 버튼을 누르면 초기화
+    //addStudent 버튼을 누르면 초기화
     $(document).on('click','#addStudent',function(){
         //이름
         $("#studentName").val("");
@@ -243,7 +264,7 @@ $(function () {
         $(".genderCheck:first").prop('checked',true);
     });
 
-    //class 모달 전송버튼 클릭시
+    //student 모달 전송버튼 클릭시
     $(document).on('click',"#confirm2",function(){
         var studentName = $("#studentName").val();
         var studentGender = $(".genderCheck:checked").val();
@@ -275,6 +296,29 @@ $(function () {
 
         $("#studentName").val("");
     });
+
+    //Class Modal창 (StudentGroup)
+    //Class 모달 전송버튼 클릭시
+    $(document).on('click',"#confirm3",function(){
+        var studentGroup = $("#Class option:selected").text();
+        var studentIdx = $(".modal-classIdx2").text();
+
+        $.ajax({
+            url: "/updateStudentGroup", //서버요청주소
+            type: "post",//요청방식 (get,post,patch,delete,put)
+            data: "studentGroup="+studentGroup+"&studentIdx=" + studentIdx,
+            dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
+            success: function () {
+                printStudentList();
+            }, //성공했을때
+            error: function (request) {
+                alert(request.responseText);
+            }// 실패했을때
+        });
+
+        $("#studentName").val("");
+    });
+
 
     ////////////////////////////////////////////
     ////////////////////////////////////////////
@@ -376,6 +420,20 @@ $(function () {
         });
     });
 
+    //Student Class 선택시
+    $(document).on("click", ".hoverName.studentGroup", function () {
+        //모달
+        $("#mediumModal3").modal();
+        //아이디 삽입
+        $(".modal-classIdx2").text($(this).parent().parent().parent().find(".hoverName.studentIdx").data("id"));
+
+        //Grade 선택
+        var className = $(this).text();
+        $("#Class option").each(function(){
+            if($(this).text() == className) $(this).prop('selected',true);
+        });
+
+    });
 
     ////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////
@@ -606,6 +664,11 @@ $(function () {
                         "                                            <div class=\"dropDownSelect2\"></div>\n" +
                         "                                        </div>\n" +
                         "                                    </td>\n" +
+                        "                                       <td>\n" +
+                        "                                        <div class=\"custom-table-data__info\">\n" +
+                        "                                            <h6 class=\"hoverName studentGroup\">"+item.studentGroup+"</h6>\n" +
+                        "                                        </div>\n" +
+                        "                                    </td>" +
                         "                                </tr>";
 
                     $(".studentList").append(str).trigger("create");
@@ -640,5 +703,4 @@ $(function () {
         });
         $(".studentList").parent().find(".allCheck").prop('checked',false);
     }
-
 });
