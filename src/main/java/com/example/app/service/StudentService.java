@@ -12,6 +12,8 @@ import com.example.app.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.lang.Class;
@@ -59,7 +61,9 @@ public class StudentService {
 
         Sort sort = Sort.by(Sort.Direction.ASC, "studentIdx");
         if (orderBy == OrderByCode.ByGrade.getValue()) {
-            sort = Sort.by(Sort.Direction.ASC, "studentGrade");
+
+            Sort sort2 = Sort.by(Sort.Direction.ASC, "studentGroup");
+            sort = Sort.by(Sort.Direction.ASC, "studentGrade").and(sort2);
         } else if (orderBy == OrderByCode.ByName.getValue()) {
             sort = Sort.by(Sort.Direction.ASC, "studentName");
         }
@@ -227,6 +231,22 @@ public class StudentService {
 
         return resultMap;
     }
+
+    //현재 시즌의 클래스(학생그룹) 목록을 들고오는 기능
+    public List<String> findStudentGroupList(Long curSeasonIdx) {
+        return studentRepo.findStudentGroupList(curSeasonIdx);
+    };
+
+    //학생 클래스(그룹)을 수정하는 기능
+    public void updateStudentGroup(Long studentIdx, String studentGroup) {
+
+        Student student = studentRepo.findById(studentIdx).get();
+        student.setStudentGroup(studentGroup);
+        studentRepo.save(student);
+    }
+
+
+    ////
 
     //1. 전체 학생별 클래스별 최종 성적 출력
     public int findAllGrade(int a) {

@@ -18,5 +18,8 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
 
     public List<Student> findAll();
 
+    @Query("select DISTINCT a.studentGroup from Student a where a.season.seasonIdx=?1 ORDER BY a.studentGroup")
+    public List<String> findStudentGroupList(Long seasonIdx);
+
     public List<Student> findStudentBySeason_SeasonIdx(Long seasonIdx,Sort Sort);
 }
