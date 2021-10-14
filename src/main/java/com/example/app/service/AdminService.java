@@ -3,12 +3,9 @@ package com.example.app.service;
 import com.example.app.common.OrderByCode;
 import com.example.app.model.domain.*;
 import com.example.app.model.domain.Class;
-import com.example.app.model.domain.section.Score;
-import com.example.app.model.domain.section.Section;
-import com.example.app.model.domain.section.Task;
+import com.example.app.model.dto.response.repository.studentGroup;
 import com.example.app.model.dto.response.teacherAuthCountResponse;
 import com.example.app.repository.*;
-import com.example.app.util.AttendanceScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -188,8 +185,42 @@ public class AdminService {
     @Transactional
     @Modifying
     @ResponseBody
+    //0. Auth학생 삭제 삭제하는 기능
+    public void deleteAuthClass(String[] authClassList,Long userIdx, Long curSeasonIdx) {
+
+        for (String className : authClassList) {
+
+            //1. className의 학생 목록 가져오기
+            List<AuthStudent> studentList = authStudentRepo.findByAuthStudentByClassNameAndSeasonAndUserIdx(className,curSeasonIdx,userIdx);
+
+            for (AuthStudent authStudent : studentList) {
+
+                Long authStudentIdx = authStudent.getAuthStudentIdx();
+                    //출석 삭제
+                    attendanceRepo.deleteByAuthStudent_AuthStudentIdx(authStudentIdx);
+                    System.out.println("출석 삭제");
+
+                    //과제 점수 삭제
+                    scoreRepo.deleteByAuthStudent_AuthStudentIdx(authStudentIdx);
+                    System.out.println("점수삭제");
+
+                    //클래스 멤버 삭제
+                    classMembersRepo.deleteByAuthStudent_AuthStudentIdx(authStudentIdx);
+                    System.out.println("클래스_맴버 삭제");
+
+                    //AuthStudent삭제
+                    authStudentRepo.deleteById(authStudentIdx);
+                    System.out.println("AuthStudent 삭제");
+            }
+
+        }
+    }
+
+    @Transactional
+    @Modifying
+    @ResponseBody
     //0. Auth클래스 삭제 삭제하는 기능
-    public void deleteAuthClass(Long[] classIdxList) {
+    public void deleteAuthCourse(Long[] classIdxList) {
         for (Long classIdx : classIdxList) {
 
             //점수 삭제
@@ -295,8 +326,49 @@ public class AdminService {
 
     @Transactional
     @Modifying
+    //9. 선생님 관리 - Auth클래스 생성
+    public List<AuthStudent> createAuthClass(String[] classList, Long userIdx, Long curSeasonIdx) {
+
+        Account account = accountRepo.findById(userIdx).get();
+        Season season = seasonRepo.findById(curSeasonIdx).get();
+
+        for (String className : classList) {
+
+//            AuthStudent authStudent = new AuthStudent();
+//            authStudent.setAccount(account);
+//            authStudent.setSeason(season);
+
+//            authStudent.setStudent(studentRepo.findById(className).get());
+//            authStudentRepo.save(authStudent);
+
+            //1. className의 학생 목록 가져오기
+            List<Student> studentList = studentRepo.findByStudentStudentGroupAndSeasonSeasonIdx(className,curSeasonIdx);
+
+            //2. authStudent에 확인후 없으면 삽입
+            for(Student student : studentList){
+//              검색결과가 없으면
+
+                if(authStudentRepo.findAuthStudentBySeason_SeasonIdxAndAccount_UserIdxAndStudent_StudentIdx(curSeasonIdx,userIdx,student.getStudentIdx())== null){
+
+                    AuthStudent authStudent = new AuthStudent();
+                    authStudent.setAccount(account);
+                    authStudent.setSeason(season);
+                    authStudent.setStudent(student);
+                    authStudent.setAuthStudentGroup(className);
+
+                    authStudentRepo.save(authStudent);
+                }
+            }
+
+        }
+        return null;
+    }
+
+
+    @Transactional
+    @Modifying
     //9. 선생님 관리 - Auth클래스생성
-    public List<AuthStudent> createAuthClass(Long[] classIdxList, Long userIdx, Long curSeasonIdx) {
+    public List<AuthStudent> createAuthCourse(Long[] classIdxList, Long userIdx, Long curSeasonIdx) {
 
         Account account = accountRepo.findById(userIdx).get();
         Season season = seasonRepo.findById(curSeasonIdx).get();
@@ -319,9 +391,7 @@ public class AdminService {
                 classMembersRepo.save(classMembers);
             }
         }
-
         return null;
-
     }
 
     //2. 관리자 계정의 전체 학생을 조회하는 기능
@@ -336,6 +406,18 @@ public class AdminService {
 
         List<Student> student = studentRepo.findStudentByAccountWithoutAuthStudent(curSeasonIdx, userIdx, sort);
         return student;
+    }
+
+    //9. 선생님 관리 - 현재 선생님의 authClass (group)를 제외한 전체 Class(group) 목록 출력
+    public List<studentGroup> findClassList_WithoutAuth(Long userIdx, Long curSeasonIdx, HttpSession session) {
+        List<studentGroup> _class = studentRepo.findClassList_WithoutAuth(curSeasonIdx);
+        return _class;
+    }
+
+    //9. 선생님 관리 - 현재 선생님의 authClass(group) 목록 출력
+    public List<studentGroup> findAuthClassList_Group(Long userIdx, Long curSeasonIdx, HttpSession session) {
+        List<studentGroup> _class = studentRepo.findAuthClassList_Group(curSeasonIdx, userIdx);
+        return _class;
     }
 
     //9. 선생님 관리 - 현재 선생님의 authStudent와 authClass Count를 업데이트

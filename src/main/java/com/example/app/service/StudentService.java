@@ -239,7 +239,6 @@ public class StudentService {
 
     //학생 클래스(그룹)을 수정하는 기능
     public void updateStudentGroup(Long studentIdx, String studentGroup) {
-
         Student student = studentRepo.findById(studentIdx).get();
         student.setStudentGroup(studentGroup);
         studentRepo.save(student);

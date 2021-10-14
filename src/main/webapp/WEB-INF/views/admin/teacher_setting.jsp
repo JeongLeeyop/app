@@ -60,7 +60,7 @@ moving the class to menus lead to only the menu having the effect -->
                                 <th>email</th>
                                 <%--<th>Grade</th>--%>
                                 <th>Student</th>
-                                <th>Class</th>
+                                <th>Course</th>
                             </tr>
                             </thead>
                             <tbody class="teacherList">
