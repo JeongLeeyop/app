@@ -177,12 +177,12 @@ moving the class to menus lead to only the menu having the effect -->
                     <!-- USER DATA-->
                     <div class="user-data m-b-30">
                         <h3 class="title-3 m-b-30">
-                            <i class="zmdi zmdi-account-calendar"></i>Class</h3>
+                            <i class="zmdi zmdi-account-calendar"></i>Course</h3>
                         <div class="filters m-b-25">
                             <div class="rs-select2--dark rs-select2--md m-r-10 rs-select2--border">
                                 <select class="js-select2 class-order-by" name="property">
-                                    <option selected="selected" value="">By Index</option>
-                                    <option>By Name</option>
+                                    <option value="">By Index</option>
+                                    <option selected="selected">By Name</option>
                                     <option value="">By Grade</option>
                                 </select>
                                 <div class="dropDownSelect2"></div>

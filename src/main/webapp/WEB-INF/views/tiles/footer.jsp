@@ -188,7 +188,9 @@
                     data: "curSeasonIdx=" + sessionStorage.getItem("curSeasonIdx"),
                     dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
                     success: function (result) {
-                        if(result==""){
+                        console.log(result.length + "ㅇㅅㅇ");
+                        // if(result==""){
+                        if(result.length<=1){
                             $(".attendance").empty();
                             var str = "<li class=\"attendance\">\n" +
                                 "                    <a href=\"attendance\">\n" +

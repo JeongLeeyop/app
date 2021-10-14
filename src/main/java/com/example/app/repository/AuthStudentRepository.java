@@ -21,6 +21,9 @@ AuthStudentRepository extends CrudRepository<AuthStudent, Long> {
     //클래스의 idx로 AuthStudent 찾기
     public List<AuthStudent> findAuthStudentByStudent_StudentIdx(Long StudentIdx);
 
+    //studentIdx와 seasonIdx와 userIdx로 authStudent 찾기
+    public AuthStudent findAuthStudentBySeason_SeasonIdxAndAccount_UserIdxAndStudent_StudentIdx(Long seasonIdx, Long userIdx,Long studentIdx);
+
     //account의 authStudent 카운트 세기
     public int countAllByAccountAndSeason_SeasonIdx(Account account,Long curSeasonIdx);
 
@@ -36,4 +39,8 @@ AuthStudentRepository extends CrudRepository<AuthStudent, Long> {
     //test
     @Query("select a from AuthStudent a where a.season.seasonIdx=?1 AND a.account = ?2 AND a.authStudentGroup Like ?3")
     public List<AuthStudent> findAuthStudentBySeason_SeasonIdxAndAccount_UserIdx(Long seasonIdx, Account account, String groupName);
+
+    //시즌과 클래스명과 유저idx로 으로 찾기
+    @Query("select s from AuthStudent s where s.authStudentGroup = ?1 and s.season.seasonIdx=?2 and s.account.userIdx =?3 order by s.authStudentGroup")
+    public List<AuthStudent> findByAuthStudentByClassNameAndSeasonAndUserIdx(String className, Long seasonIdx,Long userIdx);
 }

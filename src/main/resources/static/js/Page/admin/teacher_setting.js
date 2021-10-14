@@ -55,11 +55,11 @@ $(function () {
             "                                                        <!-- USER DATA-->\n" +
             "                                                        <div class=\"user-data custom-user-data m-b-30\">\n" +
             "                                                            <div class=\"filters m-b-25\" style=\"padding-right: 20px;\">\n" +
-            "                                                                <h3 style=\"display: contents;\" class=\"title-3 m-b-30\"><i style=\"padding-bottom: 10px;\" class=\"zmdi zmdi-account-calendar\"></i>All Students</h3>\n" +
+            "                                                                <h3 style=\"display: contents;\" class=\"title-3 m-b-30\"><i style=\"padding-bottom: 10px;\" class=\"zmdi zmdi-account-calendar\"></i>All Class</h3>\n" +
             "                                                               <div class=\"rs-select2--dark rs-select2--md m-r-10 rs-select2--border\" style=\"float: right;\">\n" +
             "                                                                   <select class=\"js-select2 all-student-order-by\" name=\"property\">\n" +
-            "                                                                       <option selected=\"selected\" value=\"0\">By Index</option>\n" +
-            "                                                                       <option value=\"2\">By Name</option>\n" +
+            "                                                                       <option value=\"0\">By Index</option>\n" +
+            "                                                                       <option selected=\"selected\" value=\"2\">By Name</option>\n" +
             "                                                                       <option value=\"1\">By Grade</option>\n" +
             "                                                                   </select>\n" +
             "                                                               <div class=\"dropDownSelect2\"></div>\n" +
@@ -76,7 +76,7 @@ $(function () {
             "                                                                            </label>\n" +
             "                                                                        </td>\n" +
             "                                                                        <td>name</td>\n" +
-            "                                                                        <td>Gender</td>\n" +
+            // "                                                                        <td>Gender</td>\n" +
             "                                                                        <td>Grade</td>\n" +
             "                                                                    </tr>\n" +
             "                                                                    </thead>\n" +
@@ -99,11 +99,11 @@ $(function () {
             "                                                        <!-- USER DATA-->\n" +
             "                                                        <div class=\"user-data custom-user-data m-b-30\">\n" +
             "                                                            <div class=\"filters m-b-25\" style=\"padding-right: 20px;\">\n" +
-            "                                                                <h3 style=\"display: contents;\" class=\"title-3 m-b-30\"><i style=\"padding-bottom: 10px;\" class=\"zmdi zmdi-account-calendar\"></i>Auth Students</h3>\n" +
+            "                                                                <h3 style=\"display: contents;\" class=\"title-3 m-b-30\"><i style=\"padding-bottom: 10px;\" class=\"zmdi zmdi-account-calendar\"></i>Auth Class</h3>\n" +
             "                                                               <div class=\"rs-select2--dark rs-select2--md m-r-10 rs-select2--border\" style=\"float: right;\">\n" +
             "                                                                   <select class=\"js-select2 auth-student-order-by\" name=\"property\">\n" +
-            "                                                                       <option selected=\"selected\" value=\"0\">By Index</option>\n" +
-            "                                                                       <option value=\"2\">By Name</option>\n" +
+            "                                                                       <option value=\"0\">By Index</option>\n" +
+            "                                                                       <option selected=\"selected\" value=\"2\">By Name</option>\n" +
             "                                                                       <option value=\"1\">By Grade</option>\n" +
             "                                                                   </select>\n" +
             "                                                               <div class=\"dropDownSelect2\"></div>\n" +
@@ -120,7 +120,7 @@ $(function () {
             "                                                                            </label>\n" +
             "                                                                        </td>\n" +
             "                                                                        <td>name</td>\n" +
-            "                                                                        <td>Gender</td>\n" +
+            // "                                                                        <td>Gender</td>\n" +
             "                                                                        <td>Grade</td>\n" +
             "                                                                    </tr>\n" +
             "                                                                    </thead>\n" +
@@ -169,24 +169,38 @@ $(function () {
     $(document).on("click", ".arrow-right", function () {
 
         //체크 항목 Idx 저장
-        var studentIdxList = [];
+        // var studentIdxList = [];
+
+        //체크 항목 class 이름 저장
+        var classList = [];
 
         $(".studentList .au-checkbox input:checked").each(function (index, item) {
-            studentIdxList[index] = $(item).parent().parent().next().find(".hoverName.studentIdx").data('id');
+            // studentIdxList[index] = $(item).parent().parent().next().find(".hoverName.studentIdx").data('id');
+            classList[index] = $(item).parent().parent().next().find(".hoverName.studentIdx").text();
         });
 
-        if (studentIdxList.length == 0) {
-            alert("Please select a student");
-            return 0;
-        }
+        // if (studentIdxList.length == 0) {
+        //     alert("Please select a class");
+        //     return 0;
+        // }
+
+        if (classList.length == 0) {
+                alert("Please select a class");
+                return 0;
+            }
 
         //선택된 선생님 Idx 저장
         var userIdx = $(".teacherList .active:button").parent().parent().find(".userIdx").data('id');
 
+
+        console.log(classList);
+
         $.ajax({
-            url: "/admin/createAuthStudent", //서버요청주소
+            // url: "/admin/createAuthStudent", //서버요청주소
+            url: "/admin/createAuthClass", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
-            data: "studentIdxList=" + studentIdxList + "&userIdx=" + userIdx + "&curSeasonIdx=" + curSeasonIdx,
+            // data: "studentIdxList=" + studentIdxList + "&userIdx=" + userIdx + "&curSeasonIdx=" + curSeasonIdx,
+            data: "classList=" + classList + "&userIdx=" + userIdx + "&curSeasonIdx=" + curSeasonIdx,
             dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function () {
                 printStudentList($(".all-student-order-by").find('option:selected').val());
@@ -202,22 +216,46 @@ $(function () {
     //학생 배치 해제
     $(document).on("click", ".arrow-left", function () {
 
-        //체크 항목 Idx 저장
-        var authStudentIdxList = [];
+        //체크 항목 class 이름 저장
+        var authClassList = [];
+
         $(".authStudentList .au-checkbox input:checked").each(function (index, item) {
-            authStudentIdxList[index] = $(item).parent().parent().next().find(".hoverName.studentIdx").data('id');
+            // studentIdxList[index] = $(item).parent().parent().next().find(".hoverName.studentIdx").data('id');
+            authClassList[index] = $(item).parent().parent().next().find(".hoverName.studentIdx").text();
         });
 
-        if (authStudentIdxList.length == 0) {
-            alert("Please select a student");
+        //선택된 선생님 Idx 저장
+        var userIdx = $(".teacherList .active:button").parent().parent().find(".userIdx").data('id');
+
+
+        // //체크 항목 Idx 저장
+        // var authStudentIdxList = [];
+        // $(".authStudentList .au-checkbox input:checked").each(function (index, item) {
+        //     authStudentIdxList[index] = $(item).parent().parent().next().find(".hoverName.studentIdx").data('id');
+        // });
+        //
+        // if (authStudentIdxList.length == 0) {
+        //     alert("Please select a student");
+        //     return 0;
+        // }
+
+        if (authClassList.length == 0) {
+            alert("Please select a authClass");
             return 0;
         }
+
+        console.log(userIdx);
+        console.log(curSeasonIdx);
+        console.log(authClassList);
+
         if (confirm("Are you sure you want to delete the checked student? ( 1/2 )")) {
             if (confirm("Again : Are you sure you want to delete the checked student? Data cannot be recovered. ( 2/2 )")) {
                 $.ajax({
-                    url: "/admin/deleteAuthStudent", //서버요청주소
+                    // url: "/admin/deleteAuthStudent", //서버요청주소
+                    url: "/admin/deleteAuthClass", //서버요청주소
                     type: "post",//요청방식 (get,post,patch,delete,put)
-                    data: "authStudentIdxList=" + authStudentIdxList,
+                    // data: "authStudentIdxList=" + authStudentIdxList,
+                    data: "authClassList=" + authClassList+ "&userIdx=" + userIdx + "&curSeasonIdx=" + curSeasonIdx,
                     dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
                     success: function () {
                         printStudentList($(".all-student-order-by").find('option:selected').val());
@@ -277,7 +315,7 @@ $(function () {
             "                                                        <!-- USER DATA-->\n" +
             "                                                        <div class=\"user-data custom-user-data m-b-30\">\n" +
             "                                                            <div class=\"filters m-b-25\" style=\"padding-right: 20px;\">\n" +
-            "                                                                <h3 style=\"display: contents;\" class=\"title-3 m-b-30\"><i style=\"padding-bottom: 10px;\" class=\"zmdi zmdi-account-calendar\"></i>All Classes</h3>\n" +
+            "                                                                <h3 style=\"display: contents;\" class=\"title-3 m-b-30\"><i style=\"padding-bottom: 10px;\" class=\"zmdi zmdi-account-calendar\"></i>All Course</h3>\n" +
             "                                                               <div class=\"rs-select2--dark rs-select2--md m-r-10 rs-select2--border\" style=\"float: right;\">\n" +
             "                                                                   <select class=\"js-select2 all-class-order-by\" name=\"property\">\n" +
             "                                                                       <option selected=\"selected\" value=\"0\">By Index</option>\n" +
@@ -319,7 +357,7 @@ $(function () {
             "                                                        <!-- USER DATA-->\n" +
             "                                                        <div class=\"user-data custom-user-data m-b-30\">\n" +
             "                                                            <div class=\"filters m-b-25\" style=\"padding-right: 20px;\">\n" +
-            "                                                                <h3 style=\"display: contents;\" class=\"title-3 m-b-30\"><i style=\"padding-bottom: 10px;\" class=\"zmdi zmdi-account-calendar\"></i>Auth Class</h3>\n" +
+            "                                                                <h3 style=\"display: contents;\" class=\"title-3 m-b-30\"><i style=\"padding-bottom: 10px;\" class=\"zmdi zmdi-account-calendar\"></i>Auth Course</h3>\n" +
             "                                                               <div class=\"rs-select2--dark rs-select2--md m-r-10 rs-select2--border\" style=\"float: right;\">\n" +
             "                                                                   <select class=\"js-select2 auth-class-order-by\" name=\"property\">\n" +
             "                                                                       <option selected=\"selected\" value=\"0\">By Index</option>\n" +
@@ -440,9 +478,9 @@ $(function () {
             return 0;
         }
 
-        if (confirm("Are you sure you want to create Class?")) {
+        if (confirm("Are you sure you want to create Course?")) {
             $.ajax({
-                url: "/admin/createAuthClass", //서버요청주소
+                url: "/admin/createAuthCourse", //서버요청주소
                 type: "post",//요청방식 (get,post,patch,delete,put)
                 data: "classIdxList=" + classIdxList + "&userIdx=" + userIdx + "&curSeasonIdx=" + curSeasonIdx,
                 dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
@@ -475,7 +513,7 @@ $(function () {
         if (confirm("Are you sure you want to delete the checked class? ( 1/2 )")) {
             if (confirm("Again : Are you sure you want to delete the checked class? Data cannot be recovered. ( 2/2 )")) {
                 $.ajax({
-                    url: "/admin/deleteAuthClass", //서버요청주소
+                    url: "/admin/deleteAuthCourse", //서버요청주소
                     type: "post",//요청방식 (get,post,patch,delete,put)
                     data: "classIdxList=" + classIdxList,
                     dataType: "text",//서버가 보내온 데이터 타입 (text, html, xml, json)
@@ -679,7 +717,7 @@ $(function () {
                         "                                </td>\n" +
                         "                                <td>\n" +
                         "                                    <button type=\"button\" class=\"btn btn-outline-link btn-sm classButton\">\n" +
-                        "                                        <i class=\"fa fa-link\"></i>&nbsp;<span>Class ( " + item.authClassCount + " )</span>\n" +
+                        "                                        <i class=\"fa fa-link\"></i>&nbsp;<span>Course ( " + item.authClassCount + " )</span>\n" +
                         "                                    </button>\n" +
                         "                                </td>\n" +
                         "                            </tr>" +
@@ -714,9 +752,11 @@ $(function () {
 
 
         $.ajax({
-            url: "/admin/findStudentList_WithoutAuth", //서버요청주소
+            // url: "/admin/findStudentList_WithoutAuth", //서버요청주소
+            url: "/admin/findClassList_WithoutAuth", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
-            data: "userIdx=" + userIdx + "&curSeasonIdx=" + curSeasonIdx + "&orderBy=" + orderBy,
+            // data: "userIdx=" + userIdx + "&curSeasonIdx=" + curSeasonIdx + "&orderBy=" + orderBy,
+            data: "userIdx=" + userIdx + "&curSeasonIdx=" + curSeasonIdx,
             global: false,
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
@@ -732,14 +772,15 @@ $(function () {
                         "                                    </td>\n" +
                         "                                    <td>\n" +
                         "                                        <div class=\"custom-table-data__info\">\n" +
-                        "                                            <h6 data-id=\"" + item.studentIdx + "\" class=\"hoverName studentIdx\">" + item.studentName + "</h6>\n" +
+                        // "                                            <h6 data-id=\"" + item.studentIdx + "\" class=\"hoverName studentIdx\">" + item.studentName + "</h6>\n" +
+                        "                                            <h6 class=\"hoverName studentIdx\">" + item.studentGroup + "</h6>\n" +
                         "                                        </div>\n" +
                         "                                    </td> " +
-                        "                                    <td class=\"custom-td\">\n" +
-                        "                                        <div class=\"custom-table-data__info\">\n" +
-                        "                                            <h6 class=\"hoverName studentGender\"></h6>\n" +
-                        "                                        </div>\n" +
-                        "                                    </td>\n" +
+                        // "                                    <td class=\"custom-td\">\n" +
+                        // "                                        <div class=\"custom-table-data__info\">\n" +
+                        // "                                            <h6 class=\"hoverName studentGender\"></h6>\n" +
+                        // "                                        </div>\n" +
+                        // "                                    </td>\n" +
                         "                                    <td>" +
                         "                                   <span class=\"studentGrade\" id=\"select2-property-ql-container\"" +
                         "                                    title=\"1\"\">" + item.studentGrade + "</span>\n" +
@@ -756,8 +797,8 @@ $(function () {
                     });*/
 
                     //Gender 작업
-                    if (item.studentGender == 0) $(".studentList tr:last").find(".hoverName.studentGender").text("Male");
-                    else if (item.studentGender == 1) $(".studentList tr:last").find(".hoverName.studentGender").text("Female");
+                    // if (item.studentGender == 0) $(".studentList tr:last").find(".hoverName.studentGender").text("Male");
+                    // else if (item.studentGender == 1) $(".studentList tr:last").find(".hoverName.studentGender").text("Female");
 
                     /*//Grade 작업
                     $(".studentList tr:last").find(".custom-rs-select2 .studentGrade option").each(function () {
@@ -805,12 +846,15 @@ $(function () {
         var userIdx = $(".teacherList .active:button").parent().parent().find(".userIdx").data('id');
 
         $.ajax({
-            url: "/admin/findTeacherAuthStudentList", //서버요청주소
+            // url: "/admin/findTeacherAuthStudentList", //서버요청주소
+            url: "/admin/findAuthClassList_Group", //서버요청주소
             type: "post",//요청방식 (get,post,patch,delete,put)
-            data: "userIdx=" + userIdx + "&curSeasonIdx=" + curSeasonIdx + "&orderBy=" + orderBy,
+            // data: "userIdx=" + userIdx + "&curSeasonIdx=" + curSeasonIdx + "&orderBy=" + orderBy,
+            data: "userIdx=" + userIdx + "&curSeasonIdx=" + curSeasonIdx,
             global: false,
             dataType: "json",//서버가 보내온 데이터 타입 (text, html, xml, json)
             success: function (result) {
+                console.log(result);
                 $.each(result, function (index, item) {
                     var str = "<tr>\n" +
                         "                                    <td>\n" +
@@ -821,17 +865,19 @@ $(function () {
                         "                                    </td>\n" +
                         "                                    <td>\n" +
                         "                                        <div class=\"custom-table-data__info\">\n" +
-                        "                                            <h6 data-id=\"" + item.authStudentIdx + "\" class=\"hoverName studentIdx\">" + item.student.studentName + "</h6>\n" +
+                        // "                                            <h6 data-id=\"" + item.authStudentIdx + "\" class=\"hoverName studentIdx\">" + item.student.studentName + "</h6>\n" +
+                        "                                            <h6 class=\"hoverName studentIdx\">" + item.studentGroup + "</h6>\n" +
                         "                                        </div>\n" +
                         "                                    </td> " +
-                        "                                    <td class=\"custom-td\">\n" +
-                        "                                        <div class=\"custom-table-data__info\">\n" +
-                        "                                            <h6 class=\"hoverName studentGender\"></h6>\n" +
-                        "                                        </div>\n" +
-                        "                                    </td>\n" +
+                        // "                                    <td class=\"custom-td\">\n" +
+                        // "                                        <div class=\"custom-table-data__info\">\n" +
+                        // "                                            <h6 class=\"hoverName studentGender\"></h6>\n" +
+                        // "                                        </div>\n" +
+                        // "                                    </td>\n" +
                         "                                    <td>" +
                         "                                   <span class=\"studentGrade\" id=\"select2-property-ql-container\"" +
-                        "                                    title=\"1\"\">" + item.student.studentGrade + "</span>\n" +
+                        // "                                    title=\"1\"\">" + item.student.studentGrade + "</span>\n" +
+                        "                                    title=\"1\"\">" + item.studentGrade + "</span>\n" +
                         "                                    </td>" +
                         "                                </tr>";
 
@@ -839,8 +885,8 @@ $(function () {
                     $(".authStudentList").append(str).trigger("create");
 
                     //Gender 작업
-                    if (item.student.studentGender == 0) $(".authStudentList tr:last").find(".hoverName.studentGender").text("Male");
-                    else if (item.student.studentGender == 1) $(".authStudentList tr:last").find(".hoverName.studentGender").text("Female");
+                    // if (item.student.studentGender == 0) $(".authStudentList tr:last").find(".hoverName.studentGender").text("Male");
+                    // else if (item.student.studentGender == 1) $(".authStudentList tr:last").find(".hoverName.studentGender").text("Female");
 
                     //Grade 작업
                     var number = $(".authStudentList tr:last").find(".studentGrade").text();

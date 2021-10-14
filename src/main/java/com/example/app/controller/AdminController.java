@@ -1,31 +1,22 @@
 package com.example.app.controller;
 
-import com.example.app.common.OrderByCode;
 import com.example.app.model.domain.*;
 import com.example.app.model.domain.Class;
-import com.example.app.model.domain.section.Section;
-import com.example.app.model.domain.section.Task;
-import com.example.app.model.dto.request.classRequest;
 import com.example.app.model.dto.request.studentRequest;
+import com.example.app.model.dto.response.repository.studentGroup;
 import com.example.app.model.dto.response.teacherAuthCountResponse;
-import com.example.app.model.dto.response.totalGradeResponse;
 import com.example.app.service.AdminService;
 import com.example.app.service.ClassService;
 import com.example.app.service.SettingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -153,6 +144,14 @@ public class AdminController {
         return null;
     }
 
+    //9. 선생님 관리 - Auth Class 생성
+    @RequestMapping("createAuthClass")
+    @ResponseBody
+    public List<AuthStudent> createAuthClass(String[] classList,Long userIdx, Long curSeasonIdx)  {
+        adminService.createAuthClass(classList,userIdx,curSeasonIdx);
+        return null;
+    }
+
     //0.Auth Class을 찾는 기능
     @RequestMapping("findAuthClass")
     @ResponseBody
@@ -189,19 +188,27 @@ public class AdminController {
         return null;
     }
 
-    //9. 선생님 관리 - Auth클래스 삭제
+    //9. 선생님 관리 - Auth학생 삭제
     @RequestMapping("deleteAuthClass")
     @ResponseBody
-    public List<AuthStudent> deleteAuthClass(Long[] classIdxList)  {
-        adminService.deleteAuthClass(classIdxList);
+    public List<AuthStudent> deleteAuthClass(String[] authClassList,Long userIdx, Long curSeasonIdx)  {
+        adminService.deleteAuthClass(authClassList,userIdx,curSeasonIdx);
+        return null;
+    }
+
+    //9. 선생님 관리 - Auth클래스 삭제
+    @RequestMapping("deleteAuthCourse")
+    @ResponseBody
+    public List<AuthStudent> deleteAuthCourse(Long[] classIdxList)  {
+        adminService.deleteAuthCourse(classIdxList);
         return null;
     }
 
     //9. 선생님 관리 - Auth클래스생성
-    @RequestMapping("createAuthClass")
+    @RequestMapping("createAuthCourse")
     @ResponseBody
-    public List<AuthStudent> createAuthClass(Long[] classIdxList,Long userIdx, Long curSeasonIdx)  {
-        adminService.createAuthClass(classIdxList,userIdx,curSeasonIdx);
+    public List<AuthStudent> createAuthCourse(Long[] classIdxList, Long userIdx, Long curSeasonIdx)  {
+        adminService.createAuthCourse(classIdxList,userIdx,curSeasonIdx);
         return null;
     }
 
@@ -210,6 +217,20 @@ public class AdminController {
     @ResponseBody
     public List<Student> findStudentList_WithoutAuth(Long userIdx,Long curSeasonIdx, Long orderBy ,HttpSession session) {
         return adminService.findStudentList_WithoutAuth(userIdx,curSeasonIdx,orderBy,session);
+    }
+
+    //9. 선생님 관리 - 현재 선생님의 authClass (group)를 제외한 전체 Class(group) 목록 출력
+    @RequestMapping("findClassList_WithoutAuth")
+    @ResponseBody
+    public List<studentGroup> findClassList_WithoutAuth(Long userIdx, Long curSeasonIdx , HttpSession session)  {
+        return adminService.findClassList_WithoutAuth(userIdx,curSeasonIdx,session);
+    }
+
+    //9. 선생님 관리 - 현재 선생님의 authClass(group) 목록 출력
+    @RequestMapping("findAuthClassList_Group")
+    @ResponseBody
+    public List<studentGroup> findAuthClassList_Group(Long userIdx, Long curSeasonIdx , HttpSession session)  {
+        return adminService.findAuthClassList_Group(userIdx,curSeasonIdx,session);
     }
 
     //9. 선생님 관리 - 현재 선생님의 authStudent와 authClass Count를 업데이트
@@ -251,4 +272,5 @@ public class AdminController {
         adminService.deleteClassMembers(classMembersList);
         return null;
     }
+
 }

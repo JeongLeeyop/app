@@ -61,7 +61,7 @@ public class StudentController {
     @RequestMapping("/updateStudentGroup")
     @ResponseBody
     public void updateStudentGroup(Long studentIdx, String studentGroup) {
-        return studentService.updateStudentGroup(studentIdx,studentGroup);
+        studentService.updateStudentGroup(studentIdx,studentGroup);
     }
 
     //TEST
